@@ -6,14 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import team.kucing.anabulshopcare.entity.Product;
 
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
+
     Page<Product> findByNameContaining(String name, Pageable pageable);
 
+    Page<Product> findByLocation(String location, Pageable pageable);
 
 
-
+    Page<Product> findByPriceBetween(BigDecimal startPrice, BigDecimal endPrice, Pageable pageable);
 }

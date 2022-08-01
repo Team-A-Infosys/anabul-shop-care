@@ -13,6 +13,8 @@ import team.kucing.anabulshopcare.repository.ProductRepository;
 import team.kucing.anabulshopcare.service.FileStorageService;
 import team.kucing.anabulshopcare.service.ProductService;
 
+import java.math.BigDecimal;
+
 @Service
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -47,6 +49,25 @@ public class ProductServiceImpl implements ProductService {
         }
         return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
 
+    public ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable) {
+        Page<Product> getProduct = this.productRepository.findByLocation(location, pageable);
+
+        if (getProduct.getTotalPages() == 0){
+            throw new ResourceNotFoundException("Sorry, There are no product in " + location + " area...");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
+    }
+
+    @Override
+    public ResponseEntity<Object> filterProductByPrice(BigDecimal startPrice, BigDecimal endPrice, Pageable pageable) {
+        Page<Product> getProduct = this.productRepository.findByPriceBetween(startPrice, endPrice, pageable);
+
+        if (getProduct.getTotalPages() == 0){
+            throw new ResourceNotFoundException("Sorry, There are no product in that price range");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
     }
 }
 
