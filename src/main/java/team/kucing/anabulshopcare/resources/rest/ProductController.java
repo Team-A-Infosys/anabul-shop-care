@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.service.ProductService;
 
+import javax.validation.Valid;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
@@ -18,8 +20,9 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping(value = "/add/product", consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart Product product){
-        log.info("success create product " + product);
-        return this.productService.createProduct(product, file);
+    public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart @Valid Product product){
+        var createProduct = this.productService.createProduct(product,file);
+        log.info("success create product " + createProduct);
+        return createProduct;
     }
 }
