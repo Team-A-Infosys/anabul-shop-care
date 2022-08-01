@@ -34,6 +34,7 @@ public class Product {
 
     private String description;
 
+    //TODO:Relation to Entity Category
     private String category;
 
     private Integer stock;
@@ -41,6 +42,9 @@ public class Product {
     private BigDecimal price;
 
     private String imageUrl;
+
+    //TODO:Relation to Entity User
+    private String createdBy;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
