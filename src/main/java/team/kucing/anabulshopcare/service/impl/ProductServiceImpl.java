@@ -38,8 +38,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> listProducts(Pageable pageable) {
-        return null;
+    public ResponseEntity<Object> listProducts(Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.productRepository.findAll(pageable).toList());
     }
 
     @Override

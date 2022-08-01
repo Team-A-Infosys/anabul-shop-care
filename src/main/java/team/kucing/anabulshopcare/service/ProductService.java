@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProductService {
     ResponseEntity<Object> createProduct(Product product, MultipartFile file);
 
-    Page<Product> listProducts(Pageable pageable);
+    ResponseEntity<Object> listProducts(Pageable pageable);
 
     List<Product> getAllProducts();
 }
