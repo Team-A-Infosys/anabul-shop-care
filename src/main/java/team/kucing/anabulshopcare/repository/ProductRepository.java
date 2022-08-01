@@ -16,6 +16,5 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     Page<Product> findByLocation(String location, Pageable pageable);
 
-
     Page<Product> findByPriceBetween(BigDecimal startPrice, BigDecimal endPrice, Pageable pageable);
 }

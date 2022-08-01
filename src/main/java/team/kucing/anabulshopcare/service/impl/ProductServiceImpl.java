@@ -1,6 +1,7 @@
 package team.kucing.anabulshopcare.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,19 +44,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Object> getName(String name, Pageable pageable ) {
-        var getProduct = this.productRepository.findByNameContaining(name,pageable);
-        if (getProduct.getTotalPages() == 0){
+        var getProduct = this.productRepository.findByNameContaining(name, pageable);
+        if (getProduct.getTotalPages() == 0) {
             throw new ResourceNotFoundException("Uppsss product not found by name : " + name);
         }
         return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
-
-    public ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable) {
+    }
+    @Override
+        public ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable) {
         Page<Product> getProduct = this.productRepository.findByLocation(location, pageable);
 
         if (getProduct.getTotalPages() == 0){
             throw new ResourceNotFoundException("Sorry, There are no product in " + location + " area...");
         }
-
         return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
     }
 
@@ -70,6 +71,3 @@ public class ProductServiceImpl implements ProductService {
         return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
     }
 }
-
-
-
