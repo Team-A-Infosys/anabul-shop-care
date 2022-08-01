@@ -1,8 +1,6 @@
 package team.kucing.anabulshopcare.service.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,6 @@ import team.kucing.anabulshopcare.service.FileStorageService;
 import team.kucing.anabulshopcare.service.ProductService;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -28,14 +25,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Object> createProduct(Product product, MultipartFile file) {
-            String fileName = fileStorageService.storeFile(file);
+        String fileName = fileStorageService.storeFile(file);
 
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(fileName)
-                    .toUriString();
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(fileName)
+                .toUriString();
 
-            product.setImageUrl(fileDownloadUri);
-            return ResponseEntity.status(HttpStatus.CREATED).body(this.productRepository.save(product));
+        product.setImageUrl(fileDownloadUri);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.productRepository.save(product));
 
     }
 
@@ -45,6 +42,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ResponseEntity<Object> getName(String name, Pageable pageable ) {
+        var getProduct = this.productRepository.findByNameContaining(name,pageable);
+        if (getProduct.getTotalPages() == 0){
+            throw new ResourceNotFoundException("Uppsss product not found by name : " + name);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
+
     public ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable) {
         Page<Product> getProduct = this.productRepository.findByLocation(location, pageable);
 
@@ -66,3 +70,6 @@ public class ProductServiceImpl implements ProductService {
         return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
     }
 }
+
+
+

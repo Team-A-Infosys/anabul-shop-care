@@ -14,6 +14,9 @@ public interface ProductService {
 
     ResponseEntity<Object> listProducts(Pageable pageable);
 
+    ResponseEntity<Object> getName(String name, Pageable pageable);
+    
     ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable);
+    
     ResponseEntity<Object> filterProductByPrice(BigDecimal startPrice, BigDecimal endPrice, Pageable pageable);
 }
