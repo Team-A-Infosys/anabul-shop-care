@@ -2,7 +2,6 @@ package team.kucing.anabulshopcare.resources.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import team.kucing.anabulshopcare.service.ProductService;
 
 import javax.validation.Valid;
 import java.util.UUID;
+import java.math.BigDecimal;
 
 @RestController
 @AllArgsConstructor
@@ -31,9 +31,9 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<Object> getAllProducts(Pageable pageable){
         var getAllProducts = this.productService.listProducts(pageable);
+        log.info("success get data product " + getAllProducts);
         return getAllProducts;
     }
-
 
     @PutMapping(value = "/update/product/{id}")
     public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid Product product){
@@ -49,5 +49,23 @@ public class ProductController {
         product1.setCreatedBy(product.getCreatedBy());
 
         return this.productService.updateProduct(product1, file, id);
+    }
+    
+    @GetMapping("/products/search/name")
+    public ResponseEntity<Object> findByProductName(@RequestParam(value = "productName") String name, Pageable pageable) {
+        var getProduct = this.productService.getName(name,pageable);
+        return getProduct;
+    }
+    
+    @GetMapping("/products/search/location")
+    public ResponseEntity<Object> filterProductsByLocation(@RequestParam(value = "location", required = false) String location, Pageable pageable){
+        var getProduct = this.productService.filterProductsByLocation(location, pageable);
+        return getProduct;
+    }
+
+    @GetMapping("/products/search/price")
+    public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)BigDecimal startPrice, @RequestParam(value = "end", required = false)BigDecimal endPrice, Pageable pageable){
+        var getProduct = this.productService.filterProductByPrice(startPrice, endPrice, pageable);
+        return getProduct;
     }
 }
