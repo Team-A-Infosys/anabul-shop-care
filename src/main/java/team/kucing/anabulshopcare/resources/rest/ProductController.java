@@ -2,14 +2,10 @@ package team.kucing.anabulshopcare.resources.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.service.ProductService;
@@ -32,6 +28,14 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<Object> getAllProducts(Pageable pageable){
         var getAllProducts = this.productService.listProducts(pageable);
+        log.info("success get data product " + getAllProducts);
         return getAllProducts;
     }
-}
+
+    @GetMapping("/products/search/name")
+    public ResponseEntity<Object> findByProductName(@RequestParam(value = "productName") String name, Pageable pageable) {
+        var getProduct = this.productService.getName(name,pageable);
+        return getProduct;
+    }
+
+    }

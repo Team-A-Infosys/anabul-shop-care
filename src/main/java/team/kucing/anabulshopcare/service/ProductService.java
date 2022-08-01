@@ -13,5 +13,6 @@ public interface ProductService {
 
     ResponseEntity<Object> listProducts(Pageable pageable);
 
-    List<Product> getAllProducts();
+    ResponseEntity<Object> getName(String name, Pageable pageable);
+
 }
