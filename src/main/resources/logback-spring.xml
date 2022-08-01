@@ -39,7 +39,7 @@
     </root>
 
     <!-- LOG "com.baeldung*" at TRACE level -->
-    <logger name="com.example.scratchinganabul" level="trace" additivity="false">
+    <logger name="team.kucing.anabulshopcare" level="trace" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>
