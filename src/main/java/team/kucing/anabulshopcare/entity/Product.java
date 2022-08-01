@@ -37,6 +37,9 @@ public class Product {
     //TODO:Relation to Entity Category
     private String category;
 
+    //TODO:Relation to Entity User
+    private String location;
+
     private Integer stock;
 
     private BigDecimal price;
