@@ -12,6 +12,7 @@ import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.service.ProductService;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 
 @RestController
 @AllArgsConstructor
@@ -32,9 +33,15 @@ public class ProductController {
         return getAllProducts;
     }
 
-    @GetMapping("/products/search")
+    @GetMapping("/products/search/location")
     public ResponseEntity<Object> filterProductsByLocation(@RequestParam(value = "location", required = false) String location, Pageable pageable){
         var getProduct = this.productService.filterProductsByLocation(location, pageable);
+        return getProduct;
+    }
+
+    @GetMapping("/products/search/price")
+    public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)BigDecimal startPrice, @RequestParam(value = "end", required = false)BigDecimal endPrice, Pageable pageable){
+        var getProduct = this.productService.filterProductByPrice(startPrice, endPrice, pageable);
         return getProduct;
     }
 }
