@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import team.kucing.anabulshopcare.entity.Product;
+import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.repository.ProductRepository;
 import team.kucing.anabulshopcare.service.FileStorageService;
 import team.kucing.anabulshopcare.service.ProductService;
@@ -43,7 +44,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return this.productRepository.findAll();
+    public ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable) {
+        Page<Product> getProduct = this.productRepository.findByLocation(location, pageable);
+
+        if (getProduct.getTotalPages() == 0){
+            throw new ResourceNotFoundException("Sorry, There are no product in " + location + " area...");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
     }
 }
