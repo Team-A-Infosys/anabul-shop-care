@@ -14,6 +14,9 @@ import team.kucing.anabulshopcare.repository.ProductRepository;
 import team.kucing.anabulshopcare.service.FileStorageService;
 import team.kucing.anabulshopcare.service.ProductService;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.math.BigDecimal;
 
 @Service
@@ -70,4 +73,31 @@ public class ProductServiceImpl implements ProductService {
 
         return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
     }
+
+    @Override
+    public Optional<Product> findById(UUID id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(optionalProduct == null){
+            throw new ResourceNotFoundException("Product with ID "+id+" Is Not Found");
+        }
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public ResponseEntity<Object> updateProduct(Product product, MultipartFile file, UUID id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if(productOptional == null){
+            throw new ResourceNotFoundException("Product not exist with id"+id);
+        }
+
+        String fileName = fileStorageService.storeFile(file);
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(fileName)
+                .toUriString();
+
+        product.setImageUrl(fileDownloadUri);
+        return ResponseEntity.status(HttpStatus.OK).body(this.productRepository.save(product));
+    }
+
 }

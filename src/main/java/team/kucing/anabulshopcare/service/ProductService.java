@@ -8,12 +8,18 @@ import team.kucing.anabulshopcare.entity.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface ProductService {
     ResponseEntity<Object> createProduct(Product product, MultipartFile file);
 
     ResponseEntity<Object> listProducts(Pageable pageable);
 
+    ResponseEntity<Object> updateProduct(Product product, MultipartFile file, UUID id);
+
+    Optional<Product> findById(UUID id);
+    
     ResponseEntity<Object> getName(String name, Pageable pageable);
     
     ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable);

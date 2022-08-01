@@ -8,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.entity.Product;
+import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.service.ProductService;
 
 import javax.validation.Valid;
+import java.util.UUID;
 import java.math.BigDecimal;
 
 @RestController
@@ -31,6 +33,22 @@ public class ProductController {
         var getAllProducts = this.productService.listProducts(pageable);
         log.info("success get data product " + getAllProducts);
         return getAllProducts;
+    }
+
+    @PutMapping(value = "/update/product/{id}")
+    public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid Product product){
+        Product product1 =productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist with product details : "+product) );
+
+        product1.setName(product.getName());
+        product1.setCategory(product.getCategory());
+        product1.setImageUrl(product.getImageUrl());
+        product1.setDescription(product.getDescription());
+        product1.setCategory(product.getCategory());
+        product1.setPrice(product.getPrice());
+        product1.setStock(product.getStock());
+        product1.setCreatedBy(product.getCreatedBy());
+
+        return this.productService.updateProduct(product1, file, id);
     }
     
     @GetMapping("/products/search/name")
