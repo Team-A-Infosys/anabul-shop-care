@@ -6,10 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.service.ProductService;
@@ -33,5 +30,11 @@ public class ProductController {
     public ResponseEntity<Object> getAllProducts(Pageable pageable){
         var getAllProducts = this.productService.listProducts(pageable);
         return getAllProducts;
+    }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<Object> filterProductsByLocation(@RequestParam(value = "location", required = false) String location, Pageable pageable){
+        var getProduct = this.productService.filterProductsByLocation(location, pageable);
+        return getProduct;
     }
 }
