@@ -6,15 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.entity.Product;
+import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.service.ProductService;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -33,5 +32,22 @@ public class ProductController {
     public ResponseEntity<Object> getAllProducts(Pageable pageable){
         var getAllProducts = this.productService.listProducts(pageable);
         return getAllProducts;
+    }
+
+
+    @PutMapping(value = "/update/product/{id}")
+    public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid Product product){
+        Product product1 =productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist with product details : "+product) );
+
+        product1.setName(product.getName());
+        product1.setCategory(product.getCategory());
+        product1.setImageUrl(product.getImageUrl());
+        product1.setDescription(product.getDescription());
+        product1.setCategory(product.getCategory());
+        product1.setPrice(product.getPrice());
+        product1.setStock(product.getStock());
+        product1.setCreatedBy(product.getCreatedBy());
+
+        return this.productService.updateProduct(product1, file, id);
     }
 }
