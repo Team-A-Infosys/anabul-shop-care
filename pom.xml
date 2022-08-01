@@ -15,7 +15,18 @@
     <description>anabul-shop-care</description>
     <properties>
         <java.version>17</java.version>
+        <sfe4j-spring-boot-starter-version>0.0.9</sfe4j-spring-boot-starter-version>
+        <logger name="org.springframework" level="INFO" />
+        <logger name="team.kucing.anabulshopcare" level="INFO" />
     </properties>
+
+    <repositories>
+        <repository>
+            <id>sfe4j</id>
+            <url>https://raw.github.com/sfe4j/mvn-repo/master</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -55,6 +66,20 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amoylabs</groupId>
+            <artifactId>sfe4j-spring-boot-starter</artifactId>
+            <version>${sfe4j-spring-boot-starter-version}</version>
         </dependency>
     </dependencies>
 
