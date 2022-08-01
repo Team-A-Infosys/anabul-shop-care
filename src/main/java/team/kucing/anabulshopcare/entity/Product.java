@@ -29,7 +29,7 @@ public class Product {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Size(min=5)
+    @Size(min=5, message = "Product name must be atleast 5 character")
     private String name;
 
     private String description;
