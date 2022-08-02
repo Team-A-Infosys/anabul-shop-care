@@ -24,7 +24,7 @@ public interface ProductService {
     
     ResponseEntity<Object> filterProductByPrice(BigDecimal startPrice, BigDecimal endPrice, Pageable pageable);
 
-    void deleteProduct(UUID id);
+    ResponseEntity<Object> deleteProduct(UUID id);
 
     ResponseEntity<Object> updatePublishedStatus(UUID id, Product product);
 
