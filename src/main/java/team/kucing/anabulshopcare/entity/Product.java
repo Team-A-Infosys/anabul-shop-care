@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,7 +50,7 @@ public class Product {
     //TODO:Relation to Entity User
     private String createdBy;
 
-    private Boolean isPublished;
+    private Boolean isPublished = Boolean.FALSE;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
