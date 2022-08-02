@@ -85,12 +85,12 @@ public class ProductController {
         } else {
             product1.setIsPublished(false);
         }
-
-//        condition if ispublished null
-//        if(product1.getIsPublished()){
-//            product1.setIsPublished(false);
-//        }
         return this.productService.updatePublishedStatus(id, product1);
+    }
+
+    @GetMapping("/unpublished/products")
+    public ResponseEntity<Object> unpublished(Pageable pageable){
+        return this.productService.filterUnpublishedProduct(pageable);
     }
 
 }

@@ -14,7 +14,6 @@ import team.kucing.anabulshopcare.repository.ProductRepository;
 import team.kucing.anabulshopcare.service.FileStorageService;
 import team.kucing.anabulshopcare.service.ProductService;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.math.BigDecimal;
@@ -42,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Object> listProducts(Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.productRepository.findAll(pageable).toList());
+        return ResponseEntity.status(HttpStatus.OK).body(this.productRepository.findByIsPublished(Boolean.TRUE, pageable).toList());
     }
 
     @Override
@@ -72,6 +71,12 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
+    }
+
+    @Override
+    public ResponseEntity<Object> filterUnpublishedProduct(Pageable pageable){
+        Page<Product> product = this.productRepository.findByIsPublished(Boolean.FALSE, pageable);
+        return ResponseEntity.ok(product.toList());
     }
 
     @Override
@@ -112,6 +117,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Object> updatePublishedStatus(UUID id, Product product) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.productRepository.save(product));
+        return ResponseEntity.status(HttpStatus.OK).body("Success published " + product.getName() +
+                " hope there is buyer take your product");
     }
+
 }
