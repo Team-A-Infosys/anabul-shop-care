@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +20,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity
+@SQLDelete(sql = "UPDATE product SET is_deleted = true WHERE id=?")
+@Where(clause = "is_deleted = false")
 public class Product {
 
     @Id
@@ -51,6 +50,8 @@ public class Product {
     private String createdBy;
 
     private Boolean isPublished = Boolean.FALSE;
+
+    private Boolean isDeleted = Boolean.FALSE;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
