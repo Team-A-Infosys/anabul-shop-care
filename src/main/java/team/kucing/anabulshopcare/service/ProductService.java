@@ -18,7 +18,7 @@ public interface ProductService {
 
     Optional<Product> findById(UUID id);
     
-    ResponseEntity<Object> getName(String name, Pageable pageable);
+    ResponseEntity<Object> filterProductByName(String name, Pageable pageable);
     
     ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable);
     

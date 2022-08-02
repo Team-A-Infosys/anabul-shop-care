@@ -63,7 +63,7 @@ public class ProductController {
     
     @GetMapping("/products/search/name")
     public ResponseEntity<Object> findByProductName(@RequestParam(value = "productName") String name, Pageable pageable) {
-        var getProduct = this.productService.getName(name,pageable);
+        var getProduct = this.productService.filterProductByName(name,pageable);
         if (getProduct == null) {
             log.info("Failed to get Product " + name );
         }
@@ -126,7 +126,7 @@ public class ProductController {
 
     @PutMapping(value = "/product/setPublished/{id}")
     public ResponseEntity<Object> changePublishStatus(@PathVariable(value = "id") UUID id){
-        Product product1 =productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist"));
+        Product product1 = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist"));
 
         if (!product1.getIsPublished()){
             log.info("Product is Published");

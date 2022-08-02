@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Object> getName(String name, Pageable pageable ) {
+    public ResponseEntity<Object> filterProductByName(String name, Pageable pageable ) {
         Page<Product> getProduct = this.productRepository.findByNameContaining(name, pageable);
 
         if (getProduct.getTotalPages() == 0) {
