@@ -49,6 +49,8 @@ public class Product {
     //TODO:Relation to Entity User
     private String createdBy;
 
+    private Boolean isPublished;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Date createdAt;

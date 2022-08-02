@@ -1285,7 +1285,7 @@ Caused by: org.springframework.data.mapping.PropertyReferenceException: No prope
 2022-08-01 17:41:27,088 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-4] Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'productName' for method parameter type String is not present]
 2022-08-01 17:47:20,498 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-7] Resolved [org.springframework.data.mapping.PropertyReferenceException: No property 'string' found for type 'Product']
 2022-08-01 17:59:19,509 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-7] Resolved [team.kucing.anabulshopcare.exception.ResourceNotFoundException: File not found search]
-=======
+
 2022-08-01 15:17:52,423 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 16736 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
 2022-08-01 15:17:52,430 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
 2022-08-01 15:17:52,432 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
