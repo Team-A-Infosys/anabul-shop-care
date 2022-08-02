@@ -23,6 +23,8 @@ public class Category {
 
     private String categoryName;
 
+    private Boolean idDeleted;
+
     @Override
     public String toString(){
         return "Category{"+
