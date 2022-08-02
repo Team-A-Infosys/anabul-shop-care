@@ -23,13 +23,14 @@ public class Category {
 
     private String categoryName;
 
-    private Boolean idDeleted;
+    private Boolean isDeleted;
 
     @Override
     public String toString(){
         return "Category{"+
                 "categoryId="+ categoryId +
                 ", categoryName="+categoryName+
+                ", isDeleted="+isDeleted+
                 "}";
     }
 
