@@ -109,4 +109,9 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.getReferenceById(id);
         this.productRepository.delete(product);
     }
+
+    @Override
+    public ResponseEntity<Object> updatePublishedStatus(UUID id, Product product) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.productRepository.save(product));
+    }
 }

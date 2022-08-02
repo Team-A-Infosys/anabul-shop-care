@@ -42,12 +42,13 @@ public class ProductController {
         Product product1 =productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist with product details : "+product) );
 
         product1.setName(product.getName());
-        product1.setCategory(product.getCategory());
-        product1.setImageUrl(product.getImageUrl());
         product1.setDescription(product.getDescription());
         product1.setCategory(product.getCategory());
-        product1.setPrice(product.getPrice());
+        product1.setLocation(product.getLocation());
         product1.setStock(product.getStock());
+        product1.setPrice(product.getPrice());
+        product1.setImageUrl(product.getImageUrl());
+        product1.setIsPublished(product.getIsPublished());
         product1.setCreatedBy(product.getCreatedBy());
 
         return this.productService.updateProduct(product1, file, id);
@@ -75,4 +76,21 @@ public class ProductController {
     public void deleteProduct(@PathVariable UUID id){
         productService.deleteProduct(id);
     }
+
+    @PutMapping(value = "/product/ispublished/{id}")
+    public ResponseEntity<Object> changePublishStatus(@PathVariable(value = "id") UUID id){
+        Product product1 =productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist"));
+        if (!product1.getIsPublished()){
+            product1.setIsPublished(true);
+        } else {
+            product1.setIsPublished(false);
+        }
+
+//        condition if ispublished null
+//        if(product1.getIsPublished()){
+//            product1.setIsPublished(false);
+//        }
+        return this.productService.updatePublishedStatus(id, product1);
+    }
+
 }
