@@ -100,4 +100,13 @@ public class ProductServiceImpl implements ProductService {
         return ResponseEntity.status(HttpStatus.OK).body(this.productRepository.save(product));
     }
 
+    @Override
+    public void deleteProduct(UUID id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(optionalProduct == null){
+            throw new ResourceNotFoundException("Product not exist with id : "+id);
+        }
+        Product product = productRepository.getReferenceById(id);
+        this.productRepository.delete(product);
+    }
 }

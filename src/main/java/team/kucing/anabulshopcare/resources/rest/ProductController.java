@@ -12,6 +12,8 @@ import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.service.ProductService;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.math.BigDecimal;
 
@@ -67,5 +69,10 @@ public class ProductController {
     public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)BigDecimal startPrice, @RequestParam(value = "end", required = false)BigDecimal endPrice, Pageable pageable){
         var getProduct = this.productService.filterProductByPrice(startPrice, endPrice, pageable);
         return getProduct;
+    }
+
+    @DeleteMapping("/delete/product/{id}")
+    public void deleteProduct(@PathVariable UUID id){
+        productService.deleteProduct(id);
     }
 }
