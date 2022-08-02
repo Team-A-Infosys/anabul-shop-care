@@ -24,7 +24,13 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<Object> getAllProducts(Pageable pageable){
         var getAllProducts = this.productService.listProducts(pageable);
+
+        if (getAllProducts == null){
+        log.info("No Data");
+        } else {
         log.info("success get data product " + getAllProducts);
+        }
+
         return getAllProducts;
     }
     @PostMapping(value = "/product/add",consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -35,7 +41,7 @@ public class ProductController {
     }
     @PutMapping(value = "/product/update/{id}")
     public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid Product product){
-        Product product1 =productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist with product details : "+product) );
+        Product product1 = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist with product details : "+product) );
 
         product1.setName(product.getName());
         product1.setDescription(product.getDescription());
@@ -46,7 +52,7 @@ public class ProductController {
         product1.setImageUrl(product.getImageUrl());
         product1.setIsPublished(product.getIsPublished());
         product1.setCreatedBy(product.getCreatedBy());
-        if(product1== null) {
+        if(product1 == null) {
             log.info("Failed to get product" + product1.getId());
         }
             else {
@@ -57,7 +63,7 @@ public class ProductController {
     
     @GetMapping("/products/search/name")
     public ResponseEntity<Object> findByProductName(@RequestParam(value = "productName") String name, Pageable pageable) {
-        var getProduct = this.productService.getName(name,pageable);
+        var getProduct = this.productService.filterProductByName(name,pageable);
         if (getProduct == null) {
             log.info("Failed to get Product " + name );
         }
@@ -83,6 +89,7 @@ public class ProductController {
     @GetMapping("/products/search/price")
     public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)BigDecimal startPrice, @RequestParam(value = "end", required = false)BigDecimal endPrice, Pageable pageable){
         var getProduct = this.productService.filterProductByPrice(startPrice, endPrice, pageable);
+
         if (getProduct == null) {
             log.info("Failed to get Product with price range " + startPrice + " to " + endPrice );
         }
@@ -96,6 +103,7 @@ public class ProductController {
     @GetMapping("/products/search/unpublished")
     public ResponseEntity<Object> unpublished(Pageable pageable){
         var getProduct = this.productService.filterUnpublishedProduct(pageable);
+
         if (getProduct == null) {
             log.info("There are no products to be unpublished "   );
         }
@@ -107,6 +115,7 @@ public class ProductController {
     @DeleteMapping("/product/delete/{id}")
     public ResponseEntity<Object> deleteProduct(@PathVariable UUID id){
        Optional<Product> product = this.productService.findById(id);
+
         if (product.isEmpty()){
             log.info("Failed to delete product with id : " + id );
         } else {
@@ -117,7 +126,8 @@ public class ProductController {
 
     @PutMapping(value = "/product/setPublished/{id}")
     public ResponseEntity<Object> changePublishStatus(@PathVariable(value = "id") UUID id){
-        Product product1 =productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist"));
+        Product product1 = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist"));
+
         if (!product1.getIsPublished()){
             log.info("Product is Published");
             product1.setIsPublished(true);

@@ -41,15 +41,23 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Object> listProducts(Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.productRepository.findByIsPublished(Boolean.TRUE, pageable).toList());
+        Page<Product> listProducts = this.productRepository.findByIsPublished(Boolean.TRUE, pageable);
+
+        if (listProducts.getTotalPages() == 0){
+            throw new ResourceNotFoundException("There are no product exist");
+        }
+
+        return ResponseEntity.ok().body(listProducts.toList());
     }
 
     @Override
-    public ResponseEntity<Object> getName(String name, Pageable pageable ) {
-        var getProduct = this.productRepository.findByNameContaining(name, pageable);
+    public ResponseEntity<Object> filterProductByName(String name, Pageable pageable ) {
+        Page<Product> getProduct = this.productRepository.findByNameContaining(name, pageable);
+
         if (getProduct.getTotalPages() == 0) {
             throw new ResourceNotFoundException("Uppsss product not found by name : " + name);
         }
+
         return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
     }
     @Override
@@ -59,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
         if (getProduct.getTotalPages() == 0){
             throw new ResourceNotFoundException("Sorry, There are no product in " + location + " area...");
         }
+
         return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
     }
 
@@ -70,56 +79,66 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("Sorry, There are no product in that price range");
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
+        return ResponseEntity.ok().body(getProduct.toList());
     }
 
     @Override
     public ResponseEntity<Object> filterUnpublishedProduct(Pageable pageable){
         Page<Product> product = this.productRepository.findByIsPublished(Boolean.FALSE, pageable);
-        return ResponseEntity.ok(product.toList());
+
+        if (product.getTotalPages() == 0){
+            throw new ResourceNotFoundException("There are no product unpublished");
+        }
+
+        return ResponseEntity.ok().body(product.toList());
     }
 
     @Override
     public Optional<Product> findById(UUID id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
-        if(optionalProduct == null){
+
+        if(optionalProduct.isEmpty()){
             throw new ResourceNotFoundException("Product with ID "+id+" Is Not Found");
         }
+
         return productRepository.findById(id);
     }
 
     @Override
     public ResponseEntity<Object> updateProduct(Product product, MultipartFile file, UUID id) {
         Optional<Product> productOptional = productRepository.findById(id);
-        if(productOptional == null){
+
+        if(productOptional.isEmpty()){
             throw new ResourceNotFoundException("Product not exist with id"+id);
         }
 
         String fileName = fileStorageService.storeFile(file);
-
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(fileName)
                 .toUriString();
-
         product.setImageUrl(fileDownloadUri);
-        return ResponseEntity.status(HttpStatus.OK).body(this.productRepository.save(product));
+
+        return ResponseEntity.ok().body(this.productRepository.save(product));
     }
 
     @Override
     public ResponseEntity<Object> deleteProduct(UUID id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
-        if(optionalProduct == null){
+
+        if(optionalProduct.isEmpty()){
             throw new ResourceNotFoundException("Product not exist with id : "+id);
         }
+
         Product product = productRepository.getReferenceById(id);
         this.productRepository.delete(product);
-        return ResponseEntity.status(HttpStatus.OK).body("Success Delete Product " + product);
+
+        return ResponseEntity.ok().body("Success Delete Product " + product);
 
     }
 
     @Override
     public ResponseEntity<Object> updatePublishedStatus(UUID id, Product product) {
-        return ResponseEntity.status(HttpStatus.OK).body("Success published " + product.getName() +
+        return ResponseEntity.ok().body("Success published " + product.getName() +
                 " hope there is buyer take your product");
     }
 
