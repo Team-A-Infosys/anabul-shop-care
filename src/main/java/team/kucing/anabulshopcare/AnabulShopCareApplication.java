@@ -4,11 +4,11 @@ import com.amoylabs.sfe4j.spring.boot.starter.Sfe4jProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import team.kucing.anabulshopcare.entity.ProductUploadFile;
+import team.kucing.anabulshopcare.entity.ImageUploadFile;
 
 @SpringBootApplication
 @EnableConfigurationProperties({
-        ProductUploadFile.class, Sfe4jProperties.class
+        ImageUploadFile.class, Sfe4jProperties.class
 })
 public class AnabulShopCareApplication {
 
