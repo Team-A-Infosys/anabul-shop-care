@@ -27,7 +27,9 @@ public interface ProductService {
 
     ResponseEntity<Object> deleteProduct(UUID id);
 
-    ResponseEntity<Object> updatePublishedStatus(UUID id);
+    ResponseEntity<Object> publishedStatus(UUID id);
+
+    ResponseEntity<Object> archivedStatus(UUID id);
 
     ResponseEntity<Object> filterUnpublishedProduct(Pageable pageable);
 }

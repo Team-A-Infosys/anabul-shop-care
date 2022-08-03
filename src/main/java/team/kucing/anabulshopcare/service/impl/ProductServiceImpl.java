@@ -165,16 +165,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Object> updatePublishedStatus(UUID id) {
+    public ResponseEntity<Object> publishedStatus(UUID id) {
         Product getProduct = this.findById(id);
-        if (getProduct.getIsPublished()){
-        getProduct.setIsPublished(Boolean.FALSE);
-        } else {
+        if (!getProduct.getIsPublished()){
             getProduct.setIsPublished(Boolean.TRUE);
         }
         this.productRepository.save(getProduct);
         return ResponseEntity.ok().body("Success published " + getProduct.getName() +
                 " hope there is buyer take your product");
+    }
+
+    @Override
+    public ResponseEntity<Object> archivedStatus(UUID id) {
+        Product getProduct = this.findById(id);
+        if (getProduct.getIsPublished()){
+            getProduct.setIsPublished(Boolean.FALSE);
+        }
+        this.productRepository.save(getProduct);
+        return ResponseEntity.ok().body("Your Product archived " + getProduct.getName() +
+                " get ready to put your product to the market");
     }
 
 }

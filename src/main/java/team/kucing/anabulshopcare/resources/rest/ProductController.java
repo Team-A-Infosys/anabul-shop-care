@@ -130,9 +130,9 @@ public class ProductController {
         Product product1 = productService.findById(id);
 
         if (!product1.getIsPublished()){
-            log.info("Product is Published");
+            log.info("Product " + product1.getName() +" is Published");
         }
-        return this.productService.updatePublishedStatus(id);
+        return this.productService.publishedStatus(id);
     }
 
     @PutMapping(value = "/product/setArchived/{id}")
@@ -140,8 +140,8 @@ public class ProductController {
         Product product1 = productService.findById(id);
 
         if (product1.getIsPublished()){
-            log.info("Product is Published");
+            log.info("Yout Product " + product1.getName() + " is Archived");
         }
-        return this.productService.updatePublishedStatus(id);
+        return this.productService.archivedStatus(id);
     }
 }
