@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
 
-import javax.persistence.Column;
+import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -34,15 +33,16 @@ public class Product {
 
     private String description;
 
-    //TODO:Relation to Entity Category
-    private String category;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name="category_id")
+    private Category category;
 
     //TODO:Relation to Entity User
     private String location;
 
     private Integer stock;
 
-    private BigDecimal price;
+    private double price;
 
     private String imageUrl;
 

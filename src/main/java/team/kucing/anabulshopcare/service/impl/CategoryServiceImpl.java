@@ -19,8 +19,11 @@ public class CategoryServiceImpl implements CategoryService{
     private CategoryRepository categoryRepository;
 
     @Override
-    public ResponseEntity<Object> createCategory(Category category) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.categoryRepository.save(category));
+    public Category createCategory(CategoryRequest category) {
+        Category newCategory = new Category();
+        newCategory.setCategoryName(category.getName());
+
+        return this.categoryRepository.save(newCategory);
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import team.kucing.anabulshopcare.dto.request.ProductRequest;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.service.ProductService;
@@ -34,14 +35,14 @@ public class ProductController {
         return getAllProducts;
     }
     @PostMapping(value = "/product/add",consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart @Valid Product product){
+    public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart @Valid ProductRequest product){
         var createProduct = this.productService.createProduct(product,file);
         log.info("Success Create Product " + createProduct);
         return createProduct;
     }
     @PutMapping(value = "/product/update/{id}")
     public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid Product product){
-        Product product1 = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist with product details : "+product) );
+        Product product1 = productService.findById(id);
 
         product1.setName(product.getName());
         product1.setDescription(product.getDescription());
@@ -87,7 +88,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/search/price")
-    public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)BigDecimal startPrice, @RequestParam(value = "end", required = false)BigDecimal endPrice, Pageable pageable){
+    public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)double startPrice, @RequestParam(value = "end", required = false)double endPrice, Pageable pageable){
         var getProduct = this.productService.filterProductByPrice(startPrice, endPrice, pageable);
 
         if (getProduct == null) {
@@ -114,9 +115,9 @@ public class ProductController {
     }
     @DeleteMapping("/product/delete/{id}")
     public ResponseEntity<Object> deleteProduct(@PathVariable UUID id){
-       Optional<Product> product = this.productService.findById(id);
+      Product product = this.productService.findById(id);
 
-        if (product.isEmpty()){
+        if (product == null){
             log.info("Failed to delete product with id : " + id );
         } else {
             log.info("Success delete product with id : " + id);
@@ -126,15 +127,13 @@ public class ProductController {
 
     @PutMapping(value = "/product/setPublished/{id}")
     public ResponseEntity<Object> changePublishStatus(@PathVariable(value = "id") UUID id){
-        Product product1 = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Products Not Exist"));
+        Product product1 = productService.findById(id);
 
         if (!product1.getIsPublished()){
             log.info("Product is Published");
-            product1.setIsPublished(true);
         } else {
             log.info("Product is Archived");
-            product1.setIsPublished(false);
         }
-        return this.productService.updatePublishedStatus(id, product1);
+        return this.productService.updatePublishedStatus(id);
     }
 }
