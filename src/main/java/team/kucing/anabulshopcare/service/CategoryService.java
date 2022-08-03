@@ -6,7 +6,7 @@ import team.kucing.anabulshopcare.entity.Category;
 import team.kucing.anabulshopcare.entity.Product;
 
 public interface CategoryService {
-    ResponseEntity<Object> createCategory(Category category);
+    Category createCategory(CategoryRequest category);
 
     ResponseEntity<Object> updateCategory(CategoryRequest category, Long id);
 
