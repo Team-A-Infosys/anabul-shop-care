@@ -19,6 +19,8 @@ import team.kucing.anabulshopcare.service.CategoryService;
 import team.kucing.anabulshopcare.service.FileStorageService;
 import team.kucing.anabulshopcare.service.ProductService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.math.BigDecimal;
@@ -38,6 +40,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Object> createProduct(ProductRequest productRequest, MultipartFile file) {
+
+        String mimetype = "image/png";
+
+        if ((!mimetype.equals(file.getContentType()))){
+            throw new IllegalArgumentException("File must be image/png");
+        }
+
+
         String fileName = fileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
