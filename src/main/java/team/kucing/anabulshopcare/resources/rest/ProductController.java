@@ -126,13 +126,21 @@ public class ProductController {
     }
 
     @PutMapping(value = "/product/setPublished/{id}")
-    public ResponseEntity<Object> changePublishStatus(@PathVariable(value = "id") UUID id){
+    public ResponseEntity<Object> setPublished(@PathVariable(value = "id") UUID id){
         Product product1 = productService.findById(id);
 
         if (!product1.getIsPublished()){
             log.info("Product is Published");
-        } else {
-            log.info("Product is Archived");
+        }
+        return this.productService.updatePublishedStatus(id);
+    }
+
+    @PutMapping(value = "/product/setArchived/{id}")
+    public ResponseEntity<Object> setArchived(@PathVariable(value = "id") UUID id){
+        Product product1 = productService.findById(id);
+
+        if (product1.getIsPublished()){
+            log.info("Product is Published");
         }
         return this.productService.updatePublishedStatus(id);
     }
