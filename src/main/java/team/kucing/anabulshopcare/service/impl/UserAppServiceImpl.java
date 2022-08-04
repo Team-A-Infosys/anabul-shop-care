@@ -14,6 +14,7 @@ import team.kucing.anabulshopcare.entity.Address;
 import team.kucing.anabulshopcare.entity.Role;
 import team.kucing.anabulshopcare.entity.UserApp;
 import team.kucing.anabulshopcare.exception.BadRequestException;
+import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.repository.AddressRepository;
 import team.kucing.anabulshopcare.repository.RoleRepository;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
@@ -82,6 +83,7 @@ public class UserAppServiceImpl implements UserAppService {
     @Override
     public ResponseEntity<Object> filterUserByIsDeleted(UUID id) {
         return null;
+    }
     public ResponseEntity<Object> getAllUsers(Pageable pageable){
         Page<UserApp> userApp = this.userRepo.findAll(pageable);
         List<SuccessSignUp> response = userApp.stream().map(UserApp::convertToResponse).toList();
