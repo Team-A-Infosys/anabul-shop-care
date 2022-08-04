@@ -6,7 +6,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import team.kucing.anabulshopcare.entity.ProductUploadFile;
+import team.kucing.anabulshopcare.entity.ImageUploadFile;
 import team.kucing.anabulshopcare.exception.FileStorageException;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 
@@ -23,8 +23,8 @@ public class FileStorageService {
     private final Path fileStorageLocation;
 
     @Autowired
-    public FileStorageService(ProductUploadFile productUploadFile) {
-        this.fileStorageLocation = Paths.get(productUploadFile.getUploadDir())
+    public FileStorageService(ImageUploadFile imageUploadFile) {
+        this.fileStorageLocation = Paths.get(imageUploadFile.getUploadDir())
                 .toAbsolutePath().normalize();
 
         try {
