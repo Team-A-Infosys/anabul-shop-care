@@ -1,4 +1,4 @@
-package team.kucing.anabulshopcare.service;
+package team.kucing.anabulshopcare.service.uploadimg;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -6,7 +6,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import team.kucing.anabulshopcare.entity.image.Avatar;
+import team.kucing.anabulshopcare.entity.image.ImageProduct;
 import team.kucing.anabulshopcare.exception.FileStorageException;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 
@@ -18,13 +18,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-public class UserAvatarService {
+public class ImageProductService {
 
     private final Path fileStorageLocation;
 
     @Autowired
-    public UserAvatarService(Avatar imageUploadFile) {
-        this.fileStorageLocation = Paths.get(imageUploadFile.getUploadDir())
+    public ImageProductService(ImageProduct imageProduct) {
+        this.fileStorageLocation = Paths.get(imageProduct.getUploadDir())
                 .toAbsolutePath().normalize();
 
         try {

@@ -6,11 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 

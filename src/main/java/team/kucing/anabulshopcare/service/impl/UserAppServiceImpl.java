@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import team.kucing.anabulshopcare.dto.request.SignupRequest;
 import team.kucing.anabulshopcare.dto.response.SuccessSignUp;
 import team.kucing.anabulshopcare.entity.Address;
 import team.kucing.anabulshopcare.entity.Role;
@@ -17,12 +16,10 @@ import team.kucing.anabulshopcare.repository.AddressRepository;
 import team.kucing.anabulshopcare.repository.RoleRepository;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
 import team.kucing.anabulshopcare.service.UserAppService;
-import team.kucing.anabulshopcare.service.UserAvatarService;
+import team.kucing.anabulshopcare.service.uploadimg.UserAvatarService;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor

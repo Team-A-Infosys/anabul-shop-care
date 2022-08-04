@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
 import team.kucing.anabulshopcare.entity.Product;
-import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.service.ProductService;
+
 import javax.validation.Valid;
-import java.util.Optional;
 import java.util.UUID;
-import java.math.BigDecimal;
 
 @RestController
 @AllArgsConstructor

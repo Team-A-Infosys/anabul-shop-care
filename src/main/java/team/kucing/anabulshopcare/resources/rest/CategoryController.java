@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.kucing.anabulshopcare.dto.request.CategoryRequest;
-import team.kucing.anabulshopcare.entity.Category;
 import team.kucing.anabulshopcare.service.CategoryService;
 
 @RestController

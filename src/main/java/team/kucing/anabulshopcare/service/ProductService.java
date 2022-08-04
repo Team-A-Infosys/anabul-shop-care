@@ -6,8 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
 import team.kucing.anabulshopcare.entity.Product;
 
-import java.math.BigDecimal;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface ProductService {

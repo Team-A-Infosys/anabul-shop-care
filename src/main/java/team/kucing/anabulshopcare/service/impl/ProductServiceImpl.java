@@ -16,14 +16,11 @@ import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.repository.CategoryRepository;
 import team.kucing.anabulshopcare.repository.ProductRepository;
 import team.kucing.anabulshopcare.service.CategoryService;
-import team.kucing.anabulshopcare.service.FileStorageService;
 import team.kucing.anabulshopcare.service.ProductService;
+import team.kucing.anabulshopcare.service.uploadimg.ImageProductService;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.math.BigDecimal;
 
 @Service
 @AllArgsConstructor
@@ -36,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
 
     private CategoryService categoryService;
 
-    private final FileStorageService fileStorageService;
+    private final ImageProductService imageProductService;
 
     @Override
     public ResponseEntity<Object> createProduct(ProductRequest productRequest, MultipartFile file) {
@@ -48,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
 
-        String fileName = fileStorageService.storeFile(file);
+        String fileName = imageProductService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(fileName)
@@ -151,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("Product not exist with id"+id);
         }
 
-        String fileName = fileStorageService.storeFile(file);
+        String fileName = imageProductService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(fileName)
                 .toUriString();

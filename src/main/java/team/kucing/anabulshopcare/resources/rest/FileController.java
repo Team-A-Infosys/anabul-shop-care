@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
-import team.kucing.anabulshopcare.service.FileStorageService;
+import team.kucing.anabulshopcare.service.uploadimg.ImageProductService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -17,11 +17,11 @@ import java.io.IOException;
 @RestController
 @AllArgsConstructor
 public class FileController {
-    private FileStorageService fileStorageService;
+    private ImageProductService imageProductService;
 
     @GetMapping("/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
+        Resource resource = imageProductService.loadFileAsResource(fileName);
 
         String contentType;
         try {
