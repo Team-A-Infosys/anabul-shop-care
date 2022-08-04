@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import team.kucing.anabulshopcare.entity.ErrorObject;
+import team.kucing.anabulshopcare.exception.BadRequestException;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 
 import java.util.Collections;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleExpenseNotFoundException(ResourceNotFoundException e, WebRequest request){
+    public ResponseEntity<ErrorObject> handleResourceNotFoundException(ResourceNotFoundException e, WebRequest request){
         ErrorObject errObj = new ErrorObject();
 
         errObj.setStatusCode(HttpStatus.NOT_FOUND.value());
@@ -27,6 +28,17 @@ public class GlobalExceptionHandler {
         errObj.setTimestamp(new Date());
 
         return new ResponseEntity<>(errObj, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorObject> handleBadRequest(BadRequestException e, WebRequest request){
+        ErrorObject errObj = new ErrorObject();
+
+        errObj.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        errObj.setErrorMessage(Collections.singletonList(e.getMessage()));
+        errObj.setTimestamp(new Date());
+
+        return new ResponseEntity<>(errObj, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

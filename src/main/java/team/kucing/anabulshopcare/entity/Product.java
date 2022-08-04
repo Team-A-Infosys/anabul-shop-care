@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
+import team.kucing.anabulshopcare.dto.response.ProductResponse;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -57,4 +58,16 @@ public class Product {
 
     @UpdateTimestamp
     private Date updatedAt;
+
+    public ProductResponse convertToResponse(){
+        return ProductResponse.builder()
+                .productName(this.name)
+                .firstName(this.userApp.getFirstName())
+                .description(this.description)
+                .category(this.category.getCategoryName())
+                .stock(this.stock)
+                .price(this.price)
+                .imageProduct(this.imageUrl)
+                .location(this.userApp.getAddress().getKota().getNama()).build();
+    }
 }
