@@ -1,26 +1,28 @@
-package team.kucing.anabulshopcare.dto.request;
+package team.kucing.anabulshopcare.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import team.kucing.anabulshopcare.entity.UserApp;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductRequest {
+@Builder
+public class ProductResponse {
     private String productName;
 
     private String description;
 
-    private CategoryRequest category;
+    private String category;
 
-    private String emailUser;
+    private String firstName;
+
+    private String imageProduct;
 
     private Integer stock;
 
     private double price;
 
     private String location;
-
 }

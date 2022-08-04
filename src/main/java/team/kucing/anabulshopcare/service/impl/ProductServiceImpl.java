@@ -10,17 +10,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
+import team.kucing.anabulshopcare.dto.response.ProductResponse;
 import team.kucing.anabulshopcare.entity.Category;
 import team.kucing.anabulshopcare.entity.Product;
+import team.kucing.anabulshopcare.entity.UserApp;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.repository.CategoryRepository;
 import team.kucing.anabulshopcare.repository.ProductRepository;
+import team.kucing.anabulshopcare.repository.UserAppRepository;
 import team.kucing.anabulshopcare.service.CategoryService;
 import team.kucing.anabulshopcare.service.ProductService;
 import team.kucing.anabulshopcare.service.uploadimg.ImageProductService;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -30,6 +35,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     private final CategoryRepository categoryRepository;
+
+    private final UserAppRepository userAppRepository;
 
     private CategoryService categoryService;
 
@@ -64,14 +71,17 @@ public class ProductServiceImpl implements ProductService {
         } else {
             product.setCategory(category.get());
         }
+        UserApp userApp = this.userAppRepository.findByEmail(productRequest.getEmailUser());
 
-        product.setUserApp(productRequest.getUserApp());
-        product.setLocation(productRequest.getUserApp().getAddress().getKota().toString());
+        product.setUserApp(userApp);
+        product.setLocation(userApp.getAddress().getKota().getNama());
         product.setStock(productRequest.getStock());
         product.setPrice(productRequest.getPrice());
 
         product.setImageUrl(fileDownloadUri);
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.productRepository.save(product));
+
+        this.productRepository.save(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Success add product");
 
     }
 
@@ -79,11 +89,13 @@ public class ProductServiceImpl implements ProductService {
     public ResponseEntity<Object> listProducts(Pageable pageable) {
         Page<Product> listProducts = this.productRepository.findByIsPublished(Boolean.TRUE, pageable);
 
+        List<ProductResponse> response = listProducts.stream().map(Product::convertToResponse).toList();
+
         if (listProducts.getTotalPages() == 0){
             throw new ResourceNotFoundException("There are no product exist");
         }
 
-        return ResponseEntity.ok().body(listProducts.toList());
+        return ResponseEntity.ok().body(response);
     }
 
     @Override
