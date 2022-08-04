@@ -11,7 +11,12 @@ import java.util.UUID;
 
 @Repository
 public interface UserAppRepository extends JpaRepository<UserApp, UUID> {
+
+    Page<UserApp> findAll(Pageable pageable);
+
     boolean existsByEmail(String email);
+
+    boolean existsByPhoneNumber(String phoneNumber);
 
     UserApp findByEmail(String email);
 

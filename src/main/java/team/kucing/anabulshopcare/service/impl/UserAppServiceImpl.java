@@ -2,6 +2,8 @@ package team.kucing.anabulshopcare.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,7 @@ import team.kucing.anabulshopcare.dto.response.SuccessSignUp;
 import team.kucing.anabulshopcare.entity.Address;
 import team.kucing.anabulshopcare.entity.Role;
 import team.kucing.anabulshopcare.entity.UserApp;
-import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
+import team.kucing.anabulshopcare.exception.BadRequestException;
 import team.kucing.anabulshopcare.repository.AddressRepository;
 import team.kucing.anabulshopcare.repository.RoleRepository;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
@@ -20,8 +22,7 @@ import team.kucing.anabulshopcare.service.uploadimg.UserAvatarService;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -57,28 +58,11 @@ public class UserAppServiceImpl implements UserAppService {
     }
 
     @Override
-    public UserApp findById(UUID id) {
-        return null;
-    }
+    public ResponseEntity<Object> getAllUsers(Pageable pageable){
+        Page<UserApp> userApp = this.userRepo.findAll(pageable);
+        List<SuccessSignUp> response = userApp.stream().map(UserApp::convertToResponse).toList();
 
-    @Override
-    public ResponseEntity<Object> deleteAccount(UUID id) {
-        Optional<UserApp> optionalUserApp = userRepo.findById(id);
-
-        if(optionalUserApp.isEmpty()){
-            throw new ResourceNotFoundException("process failed, account not registered");
-        }
-
-        UserApp userApp = userRepo.getReferenceById(id);
-        userRepo.delete(userApp);
-
-
-        return ResponseEntity.ok().body("account deletion process has been successful");
-    }
-
-    @Override
-    public ResponseEntity<Object> filterUserByIsDeleted(UUID id) {
-        return null;
+        return ResponseEntity.ok().body(response);
     }
 
     private ResponseEntity<Object> saveUser(UserApp user, String fileDownloadUri, Role getRole) {
@@ -87,7 +71,11 @@ public class UserAppServiceImpl implements UserAppService {
         user.setRoles(Collections.singleton(getRole));
 
         if (this.userRepo.existsByEmail(user.getEmail())){
-            throw new ResourceNotFoundException("Email has been taken");
+            throw new BadRequestException("Email already registered, try login");
+        }
+
+        if (this.userRepo.existsByPhoneNumber(user.getPhoneNumber())){
+            throw new BadRequestException("Phone number already registered");
         }
 
         if (user.getAddress().getId() == null){
@@ -107,23 +95,7 @@ public class UserAppServiceImpl implements UserAppService {
             this.userRepo.save(searchUser);
         }
 
-        SuccessSignUp response = new SuccessSignUp();
-        response.setFirstName(user.getFirstName());
-        response.setLastName(user.getLastName());
-        response.setEmail(user.getEmail());
-        response.setPhoneNumber(user.getPhoneNumber());
-        response.setHistory(user.getHistory());
-
-        StringBuilder address = new StringBuilder();
-        address.append(user.getAddress().getProvinsi().getNama());
-        address.append(", ");
-        address.append(user.getAddress().getKota().getNama());
-        address.append(", ");
-        address.append(user.getAddress().getKecamatan().getNama());
-        address.append(", ");
-        address.append(user.getAddress().getKelurahan().getNama());
-
-        response.setAddress(address.toString());
+        SuccessSignUp response = user.convertToResponse();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
