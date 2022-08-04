@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import team.kucing.anabulshopcare.entity.Product;
+import team.kucing.anabulshopcare.entity.UserApp;
 
 @Data
 @AllArgsConstructor
@@ -16,12 +17,12 @@ public class ProductRequest {
 
     private CategoryRequest category;
 
-    private String location;
+    private UserApp userApp;
 
     private Integer stock;
 
     private double price;
 
-    private String createdBy;
+    private String location;
 
 }

@@ -52,7 +52,7 @@ public class ProductController {
         product1.setPrice(product.getPrice());
         product1.setImageUrl(product.getImageUrl());
         product1.setIsPublished(product.getIsPublished());
-        product1.setCreatedBy(product.getCreatedBy());
+        product1.setUserApp(product.getUserApp());
         if(product1 == null) {
             log.info("Failed to get product" + product1.getId());
         }

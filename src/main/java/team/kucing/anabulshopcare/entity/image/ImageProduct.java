@@ -1,9 +1,9 @@
-package team.kucing.anabulshopcare.entity;
+package team.kucing.anabulshopcare.entity.image;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "product-images")
-public class ProductUploadFile {
+public class ImageProduct {
     private String uploadDir;
 
     public String getUploadDir() {
