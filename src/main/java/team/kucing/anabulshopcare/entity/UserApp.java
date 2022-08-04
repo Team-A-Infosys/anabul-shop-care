@@ -1,10 +1,10 @@
 package team.kucing.anabulshopcare.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
+import team.kucing.anabulshopcare.entity.image.ImageProduct;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ import static javax.persistence.FetchType.EAGER;
 @SQLDelete(sql = "UPDATE user_app SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted = false")
 @Entity
-public class UserApp extends ImageUploadFile {
+public class UserApp extends ImageProduct {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -36,11 +36,11 @@ public class UserApp extends ImageUploadFile {
 
     private String phoneNumber;
 
-    private String location;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Address address;
 
     private String imageUrl;
 
-    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = EAGER, cascade = CascadeType.PERSIST)

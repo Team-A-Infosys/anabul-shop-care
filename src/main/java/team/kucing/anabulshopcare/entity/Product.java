@@ -37,7 +37,6 @@ public class Product {
     @JoinColumn(name="category_id")
     private Category category;
 
-    //TODO:Relation to Entity User
     private String location;
 
     private Integer stock;
@@ -46,8 +45,8 @@ public class Product {
 
     private String imageUrl;
 
-    //TODO:Relation to Entity User
-    private String createdBy;
+    @OneToOne
+    private UserApp userApp;
 
     private Boolean isPublished = Boolean.FALSE;
 

@@ -68,9 +68,10 @@ public class ProductServiceImpl implements ProductService {
             product.setCategory(category.get());
         }
 
-        product.setLocation(productRequest.getLocation());
+        product.setUserApp(productRequest.getUserApp());
+        product.setLocation(productRequest.getUserApp().getAddress().getKota().toString());
         product.setStock(productRequest.getStock());
-        product.setPrice(product.getStock());
+        product.setPrice(productRequest.getPrice());
 
         product.setImageUrl(fileDownloadUri);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.productRepository.save(product));
