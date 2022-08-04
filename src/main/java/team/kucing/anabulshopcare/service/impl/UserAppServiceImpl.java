@@ -63,11 +63,6 @@ public class UserAppServiceImpl implements UserAppService {
     }
 
     @Override
-    public UserApp findById(UUID id) {
-        return null;
-    }
-
-    @Override
     public ResponseEntity<Object> deleteAccount(UUID id) {
         Optional<UserApp> optionalUserApp = userRepo.findById(id);
 
