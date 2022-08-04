@@ -67,19 +67,15 @@ public class UserAppServiceImpl implements UserAppService {
         Optional<UserApp> optionalUserApp = userRepo.findById(id);
 
         if(optionalUserApp.isEmpty()){
+            log.error("process failed, account not registered");
             throw new ResourceNotFoundException("process failed, account not registered");
         }
 
         UserApp userApp = userRepo.getReferenceById(id);
         userRepo.delete(userApp);
 
-
+        log.info("account deletion process has been successful");
         return ResponseEntity.ok().body("account deletion process has been successful");
-    }
-
-    @Override
-    public ResponseEntity<Object> filterUserByIsDeleted(UUID id) {
-        return null;
     }
     public ResponseEntity<Object> getAllUsers(Pageable pageable){
         Page<UserApp> userApp = this.userRepo.findAll(pageable);

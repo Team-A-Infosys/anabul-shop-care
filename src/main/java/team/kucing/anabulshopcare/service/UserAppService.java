@@ -22,7 +22,6 @@ public interface UserAppService {
 
     ResponseEntity<Object> deleteAccount(UUID id);
 
-    ResponseEntity<Object> filterUserByIsDeleted(UUID id);
 
     ResponseEntity<Object> getAllUsers(Pageable pageable);
 
