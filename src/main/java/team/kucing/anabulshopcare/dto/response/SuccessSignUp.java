@@ -1,12 +1,17 @@
 package team.kucing.anabulshopcare.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import team.kucing.anabulshopcare.entity.Role;
+
+import java.util.Collection;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class SuccessSignUp {
 
     private String firstName;
@@ -20,4 +25,6 @@ public class SuccessSignUp {
     private String address;
 
     private String history;
+
+    private Collection<Role> roles;
 }

@@ -20,8 +20,10 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @Slf4j
 public class UserController {
     private final UserAppServiceImpl userAppService;
-
-    //TODO:Get All User with dtoResponse
+    @GetMapping("/users")
+    public ResponseEntity<Object> getAllUsers(Pageable pageable){
+        return this.userAppService.getAllUsers(pageable);
+    }
 
     @PostMapping(value = "/signup/seller", consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Object> signupSeller(@RequestPart MultipartFile file, @RequestPart UserApp userApp){

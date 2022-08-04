@@ -22,4 +22,7 @@ public interface UserAppService {
 
     ResponseEntity<Object> filterUserByIsDeleted(UUID id);
 
+
+    ResponseEntity<Object> getAllUsers(Pageable pageable);
+
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
+import team.kucing.anabulshopcare.dto.response.SuccessSignUp;
 import team.kucing.anabulshopcare.entity.image.ImageProduct;
 
 import javax.persistence.CascadeType;
@@ -56,4 +57,18 @@ public class UserApp extends ImageProduct {
 
     @UpdateTimestamp
     private Date updatedAt;
+
+    public SuccessSignUp convertToResponse(){
+        return SuccessSignUp.builder()
+                .firstName(this.firstName)
+                .lastName(this.lastName)
+                .email(this.email)
+                .phoneNumber(this.phoneNumber)
+                .address(this.address.getProvinsi().getNama()+", " +
+                        this.address.getKota().getNama()+", " +
+                        this.address.getKecamatan().getNama()+", " +
+                        this.address.getKelurahan().getNama())
+                .history(this.history)
+                .roles(this.roles).build();
+    }
 }
