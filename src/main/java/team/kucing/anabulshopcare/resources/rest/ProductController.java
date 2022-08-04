@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
 import team.kucing.anabulshopcare.entity.Product;
-import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.service.ProductService;
+
 import javax.validation.Valid;
-import java.util.Optional;
 import java.util.UUID;
-import java.math.BigDecimal;
 
 @RestController
 @AllArgsConstructor
@@ -52,7 +50,7 @@ public class ProductController {
         product1.setPrice(product.getPrice());
         product1.setImageUrl(product.getImageUrl());
         product1.setIsPublished(product.getIsPublished());
-        product1.setCreatedBy(product.getCreatedBy());
+        product1.setUserApp(product.getUserApp());
         if(product1 == null) {
             log.info("Failed to get product" + product1.getId());
         }

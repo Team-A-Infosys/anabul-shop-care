@@ -48,7 +48,7 @@
 2022-08-02 11:43:18,886 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 16.105 seconds (JVM running for 17.986)
 2022-08-02 11:44:04,408 ERROR team.kucing.anabulshopcare.resources.rest.ProductController [http-nio-8081-exec-1] Sorry, can't load to request create product 
 team.kucing.anabulshopcare.exception.FileStorageException: Could not store file . Please try again!
-	at team.kucing.anabulshopcare.service.FileStorageService.storeFile(FileStorageService.java:53)
+	at team.kucing.anabulshopcare.service.uploadimg.ImageProductService.storeFile(FileStorageService.java:53)
 	at team.kucing.anabulshopcare.service.impl.ProductServiceImpl.createProduct(ProductServiceImpl.java:32)
 	at team.kucing.anabulshopcare.resources.rest.ProductController.addProduct(ProductController.java:28)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
@@ -107,7 +107,7 @@ Caused by: java.nio.file.DirectoryNotEmptyException: C:\Users\bootcamp\anabul-sh
 	at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
 	at java.base/java.nio.file.Files.deleteIfExists(Files.java:1191)
 	at java.base/java.nio.file.Files.copy(Files.java:3149)
-	at team.kucing.anabulshopcare.service.FileStorageService.storeFile(FileStorageService.java:49)
+	at team.kucing.anabulshopcare.service.uploadimg.ImageProductService.storeFile(FileStorageService.java:49)
 	... 53 common frames omitted
 2022-08-02 11:44:31,431 INFO team.kucing.anabulshopcare.resources.rest.ProductController [http-nio-8081-exec-3] success create product <201 CREATED Created,Product(id=efa6d20f-b20d-46af-9f27-6afb745f2f5b, name=whiskas, description=ok, category=dry food for kitten, location=Jambi, stock=150, price=250, imageUrl=http://localhost:8081/logback-spring.xml, createdBy=null, createdAt=Tue Aug 02 11:44:31 WIB 2022, updatedAt=Tue Aug 02 11:44:31 WIB 2022),[]>
 2022-08-02 12:17:03,655 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.2 on DESKTOP-L8RUQ5E with PID 7040 (C:\Users\bootcamp\anabul-shop-care\target\classes started by Yellia Viona in C:\Users\bootcamp\anabul-shop-care)
