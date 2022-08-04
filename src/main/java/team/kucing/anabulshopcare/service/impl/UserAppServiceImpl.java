@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import team.kucing.anabulshopcare.dto.response.SuccessSignUp;
+import team.kucing.anabulshopcare.dto.response.UserResponse;
 import team.kucing.anabulshopcare.entity.Address;
 import team.kucing.anabulshopcare.entity.Role;
 import team.kucing.anabulshopcare.entity.UserApp;
@@ -26,6 +26,8 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -86,7 +88,7 @@ public class UserAppServiceImpl implements UserAppService {
     }
     public ResponseEntity<Object> getAllUsers(Pageable pageable){
         Page<UserApp> userApp = this.userRepo.findAll(pageable);
-        List<SuccessSignUp> response = userApp.stream().map(UserApp::convertToResponse).toList();
+        List<UserResponse> response = userApp.stream().map(UserApp::convertToResponse).toList();
 
         return ResponseEntity.ok().body(response);
     }
@@ -121,7 +123,77 @@ public class UserAppServiceImpl implements UserAppService {
             this.userRepo.save(searchUser);
         }
 
-        SuccessSignUp response = user.convertToResponse();
+        UserResponse response = user.convertToResponse();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+    @Override
+    public UserApp findById(UUID id) {
+        Optional<UserApp> optionalUserApp = userRepo.findById(id);
+
+        if(optionalUserApp.isEmpty()){
+            throw new ResourceNotFoundException("User with ID "+id+" Is Not Found");
+        }
+        return optionalUserApp.get();
+    }
+
+    @Override
+    public ResponseEntity<Object> updateUser(UserApp user, MultipartFile file, UUID id) {
+        UserApp userUpdate = this.findById(user.getId());
+        if (user.getFirstName() != null) {
+            userUpdate.setFirstName(user.getFirstName());
+            log.info("Success to Update First Name of User with ID : " + userUpdate.getId()+ " into " + user.getFirstName());
+        }
+        if (user.getLastName()!= null) {
+            userUpdate.setLastName(user.getLastName());
+            log.info("Success to Update Last Name of User with ID : " + userUpdate.getId()+ " into " + user.getLastName());
+        }
+        if (user.getEmail()!= null) {
+            if (this.userRepo.existsByEmail(user.getEmail())) {
+                log.error("Cannot use this Email " + user.getEmail() + " try another Email");
+                throw new BadRequestException("Cannot use this Email " + user.getEmail()+ " try another Email");
+            }
+            userUpdate.setEmail(user.getEmail());
+            log.info("Success to Update Email of User with ID : " + userUpdate.getId()+ " into " + user.getEmail());
+        }
+        if (user.getPhoneNumber()!= null) {
+            if (this.userRepo.existsByPhoneNumber(user.getPhoneNumber())) {
+                log.error("Cannot use this Phone Number " + user.getPhoneNumber() + " try another Phone Number");
+                throw new BadRequestException("Cannot use this Phone Number " + user.getPhoneNumber()+ " try another Phone Number");
+            }
+            userUpdate.setPhoneNumber(user.getPhoneNumber());
+            log.info("Success to Update Phone Number of User with ID : " + userUpdate.getId()+ " into " + user.getPhoneNumber());
+        }
+        if (user.getAddress()!= null){
+           Optional<Address> address = this.addressRepository.findById(userUpdate.getAddress().getId());
+           if (address.isEmpty()) {
+                log.error("Address with ID : " + userUpdate.getAddress().getId() + " is not found");
+               throw new ResourceNotFoundException("Address with ID "+userUpdate.getAddress().getId()+" is not found");
+           } else {
+               Address getAddress = address.get();
+               getAddress.setProvinsi(user.getAddress().getProvinsi());
+               getAddress.setKota(user.getAddress().getKota());
+               getAddress.setKecamatan(user.getAddress().getKecamatan());
+               getAddress.setKelurahan(user.getAddress().getKelurahan());
+               this.addressRepository.save(getAddress);
+               log.info("Success to Update Address of User with ID : " + userUpdate.getId()+ " into " + getAddress);
+           }
+
+        }
+        if (!(file.isEmpty())){
+            String fileName = fileStorageService.storeFile(file);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
+            userUpdate.setImageUrl(fileDownloadUri);
+            log.info("Success to Update Image of User with ID : " + userUpdate.getId() + " into " + fileDownloadUri);
+        } else {
+            userUpdate.setImageUrl(user.getImageUrl());
+        }
+        if (user.getPassword()!= null){
+            userUpdate.setPassword(user.getPassword());
+            log.info("Success to Update Password of User with ID : " + userUpdate.getId());
+        }
+        UserResponse response = userUpdate.convertToResponse();
+        log.info("Success update User " + response.toString());
+        return ResponseEntity.ok().body(response);
+    }
+
 }

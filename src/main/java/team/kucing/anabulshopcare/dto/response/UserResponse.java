@@ -12,7 +12,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SuccessSignUp {
+public class UserResponse {
 
     private String firstName;
 
@@ -27,4 +27,5 @@ public class SuccessSignUp {
     private String history;
 
     private Collection<Role> roles;
+
 }

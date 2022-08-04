@@ -11,9 +11,12 @@ import team.kucing.anabulshopcare.entity.UserApp;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
 import team.kucing.anabulshopcare.service.impl.UserAppServiceImpl;
 
+import javax.validation.Valid;
+
 import java.util.UUID;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 
 @RestController
 @AllArgsConstructor
@@ -35,6 +38,10 @@ public class UserController {
         return this.userAppService.signUpBuyer(userApp, file);
     }
 
+    @PutMapping(value = "/signup/update/{id}")
+    public ResponseEntity<Object> updateUser(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid UserApp userApp) {
+        return this.userAppService.updateUser(userApp, file, id);
+    }
 
     @DeleteMapping("/userAccount/delete/{id}")
     public ResponseEntity<Object> deleteAccount(@PathVariable UUID id) {
@@ -46,8 +53,5 @@ public class UserController {
             log.info("process failed, account not registered with id : " + id + "!!!");
         }
         return userAppService.deleteAccount(id);
-
     }
-
-
 }
