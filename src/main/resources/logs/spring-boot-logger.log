@@ -1,3 +1,12 @@
+
+2022-08-04 19:12:55,732 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.2 on DESKTOP-L8RUQ5E with PID 13020 (C:\Users\bootcamp\anabul-shop-care\target\classes started by Yellia Viona in C:\Users\bootcamp\anabul-shop-care)
+2022-08-04 19:12:55,737 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-04 19:12:55,739 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-04 19:13:09,158 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-04 19:13:13,870 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 19.628 seconds (JVM running for 21.222)
+2022-08-04 19:13:18,045 INFO team.kucing.anabulshopcare.resources.rest.UserController [http-nio-8081-exec-2] account with id : deletion process has been successful
+2022-08-04 19:13:18,333 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-2] Resolved [team.kucing.anabulshopcare.exception.ResourceNotFoundException: process failed, account not registered]
+2022-08-04 19:13:32,966 INFO team.kucing.anabulshopcare.resources.rest.UserController [http-nio-8081-exec-3] account with id : deletion process has been successful
 2022-08-04 13:08:20,654 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 19744 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
 2022-08-04 13:08:20,655 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
 2022-08-04 13:08:20,656 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
