@@ -22,6 +22,8 @@ import team.kucing.anabulshopcare.service.uploadimg.UserAvatarService;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.List;
 
 @Service
@@ -58,6 +60,28 @@ public class UserAppServiceImpl implements UserAppService {
     }
 
     @Override
+    public UserApp findById(UUID id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteAccount(UUID id) {
+        Optional<UserApp> optionalUserApp = userRepo.findById(id);
+
+        if(optionalUserApp.isEmpty()){
+            throw new ResourceNotFoundException("process failed, account not registered");
+        }
+
+        UserApp userApp = userRepo.getReferenceById(id);
+        userRepo.delete(userApp);
+
+
+        return ResponseEntity.ok().body("account deletion process has been successful");
+    }
+
+    @Override
+    public ResponseEntity<Object> filterUserByIsDeleted(UUID id) {
+        return null;
     public ResponseEntity<Object> getAllUsers(Pageable pageable){
         Page<UserApp> userApp = this.userRepo.findAll(pageable);
         List<SuccessSignUp> response = userApp.stream().map(UserApp::convertToResponse).toList();
