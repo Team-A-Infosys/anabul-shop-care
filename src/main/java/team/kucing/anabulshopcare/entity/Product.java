@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -70,4 +71,7 @@ public class Product {
                 .imageProduct(this.imageUrl)
                 .location(this.userApp.getAddress().getKota().getNama()).build();
     }
+
+    @OneToMany(mappedBy = "product")
+    Set<Wishlist> wishlists;
 }
