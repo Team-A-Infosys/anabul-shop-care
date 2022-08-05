@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import team.kucing.anabulshopcare.dto.response.CategoryResponse;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,5 +30,9 @@ public class Category {
     private String categoryName;
 
     private Boolean isDeleted = Boolean.FALSE;
+
+    public CategoryResponse convertResponseCategory(){
+        return CategoryResponse.builder().categoryName(this.categoryName).build();
+    }
 
 }

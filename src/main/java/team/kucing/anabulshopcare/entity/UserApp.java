@@ -8,10 +8,7 @@ import team.kucing.anabulshopcare.entity.image.ImageProduct;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 import static javax.persistence.FetchType.EAGER;
 
@@ -70,4 +67,7 @@ public class UserApp extends ImageProduct {
                 .history(this.history)
                 .roles(this.roles).build();
     }
+
+    @OneToMany(mappedBy = "userApp")
+    Set<Wishlist> wishlists;
 }
