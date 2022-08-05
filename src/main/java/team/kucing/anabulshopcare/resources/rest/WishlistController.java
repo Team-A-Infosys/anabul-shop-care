@@ -24,6 +24,7 @@ public class WishlistController {
 
     @DeleteMapping("/wishlist/delete/{id}")
     public ResponseEntity<Object> deleteWishlist(@PathVariable(value = "id") Long id){
+        log.info("successfully removed the product from wishlist");
         return this.wishlistService.deleteWishlist(id);
     }
 }

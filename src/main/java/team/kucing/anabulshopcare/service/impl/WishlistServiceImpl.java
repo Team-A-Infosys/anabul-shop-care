@@ -56,11 +56,13 @@ public class WishlistServiceImpl implements WishlistService {
         Optional<Wishlist> wishlist = wishlistRepository.findById(id);
 
         if(wishlist.isEmpty()){
+            log.error("Wishlist Not Found");
             throw new ResourceNotFoundException("Wishlist Not Found");
         }
 
         Wishlist wish = wishlistRepository.getReferenceById(id);
         this.wishlistRepository.delete(wish);
+        log.info("Your Wishlist is Deleted");
         return ResponseEntity.ok().body("Your Wishlist is Deleted");
     }
 }
