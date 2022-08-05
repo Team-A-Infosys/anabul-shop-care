@@ -75,5 +75,5 @@ public class Product {
     }
 
     @OneToMany(mappedBy = "product")
-    Set<Wishlist> wishlists;
+    private Set<Wishlist> wishlists;
 }

@@ -1,21 +1,21 @@
 package team.kucing.anabulshopcare.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import team.kucing.anabulshopcare.entity.UserApp;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductRequest {
+public class UpdateProduct {
+
     private String productName;
 
     private String description;
 
     private CategoryRequest category;
-
-    private String emailUser;
 
     private Integer stock;
 
