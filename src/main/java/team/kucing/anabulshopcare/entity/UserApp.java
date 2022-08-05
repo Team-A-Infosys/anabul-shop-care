@@ -1,8 +1,6 @@
 package team.kucing.anabulshopcare.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.*;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
 import team.kucing.anabulshopcare.entity.image.ImageProduct;
@@ -17,7 +15,8 @@ import java.util.UUID;
 
 import static javax.persistence.FetchType.EAGER;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE user_app SET is_deleted = true WHERE id=?")

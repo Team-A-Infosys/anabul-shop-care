@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
+//TODO :Remove Data Annotation Lombok
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

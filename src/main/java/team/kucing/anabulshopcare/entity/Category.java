@@ -17,6 +17,9 @@ import javax.persistence.Id;
 @Entity
 @SQLDelete(sql = "UPDATE category SET is_deleted = true WHERE category_id=?")
 @Where(clause = "is_deleted = false")
+
+//TODO :Remove Data Annotation Lombok
+
 public class Category {
 
     @Id

@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.UUID;
 
 @Data
+//TODO :Remove Data Annotation Lombok
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

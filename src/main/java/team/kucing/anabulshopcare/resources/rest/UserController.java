@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import team.kucing.anabulshopcare.dto.request.AddressRequest;
 import team.kucing.anabulshopcare.entity.UserApp;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
 import team.kucing.anabulshopcare.service.impl.UserAppServiceImpl;
@@ -41,6 +42,11 @@ public class UserController {
     @PutMapping(value = "/signup/update/{id}")
     public ResponseEntity<Object> updateUser(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid UserApp userApp) {
         return this.userAppService.updateUser(userApp, file, id);
+    }
+
+    @PutMapping("/user/{id}/update/address")
+    public ResponseEntity<Object> updateAddressUser(@PathVariable("id") UUID id, @RequestBody AddressRequest addressRequest){
+        return this.userAppService.updateAddressUser(addressRequest, id);
     }
 
     @DeleteMapping("/userAccount/delete/{id}")

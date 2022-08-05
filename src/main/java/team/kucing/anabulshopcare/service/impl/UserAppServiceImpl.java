@@ -9,15 +9,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import team.kucing.anabulshopcare.dto.request.AddressRequest;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
 import team.kucing.anabulshopcare.entity.Address;
 import team.kucing.anabulshopcare.entity.Role;
 import team.kucing.anabulshopcare.entity.UserApp;
+import team.kucing.anabulshopcare.entity.subaddress.Kecamatan;
+import team.kucing.anabulshopcare.entity.subaddress.Kelurahan;
+import team.kucing.anabulshopcare.entity.subaddress.Kota;
+import team.kucing.anabulshopcare.entity.subaddress.Provinsi;
 import team.kucing.anabulshopcare.exception.BadRequestException;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
+import team.kucing.anabulshopcare.handler.ResponseHandler;
 import team.kucing.anabulshopcare.repository.AddressRepository;
 import team.kucing.anabulshopcare.repository.RoleRepository;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
+import team.kucing.anabulshopcare.repository.subrepo.KecamatanRepository;
+import team.kucing.anabulshopcare.repository.subrepo.KelurahanRepository;
+import team.kucing.anabulshopcare.repository.subrepo.KotaRepository;
+import team.kucing.anabulshopcare.repository.subrepo.ProvinsiRepository;
 import team.kucing.anabulshopcare.service.UserAppService;
 import team.kucing.anabulshopcare.service.uploadimg.UserAvatarService;
 
@@ -26,8 +36,6 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -38,6 +46,14 @@ public class UserAppServiceImpl implements UserAppService {
     private UserAppRepository userRepo;
 
     private AddressRepository addressRepository;
+
+    private ProvinsiRepository provinsiRepository;
+
+    private KotaRepository kotaRepository;
+
+    private KecamatanRepository kecamatanRepository;
+
+    private KelurahanRepository kelurahanRepository;
 
     private RoleRepository roleRepo;
 
@@ -80,8 +96,9 @@ public class UserAppServiceImpl implements UserAppService {
     public ResponseEntity<Object> getAllUsers(Pageable pageable){
         Page<UserApp> userApp = this.userRepo.findAll(pageable);
         List<UserResponse> response = userApp.stream().map(UserApp::convertToResponse).toList();
+        log.info("Retrieve all data user " + response);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseHandler.generateResponse("Success Retrieve All Users", HttpStatus.OK, response);
     }
 
     private ResponseEntity<Object> saveUser(UserApp user, String fileDownloadUri, Role getRole) {
@@ -115,7 +132,7 @@ public class UserAppServiceImpl implements UserAppService {
         }
 
         UserResponse response = user.convertToResponse();
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
     }
     @Override
     public UserApp findById(UUID id) {
@@ -132,10 +149,12 @@ public class UserAppServiceImpl implements UserAppService {
         UserApp userUpdate = this.findById(user.getId());
         if (user.getFirstName() != null) {
             userUpdate.setFirstName(user.getFirstName());
+            this.userRepo.save(userUpdate);
             log.info("Success to Update First Name of User with ID : " + userUpdate.getId()+ " into " + user.getFirstName());
         }
         if (user.getLastName()!= null) {
             userUpdate.setLastName(user.getLastName());
+            this.userRepo.save(userUpdate);
             log.info("Success to Update Last Name of User with ID : " + userUpdate.getId()+ " into " + user.getLastName());
         }
         if (user.getEmail()!= null) {
@@ -144,6 +163,7 @@ public class UserAppServiceImpl implements UserAppService {
                 throw new BadRequestException("Cannot use this Email " + user.getEmail()+ " try another Email");
             }
             userUpdate.setEmail(user.getEmail());
+            this.userRepo.save(userUpdate);
             log.info("Success to Update Email of User with ID : " + userUpdate.getId()+ " into " + user.getEmail());
         }
         if (user.getPhoneNumber()!= null) {
@@ -152,6 +172,7 @@ public class UserAppServiceImpl implements UserAppService {
                 throw new BadRequestException("Cannot use this Phone Number " + user.getPhoneNumber()+ " try another Phone Number");
             }
             userUpdate.setPhoneNumber(user.getPhoneNumber());
+            this.userRepo.save(userUpdate);
             log.info("Success to Update Phone Number of User with ID : " + userUpdate.getId()+ " into " + user.getPhoneNumber());
         }
         if (user.getAddress()!= null){
@@ -166,7 +187,9 @@ public class UserAppServiceImpl implements UserAppService {
                getAddress.setKecamatan(user.getAddress().getKecamatan());
                getAddress.setKelurahan(user.getAddress().getKelurahan());
                this.addressRepository.save(getAddress);
-               log.info("Success to Update Address of User with ID : " + userUpdate.getId()+ " into " + getAddress);
+               userUpdate.setAddress(getAddress);
+               this.userRepo.save(userUpdate);
+               log.info("Success to Update Address of User with ID : " + userUpdate.getId());
            }
 
         }
@@ -174,17 +197,51 @@ public class UserAppServiceImpl implements UserAppService {
             String fileName = fileStorageService.storeFile(file);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
             userUpdate.setImageUrl(fileDownloadUri);
+            this.userRepo.save(userUpdate);
             log.info("Success to Update Image of User with ID : " + userUpdate.getId() + " into " + fileDownloadUri);
-        } else {
-            userUpdate.setImageUrl(user.getImageUrl());
         }
         if (user.getPassword()!= null){
             userUpdate.setPassword(user.getPassword());
             log.info("Success to Update Password of User with ID : " + userUpdate.getId());
         }
+
         UserResponse response = userUpdate.convertToResponse();
         log.info("Success update User " + response.toString());
-        return ResponseEntity.ok().body(response);
+        return ResponseHandler.generateResponse("Success Update The User " + userUpdate.getId(), HttpStatus.OK, response);
     }
 
+    @Override
+    public ResponseEntity<Object> updateAddressUser(AddressRequest addressRequest, UUID id){
+        UserApp updateAddressUser = this.findById(id);
+        Optional<Provinsi> findProvinsi = this.provinsiRepository.findById(addressRequest.getProvinsi().getId());
+        if (findProvinsi.isEmpty()){
+            throw new ResourceNotFoundException("Provinsi is not found");
+        }
+        Provinsi getProvinsi = findProvinsi.get();
+        updateAddressUser.getAddress().setProvinsi(getProvinsi);
+
+        Optional<Kota> findKota = this.kotaRepository.findById(addressRequest.getKota().getId());
+        if (findKota.isEmpty()){
+            throw new ResourceNotFoundException("Kota is not found");
+        }
+        Kota getKota = findKota.get();
+        updateAddressUser.getAddress().setKota(getKota);
+
+        Optional<Kecamatan> findKecamatan = this.kecamatanRepository.findById(addressRequest.getKecamatan().getId());
+        if (findKecamatan.isEmpty()){
+            throw new ResourceNotFoundException("Kecamatan is not found");
+        }
+        Kecamatan getKecamatan = findKecamatan.get();
+        updateAddressUser.getAddress().setKecamatan(getKecamatan);
+
+        Optional<Kelurahan> findKelurahan = this.kelurahanRepository.findById(addressRequest.getKelurahan().getId());
+        if (findKelurahan.isEmpty()){
+            throw new ResourceNotFoundException("Kelurahan is not found");
+        }
+        Kelurahan getKelurahan = findKelurahan.get();
+        updateAddressUser.getAddress().setKelurahan(getKelurahan);
+
+        this.userRepo.save(updateAddressUser);
+        return ResponseHandler.generateResponse("Success Update the Address", HttpStatus.OK, updateAddressUser.convertToResponse());
+    }
 }
