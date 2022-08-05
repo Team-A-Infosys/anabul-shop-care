@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import team.kucing.anabulshopcare.dto.request.WishlistRequest;
+import team.kucing.anabulshopcare.dto.response.WishlistResponse;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.entity.UserApp;
 import team.kucing.anabulshopcare.entity.Wishlist;
@@ -45,7 +46,21 @@ public class WishlistServiceImpl implements WishlistService {
         wishlist.setProduct(product.get());
         wishlist.setUserApp(userApp);
 
-        this.wishlistRepository.save(wishlist);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Success Added Product To Your Wishlist");
+        Wishlist saveWishlist = this.wishlistRepository.save(wishlist);
+        WishlistResponse response = saveWishlist.convertToResponse();
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteWishlist(Long id){
+        Optional<Wishlist> wishlist = wishlistRepository.findById(id);
+
+        if(wishlist.isEmpty()){
+            throw new ResourceNotFoundException("Wishlist Not Found");
+        }
+
+        Wishlist wish = wishlistRepository.getReferenceById(id);
+        this.wishlistRepository.delete(wish);
+        return ResponseEntity.ok().body("Your Wishlist is Deleted");
     }
 }
