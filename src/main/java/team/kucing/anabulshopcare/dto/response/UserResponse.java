@@ -27,9 +27,9 @@ public class UserResponse {
 
     private String history;
 
-    private List<Wishlist> wishlistProduct;
+    private List<WishlistResponse> wishlistProduct;
 
-    private List<Cart> cartList;
+    private List<CartResponse> cartList;
 
     private Collection<Role> roles;
 

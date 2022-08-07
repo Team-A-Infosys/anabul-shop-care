@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -48,7 +49,6 @@ public class Product {
     private UserApp userApp;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Wishlist> wishlist;
 
     @ManyToMany
@@ -75,6 +75,7 @@ public class Product {
                 .price(this.price)
                 .imageProduct(this.imageUrl)
                 .location(this.userApp.getAddress().getKota().getNama())
-                .wishlistByUser(this.wishlist).build();
+                .wishlistByUser(this.wishlist.stream().map(Wishlist::getUserApp).map(UserApp::getEmail).collect(Collectors.joining(", ")))
+                .cartByUser(this.cart.stream().map(Cart::getUserApp).map(UserApp::getEmail).collect(Collectors.joining(", "))).build();
     }
 }

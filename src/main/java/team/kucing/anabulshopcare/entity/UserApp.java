@@ -1,7 +1,4 @@
 package team.kucing.anabulshopcare.entity;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.*;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
@@ -11,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static javax.persistence.FetchType.EAGER;
 
@@ -46,11 +44,9 @@ public class UserApp extends ImageProduct {
     private Collection<Role> roles = new ArrayList<>();
 
     @OneToMany
-    @JsonManagedReference
     private List<Wishlist> wishlist;
 
     @OneToMany
-    @JsonManagedReference
     private List<Cart> cart;
 
     private String history;
@@ -75,8 +71,8 @@ public class UserApp extends ImageProduct {
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
                 .history(this.history)
-                .wishlistProduct(this.wishlist)
-                .cartList(this.cart)
+                .wishlistProduct(this.wishlist.stream().map(Wishlist::convertToResponse).collect(Collectors.toList()))
+                .cartList(this.cart.stream().map(Cart::convertToResponse).collect(Collectors.toList()))
                 .roles(this.roles).build();
     }
 }

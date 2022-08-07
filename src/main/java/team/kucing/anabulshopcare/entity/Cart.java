@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import team.kucing.anabulshopcare.dto.response.CartResponse;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -26,7 +28,6 @@ public class Cart {
     private Long id;
 
     @ManyToOne
-    @JsonBackReference
     private UserApp userApp;
 
     @ManyToMany
@@ -43,4 +44,14 @@ public class Cart {
 
     @UpdateTimestamp
     private Date updatedAt;
+
+    public CartResponse convertToResponse(){
+        return CartResponse.builder()
+                .productName(this.product.stream().map(Product::getName).collect(Collectors.joining("")))
+                .imageProduct(this.product.stream().map(Product::getImageUrl).collect(Collectors.joining("")))
+                .description(this.product.stream().map(Product::getDescription).collect(Collectors.joining("")))
+                .category(this.product.stream().map(Product::getCategory).map(Category::getCategoryName).collect(Collectors.joining("")))
+                .quantity(this.quantity)
+                .subTotal(this.subTotal).build();
+    }
 }

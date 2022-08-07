@@ -16,7 +16,6 @@ import team.kucing.anabulshopcare.repository.ProductRepository;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
 import team.kucing.anabulshopcare.service.CartService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +62,6 @@ public class CartServiceImpl implements CartService {
         getProduct.setCart(cartProduct);
         this.productRepository.save(getProduct);
 
-        return ResponseHandler.generateResponse("Success add to cart", HttpStatus.OK, saveCart);
+        return ResponseHandler.generateResponse("Success add to cart", HttpStatus.OK, saveCart.convertToResponse());
     }
 }

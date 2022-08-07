@@ -29,5 +29,7 @@ public class ProductResponse {
 
     private String location;
 
-    private List<Wishlist> wishlistByUser;
+    private String wishlistByUser;
+
+    private String cartByUser;
 }
