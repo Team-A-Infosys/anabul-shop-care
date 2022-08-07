@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
+import team.kucing.anabulshopcare.dto.request.UpdateProduct;
 import team.kucing.anabulshopcare.dto.response.ProductResponse;
 import team.kucing.anabulshopcare.entity.Category;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.entity.UserApp;
+import team.kucing.anabulshopcare.exception.BadRequestException;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
+import team.kucing.anabulshopcare.handler.ResponseHandler;
 import team.kucing.anabulshopcare.repository.CategoryRepository;
 import team.kucing.anabulshopcare.repository.ProductRepository;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
@@ -25,7 +28,6 @@ import team.kucing.anabulshopcare.service.uploadimg.ImageProductService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -48,7 +50,8 @@ public class ProductServiceImpl implements ProductService {
         String mimetype = "image/png";
 
         if ((!mimetype.equals(file.getContentType()))){
-            throw new IllegalArgumentException("File must be image/png");
+            log.error("File must be image/png, error :" + HttpStatus.BAD_REQUEST);
+            throw new BadRequestException("File must be image/png");
         }
 
 
@@ -81,8 +84,9 @@ public class ProductServiceImpl implements ProductService {
         product.setImageUrl(fileDownloadUri);
 
         this.productRepository.save(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Success add product");
 
+        log.info("Success create product " + product.convertToResponse().toString());
+        return ResponseHandler.generateResponse("Success create product", HttpStatus.CREATED, product.convertToResponse());
     }
 
     @Override
@@ -92,53 +96,70 @@ public class ProductServiceImpl implements ProductService {
         List<ProductResponse> response = listProducts.stream().map(Product::convertToResponse).toList();
 
         if (listProducts.getTotalPages() == 0){
+            log.error("There are no product exist");
             throw new ResourceNotFoundException("There are no product exist");
         }
 
-        return ResponseEntity.ok().body(response);
+        log.info("Success retrieve all products");
+        return ResponseHandler.generateResponse("Success retrieve all products", HttpStatus.OK, response);
     }
 
     @Override
     public ResponseEntity<Object> filterProductByName(String name, Pageable pageable ) {
         Page<Product> getProduct = this.productRepository.findByNameContaining(name, pageable);
 
+        List<ProductResponse> response = getProduct.stream().map(Product::convertToResponse).toList();
+
         if (getProduct.getTotalPages() == 0) {
+            log.error("Failed to get product " + name);
             throw new ResourceNotFoundException("Uppsss product not found by name : " + name);
         }
-
-        return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
+        log.info("Success search product by name: " + response);
+        return ResponseHandler.generateResponse("Success get product", HttpStatus.OK, response);
     }
     @Override
         public ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable) {
         Page<Product> getProduct = this.productRepository.findByLocation(location, pageable);
 
+        List<ProductResponse> response = getProduct.stream().map(Product::convertToResponse).toList();
+
         if (getProduct.getTotalPages() == 0){
+            log.error("Failed to get Product with Location: " + location);
             throw new ResourceNotFoundException("Sorry, There are no product in " + location + " area...");
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(getProduct.toList());
+        log.info("Success search product by location: " + response);
+        return ResponseHandler.generateResponse("Success get product", HttpStatus.OK, response);
     }
 
     @Override
     public ResponseEntity<Object> filterProductByPrice(double startPrice, double endPrice, Pageable pageable) {
         Page<Product> getProduct = this.productRepository.findByPriceBetween(startPrice, endPrice, pageable);
 
+        List<ProductResponse> response = getProduct.stream().map(Product::convertToResponse).toList();
+
         if (getProduct.getTotalPages() == 0){
+            log.error("Failed to get Product with price range " + startPrice + " to " + endPrice );
             throw new ResourceNotFoundException("Sorry, There are no product in that price range");
         }
 
-        return ResponseEntity.ok().body(getProduct.toList());
+        log.info("Success Search Product by price " + response);
+        return ResponseHandler.generateResponse("Success get product", HttpStatus.OK, response);
     }
 
     @Override
     public ResponseEntity<Object> filterUnpublishedProduct(Pageable pageable){
         Page<Product> product = this.productRepository.findByIsPublished(Boolean.FALSE, pageable);
 
+        List<ProductResponse> response = product.stream().map(Product::convertToResponse).toList();
+
         if (product.getTotalPages() == 0){
-            throw new ResourceNotFoundException("There are no product unpublished");
+            log.error("There are no products to be unpublished");
+            throw new ResourceNotFoundException("There are no product to unpublished");
         }
 
-        return ResponseEntity.ok().body(product.toList());
+        log.info("Success get unpublished product: " + response);
+        return ResponseHandler.generateResponse("Success get product", HttpStatus.OK, response);
     }
 
     @Override
@@ -146,27 +167,64 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> optionalProduct = productRepository.findById(id);
 
         if(optionalProduct.isEmpty()){
+            log.error("Failed to get product with ID: " + id);
             throw new ResourceNotFoundException("Product with ID "+id+" Is Not Found");
         }
-
+        log.info("Success get product with ID: " + id);
         return optionalProduct.get();
     }
 
     @Override
-    public ResponseEntity<Object> updateProduct(Product product, MultipartFile file, UUID id) {
-        Optional<Product> productOptional = productRepository.findById(id);
-
-        if(productOptional.isEmpty()){
-            throw new ResourceNotFoundException("Product not exist with id"+id);
+    public ResponseEntity<Object> updateProduct(UpdateProduct productRequest, MultipartFile file, UUID id) {
+        Product updateProduct = this.findById(id);
+        if (productRequest.getProductName() != null){
+            updateProduct.setName(productRequest.getProductName());
+            this.productRepository.save(updateProduct);
+            log.info("Success update name of product ID: " + updateProduct.getId());
         }
 
-        String fileName = imageProductService.storeFile(file);
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(fileName)
-                .toUriString();
-        product.setImageUrl(fileDownloadUri);
+        if (productRequest.getDescription() != null){
+            updateProduct.setDescription(productRequest.getDescription());
+            this.productRepository.save(updateProduct);
+            log.info("Success update description of product ID: " + updateProduct.getId());
+        }
 
-        return ResponseEntity.ok().body(this.productRepository.save(product));
+        if (productRequest.getCategory() != null){
+            Optional<Category> findCategory = this.categoryRepository.findByCategoryName(productRequest.getCategory().getName());
+            if (findCategory.isEmpty()){
+                Category newCategory = this.categoryService.createCategory(productRequest.getCategory());
+                updateProduct.setCategory(newCategory);
+                this.productRepository.save(updateProduct);
+                log.info("Success update category of product ID: " + updateProduct.getId());
+            }
+            updateProduct.setCategory(findCategory.get());
+            this.productRepository.save(updateProduct);
+            log.info("Success update category of product ID: " + updateProduct.getId());
+        }
+
+        if (productRequest.getStock() != null){
+            updateProduct.setStock(productRequest.getStock());
+            this.productRepository.save(updateProduct);
+            log.info("Success update stock of product ID: " + updateProduct.getId());
+        }
+
+        if (productRequest.getPrice() != 0){
+            updateProduct.setPrice(productRequest.getPrice());
+            this.productRepository.save(updateProduct);
+            log.info("Success update price of product ID: " + updateProduct.getId());
+        }
+
+        if (!(file.isEmpty())){
+            String fileName = imageProductService.storeFile(file);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
+            updateProduct.setImageUrl(fileDownloadUri);
+            this.productRepository.save(updateProduct);
+            log.info("Success update image of product ID: " + updateProduct.getId());
+        }
+
+        ProductResponse response = updateProduct.convertToResponse();
+        log.info("Success update product ID: " + updateProduct.getId());
+        return ResponseHandler.generateResponse("Success update the product", HttpStatus.OK, response);
     }
 
     @Override
@@ -174,25 +232,31 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> optionalProduct = productRepository.findById(id);
 
         if(optionalProduct.isEmpty()){
+            log.error("Failed to delete product with id : " + id);
             throw new ResourceNotFoundException("Product not exist with id : "+id);
         }
 
         Product product = productRepository.getReferenceById(id);
         this.productRepository.delete(product);
 
-        return ResponseEntity.ok().body("Success Delete Product " + product);
+        log.info("Success delete product with id : " + id);
+        return ResponseHandler.generateResponse("Success delete the product", HttpStatus.OK, null);
 
     }
 
     @Override
     public ResponseEntity<Object> publishedStatus(UUID id) {
         Product getProduct = this.findById(id);
+
         if (!getProduct.getIsPublished()){
             getProduct.setIsPublished(Boolean.TRUE);
         }
-        this.productRepository.save(getProduct);
-        return ResponseEntity.ok().body("Success published " + getProduct.getName() +
-                " hope there is buyer take your product");
+
+        Product publishedProduct = this.productRepository.save(getProduct);
+        ProductResponse response = publishedProduct.convertToResponse();
+
+        log.info("Success publish the product with ID: " + id);
+        return ResponseHandler.generateResponse("Success published product", HttpStatus.OK, response);
     }
 
     @Override
@@ -201,9 +265,12 @@ public class ProductServiceImpl implements ProductService {
         if (getProduct.getIsPublished()){
             getProduct.setIsPublished(Boolean.FALSE);
         }
-        this.productRepository.save(getProduct);
-        return ResponseEntity.ok().body("Your Product archived " + getProduct.getName() +
-                " get ready to put your product to the market");
+
+        Product archivedProduct = this.productRepository.save(getProduct);
+        ProductResponse response = archivedProduct.convertToResponse();
+
+        log.info("Success archived the product with ID: " + id);
+        return ResponseHandler.generateResponse("Success archived product", HttpStatus.OK, response);
     }
 
 }

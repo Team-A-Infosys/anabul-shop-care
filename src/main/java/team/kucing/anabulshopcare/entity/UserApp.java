@@ -1,8 +1,8 @@
 package team.kucing.anabulshopcare.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.hibernate.annotations.*;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
 import team.kucing.anabulshopcare.entity.image.ImageProduct;
@@ -14,7 +14,8 @@ import java.util.*;
 
 import static javax.persistence.FetchType.EAGER;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE user_app SET is_deleted = true WHERE id=?")
@@ -44,6 +45,10 @@ public class UserApp extends ImageProduct {
     @ManyToMany(fetch = EAGER, cascade = CascadeType.PERSIST)
     private Collection<Role> roles = new ArrayList<>();
 
+    @OneToMany
+    @JsonManagedReference
+    private List<Wishlist> wishlist;
+
     private String history;
 
     private boolean isDeleted = Boolean.FALSE;
@@ -66,9 +71,7 @@ public class UserApp extends ImageProduct {
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
                 .history(this.history)
+                .wishlistProduct(this.wishlist)
                 .roles(this.roles).build();
     }
-
-    @OneToMany(mappedBy = "userApp")
-    Set<Wishlist> wishlists;
 }

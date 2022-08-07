@@ -1,16 +1,22 @@
 package team.kucing.anabulshopcare.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class ErrorObject {
+
+    private List<String> errorMessage;
 
     private Integer statusCode;
 
-    private List<String> errorMessage;
+    private List<String> payload;
 
     private Date timestamp;
 }

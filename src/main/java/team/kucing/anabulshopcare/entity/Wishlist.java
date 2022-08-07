@@ -1,19 +1,24 @@
 package team.kucing.anabulshopcare.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import team.kucing.anabulshopcare.dto.response.WishlistResponse;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@SQLDelete(sql = "UPDATE wishlist SET is_deleted = true WHERE wishlist_id=?")
+@Where(clause = "is_deleted = false")
 public class Wishlist {
 
     @Id
@@ -21,12 +26,14 @@ public class Wishlist {
     private Long wishlistId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private UserApp userApp;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @JsonBackReference
     private Product product;
+
+    private boolean isDeleted = Boolean.FALSE;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -43,7 +50,6 @@ public class Wishlist {
                 .location(this.product.getLocation())
                 .price(this.product.getPrice())
                 .stock(this.product.getStock())
-                .userApp(this.product.getUserApp().getFirstName() + this.product.getUserApp().getLastName())
         .build();
     }
 }

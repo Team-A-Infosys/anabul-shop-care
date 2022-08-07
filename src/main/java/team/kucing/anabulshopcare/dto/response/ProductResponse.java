@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import team.kucing.anabulshopcare.entity.Wishlist;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,4 +28,6 @@ public class ProductResponse {
     private double price;
 
     private String location;
+
+    private List<Wishlist> wishlistByUser;
 }

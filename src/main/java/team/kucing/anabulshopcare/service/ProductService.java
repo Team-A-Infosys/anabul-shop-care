@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
+import team.kucing.anabulshopcare.dto.request.UpdateProduct;
 import team.kucing.anabulshopcare.entity.Product;
 
 import java.util.UUID;
@@ -13,7 +14,7 @@ public interface ProductService {
 
     ResponseEntity<Object> listProducts(Pageable pageable);
 
-    ResponseEntity<Object> updateProduct(Product product, MultipartFile file, UUID id);
+    ResponseEntity<Object> updateProduct(UpdateProduct productRequest, MultipartFile file, UUID id);
 
     Product findById(UUID id);
 

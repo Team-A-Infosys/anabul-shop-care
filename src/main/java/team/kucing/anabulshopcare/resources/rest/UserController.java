@@ -7,15 +7,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import team.kucing.anabulshopcare.entity.UserApp;
-import team.kucing.anabulshopcare.repository.UserAppRepository;
+import team.kucing.anabulshopcare.dto.request.PasswordRequest;
+import team.kucing.anabulshopcare.dto.request.SignupRequest;
+import team.kucing.anabulshopcare.dto.request.UpdateUserRequest;
 import team.kucing.anabulshopcare.service.impl.UserAppServiceImpl;
 
 import javax.validation.Valid;
 
+import java.io.File;
 import java.util.UUID;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 
 @RestController
@@ -28,30 +28,28 @@ public class UserController {
         return this.userAppService.getAllUsers(pageable);
     }
 
-    @PostMapping(value = "/signup/seller", consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Object> signupSeller(@RequestPart MultipartFile file, @RequestPart UserApp userApp){
+    @PostMapping(value = "/signup/seller", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Object> signupSeller(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
         return this.userAppService.signUpSeller(userApp, file);
     }
 
-    @PostMapping(value = "/signup/buyer", consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> signupBuyer(@RequestPart MultipartFile file, @RequestPart UserApp userApp){
+    @PostMapping(value = "/signup/buyer", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Object> signupBuyer(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
         return this.userAppService.signUpBuyer(userApp, file);
     }
 
-    @PutMapping(value = "/signup/update/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid UserApp userApp) {
-        return this.userAppService.updateUser(userApp, file, id);
+    @PutMapping(value = "/user/{id}/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Object> updateUser(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid UpdateUserRequest user) {
+        return this.userAppService.updateUser(user, file, id);
     }
 
-    @DeleteMapping("/userAccount/delete/{id}")
-    public ResponseEntity<Object> deleteAccount(@PathVariable UUID id) {
-        UserApp userApp = this.userAppService.findById(id);
+    @PutMapping("/user/{id}/changePassword")
+    public ResponseEntity<Object> changePassword(@PathVariable(value = "id") UUID id, PasswordRequest passwordRequest){
+        return this.userAppService.updatePasswordUser(passwordRequest, id);
+    }
 
-        if (userApp == null) {
-            log.info("account with id : " + "deletion process has been successful");
-        } else {
-            log.info("process failed, account not registered with id : " + id + "!!!");
-        }
-        return userAppService.deleteAccount(id);
+    @DeleteMapping("/user/{id}/deactivate")
+    public ResponseEntity<Object> deactivateAccount(@PathVariable UUID id) {
+        return userAppService.deactivateAccount(id);
     }
 }

@@ -25,6 +25,7 @@ public class GlobalExceptionHandler {
 
         errObj.setStatusCode(HttpStatus.NOT_FOUND.value());
         errObj.setErrorMessage(Collections.singletonList(e.getMessage()));
+        errObj.setPayload(null);
         errObj.setTimestamp(new Date());
 
         return new ResponseEntity<>(errObj, HttpStatus.NOT_FOUND);
@@ -36,6 +37,7 @@ public class GlobalExceptionHandler {
 
         errObj.setStatusCode(HttpStatus.BAD_REQUEST.value());
         errObj.setErrorMessage(Collections.singletonList(e.getMessage()));
+        errObj.setPayload(null);
         errObj.setTimestamp(new Date());
 
         return new ResponseEntity<>(errObj, HttpStatus.BAD_REQUEST);
