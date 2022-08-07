@@ -49,6 +49,10 @@ public class UserApp extends ImageProduct {
     @JsonManagedReference
     private List<Wishlist> wishlist;
 
+    @OneToMany
+    @JsonManagedReference
+    private List<Cart> cart;
+
     private String history;
 
     private boolean isDeleted = Boolean.FALSE;
@@ -72,6 +76,7 @@ public class UserApp extends ImageProduct {
                         this.address.getKelurahan().getNama())
                 .history(this.history)
                 .wishlistProduct(this.wishlist)
+                .cartList(this.cart)
                 .roles(this.roles).build();
     }
 }

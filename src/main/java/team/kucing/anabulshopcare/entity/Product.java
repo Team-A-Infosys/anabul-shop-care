@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.*;
@@ -49,6 +50,9 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Wishlist> wishlist;
+
+    @ManyToMany
+    private List<Cart> cart;
 
     private Boolean isPublished = Boolean.FALSE;
 

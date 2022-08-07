@@ -49,7 +49,7 @@ public class WishlistServiceImpl implements WishlistService {
         wishlist.setProduct(getProduct);
         wishlist.setUserApp(userApp);
 
-        List<Wishlist> wishlists = new ArrayList<>();
+        List<Wishlist> wishlists = userApp.getWishlist();
         wishlists.add(wishlist);
         Wishlist saveWishlist = this.wishlistRepository.save(wishlist);
         WishlistResponse response = saveWishlist.convertToResponse();
