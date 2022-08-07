@@ -1,12 +1,9 @@
 package team.kucing.anabulshopcare.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import team.kucing.anabulshopcare.entity.Product;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRequest {
@@ -16,12 +13,9 @@ public class ProductRequest {
 
     private CategoryRequest category;
 
-    private String location;
+    private String emailUser;
 
     private Integer stock;
 
     private double price;
-
-    private String createdBy;
-
 }

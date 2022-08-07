@@ -1,24 +1,22 @@
 package team.kucing.anabulshopcare.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.hibernate.annotations.*;
+import team.kucing.anabulshopcare.dto.response.ProductResponse;
 
-import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
-@Data
+@Getter
+@Setter
+@Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
 @SQLDelete(sql = "UPDATE product SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted = false")
 public class Product {
@@ -37,7 +35,6 @@ public class Product {
     @JoinColumn(name="category_id")
     private Category category;
 
-    //TODO:Relation to Entity User
     private String location;
 
     private Integer stock;
@@ -46,8 +43,12 @@ public class Product {
 
     private String imageUrl;
 
-    //TODO:Relation to Entity User
-    private String createdBy;
+    @OneToOne
+    private UserApp userApp;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Wishlist> wishlist;
 
     private Boolean isPublished = Boolean.FALSE;
 
@@ -59,4 +60,17 @@ public class Product {
 
     @UpdateTimestamp
     private Date updatedAt;
+
+    public ProductResponse convertToResponse(){
+        return ProductResponse.builder()
+                .productName(this.name)
+                .firstName(this.userApp.getFirstName())
+                .description(this.description)
+                .category(this.category.getCategoryName())
+                .stock(this.stock)
+                .price(this.price)
+                .imageProduct(this.imageUrl)
+                .location(this.userApp.getAddress().getKota().getNama())
+                .wishlistByUser(this.wishlist).build();
+    }
 }
