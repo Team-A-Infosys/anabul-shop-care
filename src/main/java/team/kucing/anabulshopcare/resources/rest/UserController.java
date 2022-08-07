@@ -1,7 +1,12 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +26,13 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @Slf4j
+@Tag(name = "1. User Controller")
+@OpenAPIDefinition(info = @Info(title = "Anabul Shop & Care Documentation",
+        description = "API Documentation of e-Commerce Anabul Shop & Care", version = "v1", license = @License(name ="Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0")))
 public class UserController {
     private final UserAppServiceImpl userAppService;
     @GetMapping("/users")
-    public ResponseEntity<Object> getAllUsers(Pageable pageable){
+    public ResponseEntity<Object> getAllUsers(@ParameterObject Pageable pageable){
         return this.userAppService.getAllUsers(pageable);
     }
 

@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import team.kucing.anabulshopcare.service.CategoryService;
 @RestController
 @AllArgsConstructor
 @Slf4j
+@Tag(name = "3. Category Controller")
 public class CategoryController {
     private final CategoryService categoryService;
 

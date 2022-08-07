@@ -1,7 +1,9 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,12 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @Slf4j
+@Tag(name = "2. Product Controller")
 public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<Object> getAllProducts(Pageable pageable){
+    public ResponseEntity<Object> getAllProducts(@ParameterObject Pageable pageable){
         return this.productService.listProducts(pageable);
     }
 
@@ -36,22 +39,22 @@ public class ProductController {
     }
     
     @GetMapping("/products/search/name")
-    public ResponseEntity<Object> findByProductName(@RequestParam(value = "productName") String name, Pageable pageable) {
+    public ResponseEntity<Object> findByProductName(@RequestParam(value = "productName") String name, @ParameterObject Pageable pageable) {
         return this.productService.filterProductByName(name,pageable);
     }
     
     @GetMapping("/products/search/location")
-    public ResponseEntity<Object> filterProductsByLocation(@RequestParam(value = "location", required = false) String location, Pageable pageable){
+    public ResponseEntity<Object> filterProductsByLocation(@RequestParam(value = "location", required = false) String location, @ParameterObject  Pageable pageable){
         return this.productService.filterProductsByLocation(location, pageable);
     }
 
     @GetMapping("/products/search/price")
-    public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)double startPrice, @RequestParam(value = "end", required = false)double endPrice, Pageable pageable){
+    public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)double startPrice, @RequestParam(value = "end", required = false)double endPrice, @ParameterObject  Pageable pageable){
         return this.productService.filterProductByPrice(startPrice, endPrice, pageable);
     }
 
     @GetMapping("/products/search/unpublished")
-    public ResponseEntity<Object> unpublished(Pageable pageable){
+    public ResponseEntity<Object> unpublished(@ParameterObject Pageable pageable){
         return this.productService.filterUnpublishedProduct(pageable);
     }
     @DeleteMapping("/product/{id}/delete")

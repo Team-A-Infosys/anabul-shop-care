@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import java.io.IOException;
 
 @RestController
 @AllArgsConstructor
+@Tag(name = "5. File Controller")
 public class FileController {
     private ImageProductService imageProductService;
 
