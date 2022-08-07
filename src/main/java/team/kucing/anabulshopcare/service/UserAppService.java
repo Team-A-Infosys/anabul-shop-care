@@ -1,32 +1,24 @@
 package team.kucing.anabulshopcare.service;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import team.kucing.anabulshopcare.dto.request.AddressRequest;
-import team.kucing.anabulshopcare.entity.Product;
-import team.kucing.anabulshopcare.entity.UserApp;
-
-
-import javax.persistence.metamodel.SingularAttribute;
-import java.io.Serializable;
+import team.kucing.anabulshopcare.dto.request.PasswordRequest;
+import team.kucing.anabulshopcare.dto.request.SignupRequest;
+import team.kucing.anabulshopcare.dto.request.UpdateUserRequest;
 import java.util.UUID;
 
 public interface UserAppService {
 
-    ResponseEntity<Object> signUpSeller(UserApp user, MultipartFile file);
+    ResponseEntity<Object> signUpSeller(SignupRequest user, MultipartFile file);
 
-    ResponseEntity<Object> signUpBuyer(UserApp user, MultipartFile file);
+    ResponseEntity<Object> signUpBuyer(SignupRequest user, MultipartFile file);
 
-    UserApp findById(UUID id);
-
-    ResponseEntity<Object> deleteAccount(UUID id);
-
+    ResponseEntity<Object> deactivateAccount(UUID id);
 
     ResponseEntity<Object> getAllUsers(Pageable pageable);
 
-    ResponseEntity<Object> updateUser(UserApp user, MultipartFile file, UUID id);
+    ResponseEntity<Object> updateUser(UpdateUserRequest user, MultipartFile file, UUID id);
 
-    ResponseEntity<Object> updateAddressUser(AddressRequest addressRequest, UUID id);
+    ResponseEntity<Object> updatePasswordUser(PasswordRequest passwordRequest, UUID id);
 }

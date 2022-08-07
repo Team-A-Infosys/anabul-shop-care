@@ -18,4 +18,5 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     Page<Product> findByPriceBetween(double startPrice, double endPrice, Pageable pageable);
 
     Page<Product> findByIsPublished(boolean status, Pageable pageable);
+
 }

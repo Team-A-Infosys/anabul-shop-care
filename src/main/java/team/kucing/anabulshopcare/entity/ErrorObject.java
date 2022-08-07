@@ -1,12 +1,14 @@
 package team.kucing.anabulshopcare.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
-//TODO :Remove Data Annotation Lombok
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class ErrorObject {
 

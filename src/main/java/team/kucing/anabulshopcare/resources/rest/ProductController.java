@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
 import team.kucing.anabulshopcare.dto.request.UpdateProduct;
-import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.service.ProductService;
 
 import javax.validation.Valid;
@@ -31,7 +30,7 @@ public class ProductController {
         return this.productService.createProduct(product,file);
     }
 
-    @PutMapping(value = "/product/update/{id}")
+    @PutMapping(value = "/product/{id}/update")
     public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid UpdateProduct productRequest){
         return this.productService.updateProduct(productRequest, file, id);
     }
@@ -55,17 +54,17 @@ public class ProductController {
     public ResponseEntity<Object> unpublished(Pageable pageable){
         return this.productService.filterUnpublishedProduct(pageable);
     }
-    @DeleteMapping("/product/delete/{id}")
+    @DeleteMapping("/product/{id}/delete")
     public ResponseEntity<Object> deleteProduct(@PathVariable UUID id){
         return this.productService.deleteProduct(id);
     }
 
-    @PutMapping(value = "/product/setPublished/{id}")
+    @PutMapping(value = "/product/{id}/setPublished")
     public ResponseEntity<Object> setPublished(@PathVariable(value = "id") UUID id){
         return this.productService.publishedStatus(id);
     }
 
-    @PutMapping(value = "/product/setArchived/{id}")
+    @PutMapping(value = "/product/{id}/setArchived")
     public ResponseEntity<Object> setArchived(@PathVariable(value = "id") UUID id){
         return this.productService.archivedStatus(id);
     }

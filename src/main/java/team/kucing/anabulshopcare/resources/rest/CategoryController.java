@@ -22,7 +22,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
     }
 
-    @PutMapping("/category/update/{id}")
+    @PutMapping("/category/{id}/update")
     public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") Long id, @RequestBody CategoryRequest category){
         var updateCategory = categoryService.updateCategory(category, id);
         if(updateCategory == null) {
@@ -35,7 +35,7 @@ public class CategoryController {
         return updateCategory;
     }
 
-    @DeleteMapping("/category/delete/{id}")
+    @DeleteMapping("/category/{id}/delete")
     public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") Long id){
         var deleteCategory = categoryService.deleteCategory(id);
         if(deleteCategory == null) {

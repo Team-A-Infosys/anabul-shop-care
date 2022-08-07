@@ -1,5 +1,7 @@
 package team.kucing.anabulshopcare.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.*;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
@@ -43,6 +45,10 @@ public class UserApp extends ImageProduct {
     @ManyToMany(fetch = EAGER, cascade = CascadeType.PERSIST)
     private Collection<Role> roles = new ArrayList<>();
 
+    @OneToMany
+    @JsonManagedReference
+    private List<Wishlist> wishlist;
+
     private String history;
 
     private boolean isDeleted = Boolean.FALSE;
@@ -65,9 +71,7 @@ public class UserApp extends ImageProduct {
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
                 .history(this.history)
+                .wishlistProduct(this.wishlist)
                 .roles(this.roles).build();
     }
-
-    @OneToMany(mappedBy = "userApp")
-    Set<Wishlist> wishlists;
 }

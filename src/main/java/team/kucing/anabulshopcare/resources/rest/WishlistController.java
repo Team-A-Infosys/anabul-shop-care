@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import team.kucing.anabulshopcare.dto.request.WishlistRequest;
 import team.kucing.anabulshopcare.service.WishlistService;
 
-import javax.validation.Valid;
-
 @RestController
 @AllArgsConstructor
 @Slf4j
@@ -22,7 +20,7 @@ public class WishlistController {
         return addItemWishlist;
     }
 
-    @DeleteMapping("/wishlist/delete/{id}")
+    @DeleteMapping("/wishlist/{id}/delete")
     public ResponseEntity<Object> deleteWishlist(@PathVariable(value = "id") Long id){
         log.info("successfully removed the product from wishlist");
         return this.wishlistService.deleteWishlist(id);

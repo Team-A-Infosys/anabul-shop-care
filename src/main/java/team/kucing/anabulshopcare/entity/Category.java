@@ -1,8 +1,6 @@
 package team.kucing.anabulshopcare.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import team.kucing.anabulshopcare.dto.response.CategoryResponse;
@@ -12,14 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Data
+@Getter
+@Setter
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @SQLDelete(sql = "UPDATE category SET is_deleted = true WHERE category_id=?")
 @Where(clause = "is_deleted = false")
-
-//TODO :Remove Data Annotation Lombok
 
 public class Category {
 

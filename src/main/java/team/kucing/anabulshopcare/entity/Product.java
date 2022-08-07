@@ -1,9 +1,7 @@
 package team.kucing.anabulshopcare.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.hibernate.annotations.*;
 import team.kucing.anabulshopcare.dto.response.ProductResponse;
 
@@ -11,17 +9,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
-@Data
-//TODO :Remove Data Annotation Lombok
-
+@Getter
+@Setter
+@Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
 @SQLDelete(sql = "UPDATE product SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted = false")
 public class Product {
@@ -51,6 +46,10 @@ public class Product {
     @OneToOne
     private UserApp userApp;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Wishlist> wishlist;
+
     private Boolean isPublished = Boolean.FALSE;
 
     private Boolean isDeleted = Boolean.FALSE;
@@ -71,9 +70,7 @@ public class Product {
                 .stock(this.stock)
                 .price(this.price)
                 .imageProduct(this.imageUrl)
-                .location(this.userApp.getAddress().getKota().getNama()).build();
+                .location(this.userApp.getAddress().getKota().getNama())
+                .wishlistByUser(this.wishlist).build();
     }
-
-    @OneToMany(mappedBy = "product")
-    private Set<Wishlist> wishlists;
 }

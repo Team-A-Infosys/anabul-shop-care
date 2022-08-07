@@ -1,11 +1,9 @@
 package team.kucing.anabulshopcare.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import team.kucing.anabulshopcare.entity.UserApp;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRequest {

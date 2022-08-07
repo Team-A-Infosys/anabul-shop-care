@@ -1,8 +1,6 @@
 package team.kucing.anabulshopcare.dto.response;
 
 import lombok.*;
-import team.kucing.anabulshopcare.entity.Category;
-import team.kucing.anabulshopcare.entity.UserApp;
 
 @Setter
 @Getter
@@ -14,8 +12,6 @@ public class WishlistResponse {
     private String productName;
 
     private CategoryResponse category;
-
-    private String userApp;
 
     private String description;
 

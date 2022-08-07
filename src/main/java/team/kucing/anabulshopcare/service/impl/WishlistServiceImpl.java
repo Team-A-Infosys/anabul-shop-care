@@ -11,12 +11,13 @@ import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.entity.UserApp;
 import team.kucing.anabulshopcare.entity.Wishlist;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
+import team.kucing.anabulshopcare.handler.ResponseHandler;
 import team.kucing.anabulshopcare.repository.ProductRepository;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
 import team.kucing.anabulshopcare.repository.WishlistRepository;
 import team.kucing.anabulshopcare.service.WishlistService;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -25,30 +26,42 @@ public class WishlistServiceImpl implements WishlistService {
 
     private final WishlistRepository wishlistRepository;
 
-    private final UserAppRepository userAppRepository;
+    private UserAppRepository userAppRepository;
 
     private final ProductRepository productRepository;
 
     @Override
     public ResponseEntity<Object> createWishlist(WishlistRequest wishlistRequest) {
-        UserApp userApp = this.userAppRepository.findByEmail(wishlistRequest.getEmailUser());
         Optional<Product> product = this.productRepository.findById(wishlistRequest.getProductId());
 
-        Wishlist wishlist = new Wishlist();
+        UserApp userApp = this.userAppRepository.findByEmail(wishlistRequest.getEmailUser());
+
         if(product.isEmpty()){
             throw new ResourceNotFoundException("Product is not found");
         }
 
-        if(userApp.getEmail() == null){
-            throw new ResourceNotFoundException("User is not Registered");
+        Product getProduct = product.get();
+        if(getProduct.getIsPublished() == Boolean.FALSE){
+            throw new ResourceNotFoundException("Product is not found");
         }
 
-        wishlist.setProduct(product.get());
+        Wishlist wishlist = new Wishlist();
+        wishlist.setProduct(getProduct);
         wishlist.setUserApp(userApp);
 
+        List<Wishlist> wishlists = new ArrayList<>();
+        wishlists.add(wishlist);
         Wishlist saveWishlist = this.wishlistRepository.save(wishlist);
         WishlistResponse response = saveWishlist.convertToResponse();
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        userApp.setWishlist(wishlists);
+        this.userAppRepository.save(userApp);
+
+        getProduct.setWishlist(wishlists);
+        this.productRepository.save(getProduct);
+
+        log.info(userApp.getEmail() + " success add product" + getProduct.getId() + " to their wishlist");
+        return ResponseHandler.generateResponse("Success add product to wishlist", HttpStatus.OK, response);
     }
 
     @Override
@@ -60,9 +73,8 @@ public class WishlistServiceImpl implements WishlistService {
             throw new ResourceNotFoundException("Wishlist Not Found");
         }
 
-        Wishlist wish = wishlistRepository.getReferenceById(id);
-        this.wishlistRepository.delete(wish);
+        this.wishlistRepository.delete(wishlist.get());
         log.info("Your Wishlist is Deleted");
-        return ResponseEntity.ok().body("Your Wishlist is Deleted");
+        return ResponseHandler.generateResponse("Success delete your wishlist", HttpStatus.OK, null);
     }
 }
