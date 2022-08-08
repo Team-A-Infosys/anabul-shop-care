@@ -16,6 +16,15 @@ public class CheckoutResponse {
 
     private String shipmentAddress;
 
+    private String courier;
+
+    private double shipmentCost;
+
+    private String couponCode;
+
+    private String discount;
+
     private double checkoutTotal;
 
+    private PaymentResponse paymentGateway;
 }

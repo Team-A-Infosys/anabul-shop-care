@@ -33,7 +33,18 @@ public class Checkout {
 
     private double checkoutTotal;
 
+    private String couponCode;
+
+    private String valueCoupon;
+
     private String shipmentAddress;
+
+    @OneToOne
+    private Payment paymentGateway;
+
+    private double shipmentCost;
+
+    private String courier;
 
     private boolean isDeleted = Boolean.FALSE;
 
@@ -49,6 +60,11 @@ public class Checkout {
         return CheckoutResponse.builder()
                 .cart(this.cart.stream().map(Cart::convertToResponse).collect(Collectors.toList()))
                 .shipmentAddress(this.shipmentAddress)
+                .couponCode(this.couponCode)
+                .shipmentCost(this.shipmentCost)
+                .courier(this.courier)
+                .paymentGateway(this.paymentGateway.convertToResponse())
+                .discount(this.valueCoupon)
                 .checkoutTotal(this.checkoutTotal).build();
     }
 }

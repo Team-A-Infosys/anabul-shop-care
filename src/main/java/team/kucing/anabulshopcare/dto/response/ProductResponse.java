@@ -32,4 +32,6 @@ public class ProductResponse {
     private String wishlistByUser;
 
     private String cartByUser;
+
+    private String totalBuyer;
 }

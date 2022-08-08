@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
+import team.kucing.anabulshopcare.dto.response.PaymentResponse;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,4 +42,11 @@ public class Payment {
 
     @UpdateTimestamp
     private Date updatedAt;
+
+    public PaymentResponse convertToResponse(){
+        return PaymentResponse.builder()
+                .bankName(this.bankName)
+                .bankAccount(this.bankAccount)
+                .accountName(this.accountName).build();
+    }
 }

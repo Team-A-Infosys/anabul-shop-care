@@ -13,6 +13,9 @@ import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 @Getter
 @Setter
 @Entity
@@ -54,9 +57,9 @@ public class Product {
     @ManyToMany
     private List<Cart> cart = new ArrayList<>();
 
-    private Boolean isPublished = Boolean.FALSE;
+    private Boolean isPublished = FALSE;
 
-    private Boolean isDeleted = Boolean.FALSE;
+    private Boolean isDeleted = FALSE;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -75,7 +78,8 @@ public class Product {
                 .price(this.price)
                 .imageProduct(this.imageUrl)
                 .location(this.userApp.getAddress().getKota().getNama())
-                .wishlistByUser(this.wishlist.stream().map(Wishlist::getUserApp).map(UserApp::getEmail).collect(Collectors.joining(", ")))
-                .cartByUser(this.cart.stream().map(Cart::getUserApp).map(UserApp::getEmail).collect(Collectors.joining(", "))).build();
+                .wishlistByUser(this.wishlist.stream().map(Wishlist::getUserApp).map(UserApp::getEmail).count() + " user")
+                .cartByUser(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::getUserApp).map(UserApp::getEmail).count() + " user")
+                .totalBuyer(this.cart.stream().filter(cart1 -> cart1.isCheckout()==TRUE).map(Cart::getUserApp).map(UserApp::getEmail).count() + " user").build();
     }
 }

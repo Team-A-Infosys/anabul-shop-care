@@ -14,5 +14,7 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
 
    List<Shipment> findAll();
 
+   Shipment findByProvinsi(Provinsi provinsi);
+
 
 }

@@ -44,6 +44,8 @@ public class Cart {
 
     private boolean isDeleted = Boolean.FALSE;
 
+    private boolean isCheckout = Boolean.FALSE;
+
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private Date createdAt;

@@ -84,7 +84,7 @@ public class CartServiceImpl implements CartService {
             getProduct.getCart().add(cart);
             this.productRepository.save(getProduct);
 
-            log.info(userApp.getEmail() + "success add to cart" + getProduct.getId() + " to their cart");
+//            log.info(userApp.getEmail() + "success add product: " + getProduct.getId() + " to their cart");
             return ResponseHandler.generateResponse("Success add product to cart", HttpStatus.OK, response);
         }
     }
@@ -92,7 +92,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void deleteCartCustom(UserApp userApp) {
         List<Cart> cart = this.cartRepository.findByUserApp(userApp);
-        this.cartRepository.deleteAll(cart);
+        for (Cart c : cart) {
+            c.setCheckout(Boolean.TRUE);
+            this.cartRepository.save(c);
+        }
     }
 
     @Override
