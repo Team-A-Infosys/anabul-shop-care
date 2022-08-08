@@ -687,3 +687,9 @@ Caused by: org.postgresql.util.PSQLException: FATAL: password authentication fai
 2022-08-08 11:05:10,032 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 12.076 seconds (JVM running for 13.241)
 2022-08-08 11:05:16,763 INFO team.kucing.anabulshopcare.service.impl.CouponServiceImpl [http-nio-8081-exec-1] Coupon saved successfully team.kucing.anabulshopcare.entity.Coupon@4af2dd64
 2022-08-08 11:05:33,159 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-2] Resolved [team.kucing.anabulshopcare.exception.BadRequestException: Value of Coupon at least 1000]
+2022-08-08 11:33:29,271 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on NullFikrii with PID 18792 (C:\NewProject\anabul-shop-care\target\classes started by Fikri in C:\NewProject\anabul-shop-care)
+2022-08-08 11:33:29,274 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-08 11:33:29,276 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-08 11:33:38,501 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-08 11:33:40,475 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 12.164 seconds (JVM running for 13.3)
+2022-08-08 11:34:51,143 INFO team.kucing.anabulshopcare.service.impl.PaymentServiceImpl [http-nio-8081-exec-6] Added new Payment Gateway team.kucing.anabulshopcare.entity.Payment@771be718
