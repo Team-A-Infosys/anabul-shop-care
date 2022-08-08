@@ -49,6 +49,10 @@ public class UserApp extends ImageProduct {
     @JsonManagedReference
     private List<Wishlist> wishlist;
 
+    @OneToMany
+    @JsonManagedReference
+    private List<Cart> cart;
+
     private String history;
 
     private boolean isDeleted = Boolean.FALSE;

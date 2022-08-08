@@ -3,6 +3,7 @@ package team.kucing.anabulshopcare.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.*;
+import team.kucing.anabulshopcare.dto.response.ProductCartResponse;
 import team.kucing.anabulshopcare.dto.response.ProductResponse;
 
 import javax.persistence.CascadeType;
@@ -50,6 +51,10 @@ public class Product {
     @JsonManagedReference
     private List<Wishlist> wishlist;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Cart> cart;
+
     private Boolean isPublished = Boolean.FALSE;
 
     private Boolean isDeleted = Boolean.FALSE;
@@ -73,4 +78,10 @@ public class Product {
                 .location(this.userApp.getAddress().getKota().getNama())
                 .wishlistByUser(this.wishlist).build();
     }
+
+    public ProductCartResponse responseCart(){
+        return ProductCartResponse.builder()
+                .productName(this.name)
+                .price(this.price).build();
+        }
 }
