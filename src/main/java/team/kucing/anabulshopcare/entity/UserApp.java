@@ -76,6 +76,7 @@ public class UserApp extends ImageProduct {
                         this.address.getKelurahan().getNama())
                 .history(this.history)
                 .wishlistProduct(this.wishlist)
+                .cart(this.cart.stream().map(Cart::convertToResponse).toList())
                 .roles(this.roles).build();
     }
 }

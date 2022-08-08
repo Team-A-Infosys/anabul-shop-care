@@ -18,11 +18,13 @@ import team.kucing.anabulshopcare.repository.ProductRepository;
 import team.kucing.anabulshopcare.repository.UserAppRepository;
 import team.kucing.anabulshopcare.service.CartService;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 @Slf4j
+@Transactional
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
 
@@ -36,35 +38,45 @@ public class CartServiceImpl implements CartService {
 
         UserApp userApp = this.userAppRepository.findByEmail(cartRequest.getEmailUser());
 
-        if(product.isEmpty()){
+        if (product.isEmpty()) {
             throw new ResourceNotFoundException("Product Not Found");
         }
 
         Product getProduct = product.get();
-        if(getProduct.getIsPublished() == Boolean.FALSE){
+        if (getProduct.getIsPublished() == Boolean.FALSE) {
             throw new ResourceNotFoundException("Product Not Found");
         }
 
+        Cart checkCart = this.cartRepository.findByProductCAndUserAppC(getProduct, userApp);
+
         Cart cart = new Cart();
-        cart.setProductC(getProduct);
-        cart.setUserAppC(userApp);
-        cart.setQuantity(cartRequest.getQuantity());
-        cart.setSub_total(cartRequest.getQuantity() * getProduct.getPrice());
 
-        Cart saveCart =  this.cartRepository.save(cart);
-        CartResponse response = saveCart.convertToResponse();
+        if (checkCart != null) {
+            var newQty = cartRequest.getQuantity() + checkCart.getQuantity();
+            checkCart.setQuantity(newQty);
+            checkCart.setSub_total(checkCart.getProductC().getPrice() * newQty);
+            Cart saveCart = this.cartRepository.save(checkCart);
+            CartResponse response = saveCart.convertToResponse();
 
-        List<Cart> carts = new ArrayList<>();
-        carts.add(cart);
+            log.info(userApp.getEmail() + "success update cart" + getProduct.getId() + " to their cart");
+            return ResponseHandler.generateResponse("Success update product to cart", HttpStatus.OK, response);
+        } else {
+            cart.setProductC(getProduct);
+            cart.setUserAppC(userApp);
+            cart.setQuantity(cartRequest.getQuantity());
+            cart.setSub_total(cartRequest.getQuantity() * getProduct.getPrice());
+            Cart saveCart = this.cartRepository.save(cart);
+            CartResponse response = saveCart.convertToResponse();
 
-        userApp.setCart(carts);
-        this.userAppRepository.save(userApp);
+            userApp.getCart().add(cart);
+            this.userAppRepository.save(userApp);
 
-        getProduct.setCart(carts);
-        this.productRepository.save(getProduct);
+            getProduct.getCart().add(cart);
+            this.productRepository.save(getProduct);
 
-        log.info(userApp.getEmail() + "success add to cart" + getProduct.getId() + " to their cart");
-        return ResponseHandler.generateResponse("Success add product to cart", HttpStatus.OK, response);
+            log.info(userApp.getEmail() + "success add to cart" + getProduct.getId() + " to their cart");
+            return ResponseHandler.generateResponse("Success add product to cart", HttpStatus.OK, response);
+        }
     }
 
     @Override

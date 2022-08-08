@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -76,7 +77,9 @@ public class Product {
                 .price(this.price)
                 .imageProduct(this.imageUrl)
                 .location(this.userApp.getAddress().getKota().getNama())
-                .wishlistByUser(this.wishlist).build();
+                .wishlistByUser(this.wishlist)
+                .cartByUser(String.valueOf(this.cart.stream().map(Cart::getUserAppC).map(UserApp::getEmail).count()))
+                .build();
     }
 
     public ProductCartResponse responseCart(){
