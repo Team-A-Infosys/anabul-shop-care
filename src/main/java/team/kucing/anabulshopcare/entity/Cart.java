@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import team.kucing.anabulshopcare.dto.response.CartResponse;
 
 import javax.persistence.*;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE cart SET is_deleted = true WHERE id=?")
+@Where(clause = "is_deleted = false")
 public class Cart {
 
     @Id
@@ -37,6 +41,8 @@ public class Cart {
     private int quantity;
 
     private double subTotal;
+
+    private boolean isDeleted = Boolean.FALSE;
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)

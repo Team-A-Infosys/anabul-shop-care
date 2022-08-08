@@ -44,10 +44,10 @@ public class UserApp extends ImageProduct {
     private Collection<Role> roles = new ArrayList<>();
 
     @OneToMany
-    private List<Wishlist> wishlist;
+    private List<Wishlist> wishlist = new ArrayList<>();
 
     @OneToMany
-    private List<Cart> cart;
+    private List<Cart> cart = new ArrayList<>();
 
     private String history;
 

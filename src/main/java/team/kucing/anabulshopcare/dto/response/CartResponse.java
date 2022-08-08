@@ -1,12 +1,10 @@
 package team.kucing.anabulshopcare.dto.response;
 
 import lombok.*;
-import team.kucing.anabulshopcare.entity.Product;
-
-import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

@@ -49,10 +49,10 @@ public class Product {
     private UserApp userApp;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Wishlist> wishlist;
+    private List<Wishlist> wishlist = new ArrayList<>();
 
     @ManyToMany
-    private List<Cart> cart;
+    private List<Cart> cart = new ArrayList<>();
 
     private Boolean isPublished = Boolean.FALSE;
 
