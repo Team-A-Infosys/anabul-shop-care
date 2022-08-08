@@ -1,6 +1,7 @@
 package team.kucing.anabulshopcare.dto.response;
 
 import lombok.*;
+import team.kucing.anabulshopcare.entity.Cart;
 import team.kucing.anabulshopcare.entity.Role;
 import team.kucing.anabulshopcare.entity.Wishlist;
 
@@ -27,6 +28,8 @@ public class UserResponse {
     private String history;
 
     private List<Wishlist> wishlistProduct;
+
+    private List<CartResponse> cart;
 
     private Collection<Role> roles;
 
