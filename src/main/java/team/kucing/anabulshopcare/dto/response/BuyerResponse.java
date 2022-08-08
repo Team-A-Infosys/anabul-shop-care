@@ -1,10 +1,7 @@
 package team.kucing.anabulshopcare.dto.response;
 
 import lombok.*;
-import team.kucing.anabulshopcare.entity.Cart;
-import team.kucing.anabulshopcare.entity.Checkout;
 import team.kucing.anabulshopcare.entity.Role;
-import team.kucing.anabulshopcare.entity.Wishlist;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,8 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
-
+public class BuyerResponse {
     private String firstName;
 
     private String lastName;
@@ -34,5 +30,4 @@ public class UserResponse {
     private List<CartResponse> cartList;
 
     private Collection<Role> roles;
-
 }

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,11 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<Object> getAllUsers(@ParameterObject Pageable pageable){
         return this.userAppService.getAllUsers(pageable);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Object> getUser(@PathVariable("id") UUID id){
+        return this.userAppService.getUser(id);
     }
 
     @PostMapping(value = "/signup/seller", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

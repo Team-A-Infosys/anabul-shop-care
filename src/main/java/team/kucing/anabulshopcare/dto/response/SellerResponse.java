@@ -1,13 +1,9 @@
 package team.kucing.anabulshopcare.dto.response;
 
 import lombok.*;
-import team.kucing.anabulshopcare.entity.Cart;
-import team.kucing.anabulshopcare.entity.Checkout;
 import team.kucing.anabulshopcare.entity.Role;
-import team.kucing.anabulshopcare.entity.Wishlist;
 
 import java.util.Collection;
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,8 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
-
+public class SellerResponse {
     private String firstName;
 
     private String lastName;
@@ -27,12 +22,5 @@ public class UserResponse {
 
     private String address;
 
-    private List<CheckoutResponse> history;
-
-    private List<WishlistResponse> wishlistProduct;
-
-    private List<CartResponse> cartList;
-
     private Collection<Role> roles;
-
 }

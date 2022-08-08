@@ -1,9 +1,8 @@
 package team.kucing.anabulshopcare.entity;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.*;
+import team.kucing.anabulshopcare.dto.response.BuyerResponse;
+import team.kucing.anabulshopcare.dto.response.SellerResponse;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
 import team.kucing.anabulshopcare.entity.image.ImageProduct;
 
@@ -11,7 +10,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static java.lang.Boolean.FALSE;
 import static javax.persistence.FetchType.EAGER;
 
 @Getter
@@ -46,16 +47,15 @@ public class UserApp extends ImageProduct {
     private Collection<Role> roles = new ArrayList<>();
 
     @OneToMany
-    @JsonManagedReference
-    private List<Wishlist> wishlist;
+    private List<Wishlist> wishlist = new ArrayList<>();
 
     @OneToMany
-    @JsonManagedReference
-    private List<Cart> cart;
+    private List<Cart> cart = new ArrayList<>();
 
-    private String history;
+    @OneToMany
+    private List<Checkout> history = new ArrayList<>();
 
-    private boolean isDeleted = Boolean.FALSE;
+    private boolean isDeleted = FALSE;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -74,9 +74,38 @@ public class UserApp extends ImageProduct {
                         this.address.getKota().getNama()+", " +
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
-                .history(this.history)
-                .wishlistProduct(this.wishlist)
-                .cart(this.cart.stream().map(Cart::convertToResponse).toList())
+                .history(this.history.stream().map(Checkout::convertToResponse).toList())
+                .wishlistProduct(this.wishlist.stream().map(Wishlist::convertToResponse).collect(Collectors.toList()))
+                .cartList(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::convertToResponse).toList())
+                .roles(this.roles).build();
+    }
+
+    public SellerResponse convertToSellerResponse(){
+        return SellerResponse.builder()
+                .firstName(this.firstName)
+                .lastName(this.lastName)
+                .email(this.email)
+                .phoneNumber(this.phoneNumber)
+                .address(this.address.getProvinsi().getNama()+", " +
+                        this.address.getKota().getNama()+", " +
+                        this.address.getKecamatan().getNama()+", " +
+                        this.address.getKelurahan().getNama())
+                .roles(this.roles).build();
+    }
+
+    public BuyerResponse convertToBuyerResponse(){
+        return BuyerResponse.builder()
+                .firstName(this.firstName)
+                .lastName(this.lastName)
+                .email(this.email)
+                .phoneNumber(this.phoneNumber)
+                .address(this.address.getProvinsi().getNama()+", " +
+                        this.address.getKota().getNama()+", " +
+                        this.address.getKecamatan().getNama()+", " +
+                        this.address.getKelurahan().getNama())
+                .history(this.history.stream().map(Checkout::convertToResponse).toList())
+                .wishlistProduct(this.wishlist.stream().map(Wishlist::convertToResponse).collect(Collectors.toList()))
+                .cartList(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::convertToResponse).toList())
                 .roles(this.roles).build();
     }
 }

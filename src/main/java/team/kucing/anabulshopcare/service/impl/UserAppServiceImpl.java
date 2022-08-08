@@ -26,6 +26,7 @@ import team.kucing.anabulshopcare.repository.subrepo.*;
 import team.kucing.anabulshopcare.service.UserAppService;
 import team.kucing.anabulshopcare.service.uploadimg.UserAvatarService;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -85,6 +86,32 @@ public class UserAppServiceImpl implements UserAppService {
         log.info("Retrieve all data user " + response);
 
         return ResponseHandler.generateResponse("Success Retrieve All Users", HttpStatus.OK, response);
+    }
+
+    @Override
+    public ResponseEntity<Object> getUser(UUID id){
+        Optional<UserApp> userApp = this.userRepo.findById(id);
+        if (userApp.isEmpty()){
+            throw new ResourceNotFoundException("User is not found");
+        }
+
+        Role seller = this.roleRepo.findByName("ROLE_SELLER");
+        Collection<Role> roles = this.roleRepo.findAll();
+
+        UserApp getUserApp = userApp.get();
+
+        if (getUserApp.getRoles().containsAll(roles)) {
+            log.info("Success get user " + getUserApp.getEmail());
+            return ResponseHandler.generateResponse("Success get user", HttpStatus.OK, getUserApp.convertToBuyerResponse());
+        }
+
+        if (getUserApp.getRoles().contains(seller)){
+            log.info("Success get user " + getUserApp.getEmail());
+            return ResponseHandler.generateResponse("Success get user", HttpStatus.OK, getUserApp.convertToSellerResponse());
+        }
+
+        log.info("Success get user " + getUserApp.getEmail());
+        return ResponseHandler.generateResponse("Success get user", HttpStatus.OK, getUserApp.convertToResponse());
     }
 
     private ResponseEntity<Object> saveUser(SignupRequest request, String fileDownloadUri, Role getRole) {

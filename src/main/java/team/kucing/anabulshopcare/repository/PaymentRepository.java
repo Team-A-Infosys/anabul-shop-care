@@ -11,5 +11,7 @@ import java.util.UUID;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, UUID> {
 
+    Payment findByBankName(String bankName);
+    
     List<Payment> findAll();
 }

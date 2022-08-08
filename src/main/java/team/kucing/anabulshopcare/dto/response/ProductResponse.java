@@ -1,13 +1,14 @@
 package team.kucing.anabulshopcare.dto.response;
 
-import lombok.*;
-import team.kucing.anabulshopcare.entity.Cart;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import team.kucing.anabulshopcare.entity.Wishlist;
 
 import java.util.List;
 
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -28,7 +29,9 @@ public class ProductResponse {
 
     private String location;
 
-    private List<Wishlist> wishlistByUser;
+    private String wishlistByUser;
 
     private String cartByUser;
+
+    private String totalBuyer;
 }

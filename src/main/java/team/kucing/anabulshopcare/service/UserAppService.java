@@ -18,6 +18,8 @@ public interface UserAppService {
 
     ResponseEntity<Object> getAllUsers(Pageable pageable);
 
+    ResponseEntity<Object> getUser(UUID id);
+
     ResponseEntity<Object> updateUser(UpdateUserRequest user, MultipartFile file, UUID id);
 
     ResponseEntity<Object> updatePasswordUser(PasswordRequest passwordRequest, UUID id);

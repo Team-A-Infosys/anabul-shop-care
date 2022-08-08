@@ -25,11 +25,13 @@ import team.kucing.anabulshopcare.service.CategoryService;
 import team.kucing.anabulshopcare.service.ProductService;
 import team.kucing.anabulshopcare.service.uploadimg.ImageProductService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 @Slf4j
 public class ProductServiceImpl implements ProductService {

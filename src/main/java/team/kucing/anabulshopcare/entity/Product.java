@@ -1,9 +1,9 @@
 package team.kucing.anabulshopcare.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.*;
-import team.kucing.anabulshopcare.dto.response.ProductCartResponse;
 import team.kucing.anabulshopcare.dto.response.ProductResponse;
 
 import javax.persistence.CascadeType;
@@ -12,6 +12,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 @Getter
 @Setter
@@ -49,16 +52,14 @@ public class Product {
     private UserApp userApp;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Wishlist> wishlist;
+    private List<Wishlist> wishlist = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Cart> cart;
+    @ManyToMany
+    private List<Cart> cart = new ArrayList<>();
 
-    private Boolean isPublished = Boolean.FALSE;
+    private Boolean isPublished = FALSE;
 
-    private Boolean isDeleted = Boolean.FALSE;
+    private Boolean isDeleted = FALSE;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -77,14 +78,8 @@ public class Product {
                 .price(this.price)
                 .imageProduct(this.imageUrl)
                 .location(this.userApp.getAddress().getKota().getNama())
-                .wishlistByUser(this.wishlist)
-                .cartByUser(String.valueOf(this.cart.stream().map(Cart::getUserAppC).map(UserApp::getEmail).count()))
-                .build();
+                .wishlistByUser(this.wishlist.stream().map(Wishlist::getUserApp).map(UserApp::getEmail).count() + " user")
+                .cartByUser(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::getUserApp).map(UserApp::getEmail).count() + " user")
+                .totalBuyer(this.cart.stream().filter(cart1 -> cart1.isCheckout()==TRUE).map(Cart::getUserApp).map(UserApp::getEmail).count() + " user").build();
     }
-
-    public ProductCartResponse responseCart(){
-        return ProductCartResponse.builder()
-                .productName(this.name)
-                .price(this.price).build();
-        }
 }

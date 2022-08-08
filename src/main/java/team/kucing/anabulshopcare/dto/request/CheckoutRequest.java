@@ -5,16 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartRequest {
-    private UUID productId;
+public class CheckoutRequest {
+    private String couponCode;
 
-    private String emailUser;
-
-    private int quantity;
+    private String bankName;
 }

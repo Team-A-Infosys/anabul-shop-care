@@ -26,7 +26,6 @@ public class Wishlist {
     private Long wishlistId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
     private UserApp userApp;
 
     @ManyToOne(fetch = FetchType.LAZY)
