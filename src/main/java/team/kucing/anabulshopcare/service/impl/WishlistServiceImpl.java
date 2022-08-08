@@ -48,20 +48,20 @@ public class WishlistServiceImpl implements WishlistService {
         Wishlist wishlist = new Wishlist();
         wishlist.setProduct(getProduct);
         wishlist.setUserApp(userApp);
-
-        List<Wishlist> wishlists = new ArrayList<>();
-        wishlists.add(wishlist);
         Wishlist saveWishlist = this.wishlistRepository.save(wishlist);
-        WishlistResponse response = saveWishlist.convertToResponse();
 
-        userApp.setWishlist(wishlists);
+        List<Wishlist> wishlists = userApp.getWishlist();
+        wishlists.add(wishlist);
+
         this.userAppRepository.save(userApp);
 
-        getProduct.setWishlist(wishlists);
+        List<Wishlist> wishlistProduct = getProduct.getWishlist();
+        wishlistProduct.add(wishlist);
+
         this.productRepository.save(getProduct);
 
         log.info(userApp.getEmail() + " success add product" + getProduct.getId() + " to their wishlist");
-        return ResponseHandler.generateResponse("Success add product to wishlist", HttpStatus.OK, response);
+        return ResponseHandler.generateResponse("Success add product to wishlist", HttpStatus.OK, saveWishlist.convertToResponse());
     }
 
     @Override
