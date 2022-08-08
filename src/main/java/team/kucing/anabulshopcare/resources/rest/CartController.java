@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.kucing.anabulshopcare.dto.request.CartRequest;
+import team.kucing.anabulshopcare.dto.request.UpdateQtyCart;
 import team.kucing.anabulshopcare.service.CartService;
 
 import java.util.UUID;
@@ -29,6 +30,11 @@ public class CartController {
     public ResponseEntity<Object> deleteCart(@PathVariable(value = "id") UUID id){
         log.info("Successfully removed cart");
         return this.cartService.deleteCart(id);
+    }
+
+    @PutMapping("/cart/{id}/updateqty")
+    public ResponseEntity<Object> changeQtyItemCart(@PathVariable(value = "id") UUID id, UpdateQtyCart updateQtyCart){
+        return this.cartService.updateQtyCart(updateQtyCart,id);
     }
 
 }
