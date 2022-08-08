@@ -27,7 +27,7 @@ public class Shipment {
     @OneToOne(cascade = CascadeType.PERSIST)
     private Provinsi provinsi;
 
-    @Column(name = "priced")
+    @Column(name = "price")
     private double price;
 
     @Column(name = "company")
