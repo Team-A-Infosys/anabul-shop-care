@@ -1,48 +1,51 @@
 package team.kucing.anabulshopcare.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import team.kucing.anabulshopcare.dto.response.CartResponse;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.Date;
-import java.util.UUID;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@SQLDelete(sql = "UPDATE cart SET is_deleted = true WHERE cart_id=?")
+@SQLDelete(sql = "UPDATE cart SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted = false")
 public class Cart {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID cartId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    private UserApp userAppC;
+    @ManyToOne
+    private UserApp userApp;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Product productC;
+    @ManyToMany
+    @JsonIgnore
+    private List<Product> product;
 
-    private Integer quantity;
+    private int quantity;
 
-    private Double sub_total;
+    private double subTotal;
 
-    private boolean isDeleted;
+    private boolean isDeleted = Boolean.FALSE;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false, nullable = false)
     private Date createdAt;
 
     @UpdateTimestamp
@@ -50,10 +53,11 @@ public class Cart {
 
     public CartResponse convertToResponse(){
         return CartResponse.builder()
-                .emailUser(this.userAppC.getEmail())
-                .product(this.productC.responseCart())
-                .quantity(this.getQuantity())
-                .subTotal(this.getSub_total())
-        .build();
+                .productName(this.product.stream().map(Product::getName).collect(Collectors.joining("")))
+                .imageProduct(this.product.stream().map(Product::getImageUrl).collect(Collectors.joining("")))
+                .description(this.product.stream().map(Product::getDescription).collect(Collectors.joining("")))
+                .category(this.product.stream().map(Product::getCategory).map(Category::getCategoryName).collect(Collectors.joining("")))
+                .quantity(this.quantity)
+                .subTotal(this.subTotal).build();
     }
 }

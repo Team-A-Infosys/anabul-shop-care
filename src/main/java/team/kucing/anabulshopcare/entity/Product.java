@@ -1,9 +1,9 @@
 package team.kucing.anabulshopcare.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.*;
-import team.kucing.anabulshopcare.dto.response.ProductCartResponse;
 import team.kucing.anabulshopcare.dto.response.ProductResponse;
 
 import javax.persistence.CascadeType;
@@ -49,12 +49,10 @@ public class Product {
     private UserApp userApp;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Wishlist> wishlist;
+    private List<Wishlist> wishlist = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Cart> cart;
+    @ManyToMany
+    private List<Cart> cart = new ArrayList<>();
 
     private Boolean isPublished = Boolean.FALSE;
 
@@ -77,14 +75,7 @@ public class Product {
                 .price(this.price)
                 .imageProduct(this.imageUrl)
                 .location(this.userApp.getAddress().getKota().getNama())
-                .wishlistByUser(this.wishlist)
-                .cartByUser(String.valueOf(this.cart.stream().map(Cart::getUserAppC).map(UserApp::getEmail).count()))
-                .build();
+                .wishlistByUser(this.wishlist.stream().map(Wishlist::getUserApp).map(UserApp::getEmail).collect(Collectors.joining(", ")))
+                .cartByUser(this.cart.stream().map(Cart::getUserApp).map(UserApp::getEmail).collect(Collectors.joining(", "))).build();
     }
-
-    public ProductCartResponse responseCart(){
-        return ProductCartResponse.builder()
-                .productName(this.name)
-                .price(this.price).build();
-        }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -27,7 +28,9 @@ public class UserResponse {
 
     private String history;
 
-    private List<Wishlist> wishlistProduct;
+    private List<WishlistResponse> wishlistProduct;
+
+    private List<CartResponse> cartList;
 
     private List<CartResponse> cart;
 

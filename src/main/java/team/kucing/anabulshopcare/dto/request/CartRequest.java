@@ -12,11 +12,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartRequest {
-
     private UUID productId;
 
     private String emailUser;
 
-    private Integer quantity;
-
+    private int quantity;
 }

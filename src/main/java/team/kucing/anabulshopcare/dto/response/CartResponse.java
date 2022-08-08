@@ -2,19 +2,24 @@ package team.kucing.anabulshopcare.dto.response;
 
 import lombok.*;
 
-@Setter
 @Getter
+@Setter
+@ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class CartResponse {
 
-    private String emailUser;
+    private String productName;
 
-    private ProductCartResponse product;
+    private String imageProduct;
 
-    private Integer quantity;
+    private String category;
 
-    private Double subTotal;
+    private String description;
+
+    private int quantity;
+
+    private double subTotal;
 
 }

@@ -6,10 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import team.kucing.anabulshopcare.dto.request.WishlistRequest;
-import team.kucing.anabulshopcare.dto.response.WishlistResponse;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.entity.UserApp;
 import team.kucing.anabulshopcare.entity.Wishlist;
+import team.kucing.anabulshopcare.exception.BadRequestException;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.handler.ResponseHandler;
 import team.kucing.anabulshopcare.repository.ProductRepository;
@@ -17,9 +17,11 @@ import team.kucing.anabulshopcare.repository.UserAppRepository;
 import team.kucing.anabulshopcare.repository.WishlistRepository;
 import team.kucing.anabulshopcare.service.WishlistService;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
+@Transactional
 @AllArgsConstructor
 @Slf4j
 public class WishlistServiceImpl implements WishlistService {
@@ -44,6 +46,13 @@ public class WishlistServiceImpl implements WishlistService {
         if(getProduct.getIsPublished() == Boolean.FALSE){
             throw new ResourceNotFoundException("Product is not found");
         }
+        var obj = userApp.getWishlist().stream().map(Wishlist::getProduct).toList();
+
+        for (Product o : obj) {
+            if (o == getProduct){
+                throw new BadRequestException("It's already in your wishlist");
+            }
+        }
 
         Wishlist wishlist = new Wishlist();
         wishlist.setProduct(getProduct);
@@ -55,8 +64,8 @@ public class WishlistServiceImpl implements WishlistService {
 
         this.userAppRepository.save(userApp);
 
-        List<Wishlist> wishlistProduct = getProduct.getWishlist();
-        wishlistProduct.add(wishlist);
+        List<Wishlist> wishlistsProduct = getProduct.getWishlist();
+        wishlistsProduct.add(wishlist);
 
         this.productRepository.save(getProduct);
 
@@ -76,5 +85,11 @@ public class WishlistServiceImpl implements WishlistService {
         this.wishlistRepository.delete(wishlist.get());
         log.info("Your Wishlist is Deleted");
         return ResponseHandler.generateResponse("Success delete your wishlist", HttpStatus.OK, null);
+    }
+
+    @Override
+    public void deleteWishlistCustom(Product product){
+        List<Wishlist> findWishlist = this.wishlistRepository.findByProduct(product);
+        this.wishlistRepository.deleteAll(findWishlist);
     }
 }

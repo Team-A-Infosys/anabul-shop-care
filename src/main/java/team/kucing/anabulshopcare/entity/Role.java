@@ -11,6 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {

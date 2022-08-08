@@ -14,10 +14,12 @@ import team.kucing.anabulshopcare.repository.subrepo.KotaRepository;
 import team.kucing.anabulshopcare.repository.subrepo.ProvinsiRepository;
 import team.kucing.anabulshopcare.service.AddressService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class AddressServiceImpl implements AddressService {
     private AddressRepository addressRepository;
