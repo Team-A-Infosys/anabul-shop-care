@@ -1,14 +1,13 @@
 package team.kucing.anabulshopcare.entity.subaddress;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Data
+@Setter
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
