@@ -88,8 +88,8 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
     @Override
-    public void deleteWishlistCustom(Product product){
-        List<Wishlist> findWishlist = this.wishlistRepository.findByProduct(product);
+    public void deleteWishlistCustom(Product product, UserApp userApp){
+        List<Wishlist> findWishlist = this.wishlistRepository.findByProductAndUserApp(product, userApp);
         this.wishlistRepository.deleteAll(findWishlist);
     }
 }

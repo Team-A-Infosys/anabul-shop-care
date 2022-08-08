@@ -7,15 +7,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 import team.kucing.anabulshopcare.dto.response.CartResponse;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
@@ -23,20 +22,21 @@ import java.util.stream.Collectors;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE cart SET is_deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE cart SET is_deleted = true WHERE cart_id=?")
 @Where(clause = "is_deleted = false")
 public class Cart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID cartId;
 
     @ManyToOne
     private UserApp userApp;
 
-    @ManyToMany
+    @ManyToOne
     @JsonIgnore
-    private List<Product> product;
+    private Product product;
 
     private int quantity;
 
@@ -53,10 +53,10 @@ public class Cart {
 
     public CartResponse convertToResponse(){
         return CartResponse.builder()
-                .productName(this.product.stream().map(Product::getName).collect(Collectors.joining("")))
-                .imageProduct(this.product.stream().map(Product::getImageUrl).collect(Collectors.joining("")))
-                .description(this.product.stream().map(Product::getDescription).collect(Collectors.joining("")))
-                .category(this.product.stream().map(Product::getCategory).map(Category::getCategoryName).collect(Collectors.joining("")))
+                .productName(this.product.getName())
+                .imageProduct(this.product.getImageUrl())
+                .description(this.product.getDescription())
+                .category(this.product.getCategory().getCategoryName())
                 .quantity(this.quantity)
                 .subTotal(this.subTotal).build();
     }

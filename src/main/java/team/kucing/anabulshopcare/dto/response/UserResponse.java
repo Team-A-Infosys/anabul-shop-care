@@ -32,8 +32,6 @@ public class UserResponse {
 
     private List<CartResponse> cartList;
 
-    private List<CartResponse> cart;
-
     private Collection<Role> roles;
 
 }
