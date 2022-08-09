@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}/changePassword")
-    public ResponseEntity<Object> changePassword(@PathVariable(value = "id") UUID id, PasswordRequest passwordRequest){
+    public ResponseEntity<Object> changePassword(@PathVariable(value = "id") UUID id, @RequestBody PasswordRequest passwordRequest){
         return this.userAppService.updatePasswordUser(passwordRequest, id);
     }
 
