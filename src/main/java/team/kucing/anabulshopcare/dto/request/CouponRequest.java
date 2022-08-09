@@ -13,7 +13,9 @@ public class CouponRequest {
 
     private String couponCode;
 
-    private double value;
+    private double usabilityValue;
+
+    private double maxValue;
 
 
 }

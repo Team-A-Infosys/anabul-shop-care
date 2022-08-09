@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 @Service
 @Transactional
 @Slf4j
@@ -33,6 +36,8 @@ public class CheckoutServiceImpl implements CheckoutService {
     private ProductRepository productRepository;
 
     private CouponRepository couponRepository;
+
+    private CartRepository cartRepository;
 
     private ShipmentRepository shipmentRepository;
 
@@ -50,7 +55,9 @@ public class CheckoutServiceImpl implements CheckoutService {
         }
 
         UserApp getUserApp = findUser.get();
-        if (getUserApp.getCart().size() == 0){
+        var o = getUserApp.getCart().stream().filter(cart1 -> cart1.isDeleted()==FALSE).filter(cart1 -> cart1.isCheckout()==FALSE).toList();
+        var o2 = getUserApp.getCart().stream().filter(cart1 -> cart1.isDeleted()==TRUE).filter(cart1 -> cart1.isCheckout()==FALSE).toList();
+        if (o.size() == 0){
             throw new BadRequestException("Your cart is empty");
         }
 
@@ -65,7 +72,7 @@ public class CheckoutServiceImpl implements CheckoutService {
                 getUserApp.getAddress().getKelurahan().getNama();
         newCheckout.setShipmentAddress(shipmentAddress);
 
-        List<Cart> cartList = getUserApp.getCart();
+        List<Cart> cartList = getUserApp.getCart().stream().filter(cart1 -> cart1.isDeleted()==FALSE).filter(cart1 -> cart1.isCheckout()==FALSE).toList();
         for (Cart cart: cartList) {
             cart.getProduct().setStock(cart.getProduct().getStock() - cart.getQuantity());
             this.productRepository.save(cart.getProduct());
@@ -83,21 +90,27 @@ public class CheckoutServiceImpl implements CheckoutService {
             newCheckout.setCouponCode("NO COUPON");
             newCheckout.setValueCoupon("0");
         } else {
-            newCheckout.setCheckoutTotal((obj + shipment.getPrice()) - coupon.getValue());
+            newCheckout.setCheckoutTotal((obj + shipment.getPrice()) - coupon.getUseValue());
             newCheckout.setCouponCode(coupon.getCode());
-            newCheckout.setValueCoupon("-" + coupon.getValue());
+            newCheckout.setValueCoupon("-" + coupon.getUseValue());
+
+            coupon.setTotalValue(coupon.getTotalValue()-coupon.getUseValue());
+            this.couponRepository.save(coupon);
+            if (coupon.getTotalValue() == 0){
+                coupon.setDeleted(Boolean.TRUE);
+                this.couponRepository.save(coupon);
+            }
         }
 
         Payment payment = this.paymentRepository.findByBankName(checkoutRequest.getBankName());
         newCheckout.setPaymentGateway(payment);
+        newCheckout.setUserApp(getUserApp);
 
         this.checkoutRepository.save(newCheckout);
 
         this.cartService.deleteCartCustom(getUserApp);
         this.userAppRepository.save(getUserApp);
 
-        getUserApp.getHistory().add(newCheckout);
-        this.userAppRepository.save(getUserApp);
 
         return ResponseHandler.generateResponse("Success checkout ", HttpStatus.OK, newCheckout.convertToResponse());
     }
@@ -119,7 +132,29 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         this.checkoutRepository.delete(checkout);
 
-
         return ResponseHandler.generateResponse("Success delete checkout", HttpStatus.OK, null);
+    }
+
+    @Override
+    public ResponseEntity<Object> confirmPayment(UUID id){
+       Optional<Checkout> checkout = this.checkoutRepository.findById(id);
+
+       if (checkout.isEmpty()){
+           throw new ResourceNotFoundException("Checkout is not found");
+       }
+
+       Checkout getCheckout = checkout.get();
+       getCheckout.setPaid(TRUE);
+       this.checkoutRepository.save(getCheckout);
+
+       UserApp userApp = getCheckout.getUserApp();
+       userApp.getHistory().add(getCheckout);
+       this.userAppRepository.save(userApp);
+
+       var o = getCheckout.getCart().stream().toList();
+
+       this.cartRepository.deleteAll(o);
+
+       return ResponseHandler.generateResponse("Success Pay The Checkout", HttpStatus.OK, getCheckout.convertToResponse());
     }
 }

@@ -9,4 +9,6 @@ public interface CheckoutService {
     ResponseEntity<Object> createCheckout(UUID id, CheckoutRequest checkoutRequest);
 
     ResponseEntity<Object> cancelCheckout(UUID id);
+
+    ResponseEntity<Object> confirmPayment(UUID id);
 }
