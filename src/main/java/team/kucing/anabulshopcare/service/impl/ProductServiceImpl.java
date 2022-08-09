@@ -240,8 +240,6 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("Product not exist with id : "+id);
         }
 
-        Product getProduct = optionalProduct.get();
-
         Product product = productRepository.getReferenceById(id);
         this.productRepository.delete(product);
         this.wishlistRepository.deleteByProductId(id);
