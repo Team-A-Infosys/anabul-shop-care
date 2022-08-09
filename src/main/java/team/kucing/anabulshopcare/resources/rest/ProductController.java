@@ -19,7 +19,7 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@Tag(name = "2. Product Controller")
+@Tag(name = "02. Product Controller")
 public class ProductController {
     private final ProductService productService;
 

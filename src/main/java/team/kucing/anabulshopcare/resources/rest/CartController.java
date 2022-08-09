@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@Tag(name = "5. Cart Controller")
+@Tag(name = "05. Cart Controller")
 public class CartController {
 
     private final CartService cartService;
