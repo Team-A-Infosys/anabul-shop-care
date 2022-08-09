@@ -12,7 +12,7 @@ import team.kucing.anabulshopcare.service.CategoryService;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@Tag(name = "3. Category Controller")
+@Tag(name = "03. Category Controller")
 public class CategoryController {
     private final CategoryService categoryService;
 

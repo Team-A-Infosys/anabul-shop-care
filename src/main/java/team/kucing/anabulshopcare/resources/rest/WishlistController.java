@@ -11,7 +11,7 @@ import team.kucing.anabulshopcare.service.WishlistService;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@Tag(name = "4. Wishlist Controller")
+@Tag(name = "04. Wishlist Controller")
 public class WishlistController {
     private final WishlistService wishlistService;
 

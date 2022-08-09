@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@Tag(name = "7. Checkout Controller")
+@Tag(name = "07. Checkout Controller")
 public class CheckoutController {
     private CheckoutService checkoutService;
 

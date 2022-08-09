@@ -27,7 +27,7 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@Tag(name = "1. User Controller")
+@Tag(name = "01. User Controller")
 @OpenAPIDefinition(info = @Info(title = "Anabul Shop & Care Documentation",
         description = "API Documentation of e-Commerce Anabul Shop & Care", version = "v1", license = @License(name ="Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0")))
 public class UserController {

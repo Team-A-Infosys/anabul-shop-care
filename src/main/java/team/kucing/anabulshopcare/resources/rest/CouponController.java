@@ -9,7 +9,7 @@ import team.kucing.anabulshopcare.service.CouponService;
 
 @RestController
 @AllArgsConstructor
-@Tag(name = "8. Coupon Controller")
+@Tag(name = "08. Coupon Controller")
 public class CouponController {
 
     private CouponService couponService;
