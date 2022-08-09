@@ -28,4 +28,10 @@ public class PaymentServiceImpl  implements PaymentService {
         log.info("Added new Payment Gateway " + newPayment);
         return ResponseHandler.generateResponse("Success Create Payment Gateway", HttpStatus.OK, newPayment);
     }
+
+    @Override
+    public ResponseEntity<Object> getAllPayment() {
+        log.info("success get All Payments");
+        return ResponseHandler.generateResponse("success get All Payments",HttpStatus.OK, paymentRepository.findAll());
+    }
 }

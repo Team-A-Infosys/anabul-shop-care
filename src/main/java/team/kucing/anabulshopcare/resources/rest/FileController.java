@@ -17,7 +17,7 @@ import java.io.IOException;
 
 @RestController
 @AllArgsConstructor
-@Tag(name = "5. File Controller")
+@Tag(name = "6. File Controller")
 public class FileController {
     private ImageProductService imageProductService;
 

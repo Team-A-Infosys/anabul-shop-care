@@ -1,6 +1,7 @@
 package team.kucing.anabulshopcare.resources.rest;
 
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
+@Tag(name = "10. Shipment Controller")
 public class ShipmentController {
 
     private final ShipmentServiceImpl shipmentService;
