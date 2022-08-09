@@ -241,15 +241,11 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product getProduct = optionalProduct.get();
-        Cart checkCart = cartRepository.findByProduct(getProduct);
 
         Product product = productRepository.getReferenceById(id);
         this.productRepository.delete(product);
         this.wishlistRepository.deleteByProductId(id);
-
-        if(!checkCart.isCheckout()){
-            this.cartRepository.deleteByProductId(id);
-        }
+        this.cartRepository.deleteByProductId(id);
 
         log.info("Success delete product with id : " + id);
         return ResponseHandler.generateResponse("Success delete the product", HttpStatus.OK, null);
