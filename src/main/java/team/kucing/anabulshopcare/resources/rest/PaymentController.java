@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import team.kucing.anabulshopcare.service.PaymentService;
 @RestController
 @Slf4j
 @AllArgsConstructor
+@Tag(name = "9. Payment Controller")
 public class PaymentController {
 
     private PaymentService paymentService;
