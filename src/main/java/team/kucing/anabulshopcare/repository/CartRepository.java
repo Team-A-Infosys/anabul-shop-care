@@ -13,7 +13,5 @@ import java.util.UUID;
 public interface CartRepository extends JpaRepository<Cart, UUID> {
     List<Cart> findByUserApp(UserApp userApp);
     Cart findByProductAndUserAppAndIsDeleted(Product product, UserApp userApp, boolean b);
-    Cart findByProductAndUserApp(Product product, UserApp userApp);
-    Cart findByProduct(Product Product);
     void deleteByProductId(UUID id);
 }
