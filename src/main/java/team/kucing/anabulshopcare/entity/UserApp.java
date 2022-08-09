@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 import static javax.persistence.FetchType.EAGER;
 
 @Getter
@@ -103,7 +104,7 @@ public class UserApp extends ImageProduct {
                         this.address.getKota().getNama()+", " +
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
-                .history(this.history.stream().map(Checkout::convertToResponse).toList())
+                .history(this.history.stream().filter(checkout -> checkout.isPaid()==TRUE).map(Checkout::convertToResponse).toList())
                 .wishlistProduct(this.wishlist.stream().map(Wishlist::convertToResponse).collect(Collectors.toList()))
                 .cartList(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::convertToResponse).toList())
                 .roles(this.roles).build();

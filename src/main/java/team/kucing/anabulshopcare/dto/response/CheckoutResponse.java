@@ -26,5 +26,7 @@ public class CheckoutResponse {
 
     private double checkoutTotal;
 
+    private boolean isPaid;
+
     private PaymentResponse paymentGateway;
 }

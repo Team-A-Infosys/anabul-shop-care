@@ -25,16 +25,17 @@ public class CouponServiceImpl implements CouponService {
     public ResponseEntity<Object> createCoupon(CouponRequest request){
         Coupon newCoupon = new Coupon();
 
-        if (this.couponRepository.existsByCode(request.getCouponCode())) {
+        if (this.couponRepository.existsByCode(request.getCouponCode().toUpperCase())) {
             throw new BadRequestException("Coupon code Already Exists");
         }
 
-        if (request.getValue() < 1000) {
+        if (request.getMaxValue() < 1000) {
             throw new BadRequestException("Value of Coupon at least 1000");
         }
 
         newCoupon.setCode(request.getCouponCode().toUpperCase());
-        newCoupon.setValue(request.getValue());
+        newCoupon.setTotalValue(request.getMaxValue());
+        newCoupon.setUseValue(request.getUsabilityValue());
         this.couponRepository.save(newCoupon);
         log.info("Coupon saved successfully " + newCoupon);
         return ResponseHandler.generateResponse("Success create Coupon", HttpStatus.CREATED, newCoupon);

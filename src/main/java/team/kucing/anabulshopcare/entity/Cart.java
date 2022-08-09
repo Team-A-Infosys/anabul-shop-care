@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE cart SET is_deleted = true WHERE cart_id=?")
-@Where(clause = "is_deleted = false")
+//@Where(clause = "is_deleted = false")
 public class Cart {
 
     @Id
