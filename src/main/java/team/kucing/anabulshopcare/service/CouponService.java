@@ -2,6 +2,7 @@ package team.kucing.anabulshopcare.service;
 
 import org.springframework.data.repository.config.ResourceReaderRepositoryPopulatorBeanDefinitionParser;
 import org.springframework.http.ResponseEntity;
+import team.kucing.anabulshopcare.dto.request.CheckCoupon;
 import team.kucing.anabulshopcare.dto.request.CouponRequest;
 
 public interface CouponService {
@@ -9,5 +10,5 @@ public interface CouponService {
 
     ResponseEntity<Object> deleteCoupon(String couponCode);
 
-    ResponseEntity<Object> updateCoupon(CouponRequest request);
+    ResponseEntity<Object> checkCoupon(CheckCoupon request);
 }

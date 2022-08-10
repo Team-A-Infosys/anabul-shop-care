@@ -9,13 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CouponRequest {
+public class CheckCoupon {
 
     private String couponCode;
-
-    private double usabilityValue;
-
-    private double maxValue;
 
 
 
