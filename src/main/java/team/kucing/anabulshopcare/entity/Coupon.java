@@ -6,9 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
-import javax.persistence.*;
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@SQLDelete(sql = "UPDATE coupon SET is_deleted = true WHERE checkout = totalCoupon")
+@SQLDelete(sql = "UPDATE coupon SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted = false")
 public class Coupon {
 
@@ -28,17 +29,18 @@ public class Coupon {
 
     private String code;
 
-    private double value;
+    private double totalValue;
+
+    private double useValue;
 
     private boolean isDeleted = Boolean.FALSE;
 
-    private Long totalCoupon;
-
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private Date CreatedAt;
+    private Date createdAt;
 
     @UpdateTimestamp
     private Date updatedAt;
+
 
 }

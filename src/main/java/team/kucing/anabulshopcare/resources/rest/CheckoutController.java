@@ -24,4 +24,9 @@ public class CheckoutController {
     public ResponseEntity<Object> cancelCheckout(@PathVariable("id") UUID id){
         return this.checkoutService.cancelCheckout(id);
     }
+
+    @PostMapping("/checkout/{id}/confirmPayment")
+    public ResponseEntity<Object> confirmPayment(@PathVariable("id") UUID id){
+        return this.checkoutService.confirmPayment(id);
+    }
 }

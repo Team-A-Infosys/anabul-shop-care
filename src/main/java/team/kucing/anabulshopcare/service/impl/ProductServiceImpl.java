@@ -12,15 +12,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
 import team.kucing.anabulshopcare.dto.request.UpdateProduct;
 import team.kucing.anabulshopcare.dto.response.ProductResponse;
+import team.kucing.anabulshopcare.entity.Cart;
 import team.kucing.anabulshopcare.entity.Category;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.entity.UserApp;
 import team.kucing.anabulshopcare.exception.BadRequestException;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.handler.ResponseHandler;
-import team.kucing.anabulshopcare.repository.CategoryRepository;
-import team.kucing.anabulshopcare.repository.ProductRepository;
-import team.kucing.anabulshopcare.repository.UserAppRepository;
+import team.kucing.anabulshopcare.repository.*;
 import team.kucing.anabulshopcare.service.CategoryService;
 import team.kucing.anabulshopcare.service.ProductService;
 import team.kucing.anabulshopcare.service.uploadimg.ImageProductService;
@@ -45,6 +44,9 @@ public class ProductServiceImpl implements ProductService {
     private CategoryService categoryService;
 
     private final ImageProductService imageProductService;
+    private final WishlistRepository wishlistRepository;
+
+    private final CartRepository cartRepository;
 
     @Override
     public ResponseEntity<Object> createProduct(ProductRequest productRequest, MultipartFile file) {
@@ -240,6 +242,8 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = productRepository.getReferenceById(id);
         this.productRepository.delete(product);
+        this.wishlistRepository.deleteByProductId(id);
+        this.cartRepository.deleteByProductId(id);
 
         log.info("Success delete product with id : " + id);
         return ResponseHandler.generateResponse("Success delete the product", HttpStatus.OK, null);
