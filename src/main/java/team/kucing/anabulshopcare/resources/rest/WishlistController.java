@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import team.kucing.anabulshopcare.dto.request.WishlistRequest;
 import team.kucing.anabulshopcare.service.WishlistService;
 
+import java.util.UUID;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
@@ -26,5 +28,11 @@ public class WishlistController {
     public ResponseEntity<Object> deleteWishlist(@PathVariable(value = "id") Long id){
         log.info("successfully removed the product from wishlist");
         return this.wishlistService.deleteWishlist(id);
+    }
+
+    @GetMapping("/wishlist/{id}/getWishlistUser")
+    public ResponseEntity<Object> getWishlistByUser(@PathVariable(value = "id") UUID id){
+        log.info("Succesfully Get Wishlist By User Id : "+id);
+        return this.wishlistService.filterWishlistByUser(id);
     }
 }
