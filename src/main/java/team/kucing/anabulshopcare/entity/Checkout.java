@@ -31,6 +31,9 @@ public class Checkout {
     @OneToMany
     private List<Cart> cart = new ArrayList<>();
 
+    @ManyToOne
+    private UserApp userApp;
+
     private double checkoutTotal;
 
     private String couponCode;
@@ -48,6 +51,7 @@ public class Checkout {
 
     private boolean isDeleted = Boolean.FALSE;
 
+    private boolean isPaid = Boolean.FALSE;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -63,6 +67,7 @@ public class Checkout {
                 .couponCode(this.couponCode)
                 .shipmentCost(this.shipmentCost)
                 .courier(this.courier)
+                .isPaid(this.isPaid)
                 .paymentGateway(this.paymentGateway.convertToResponse())
                 .discount(this.valueCoupon)
                 .checkoutTotal(this.checkoutTotal).build();

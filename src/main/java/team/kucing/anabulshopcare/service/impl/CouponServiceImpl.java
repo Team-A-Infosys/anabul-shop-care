@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import team.kucing.anabulshopcare.dto.request.CheckCoupon;
 import team.kucing.anabulshopcare.dto.request.CouponRequest;
 import team.kucing.anabulshopcare.entity.Coupon;
 import team.kucing.anabulshopcare.exception.BadRequestException;
@@ -25,16 +26,17 @@ public class CouponServiceImpl implements CouponService {
     public ResponseEntity<Object> createCoupon(CouponRequest request){
         Coupon newCoupon = new Coupon();
 
-        if (this.couponRepository.existsByCode(request.getCouponCode())) {
+        if (this.couponRepository.existsByCode(request.getCouponCode().toUpperCase())) {
             throw new BadRequestException("Coupon code Already Exists");
         }
 
-        if (request.getValue() < 1000) {
+        if (request.getMaxValue() < 1000) {
             throw new BadRequestException("Value of Coupon at least 1000");
         }
 
         newCoupon.setCode(request.getCouponCode().toUpperCase());
-        newCoupon.setValue(request.getValue());
+        newCoupon.setTotalValue(request.getMaxValue());
+        newCoupon.setUseValue(request.getUsabilityValue());
         this.couponRepository.save(newCoupon);
         log.info("Coupon saved successfully " + newCoupon);
         return ResponseHandler.generateResponse("Success create Coupon", HttpStatus.CREATED, newCoupon);
@@ -51,4 +53,16 @@ public class CouponServiceImpl implements CouponService {
         log.info("Coupon deleted successfully " + coupon);
         return ResponseHandler.generateResponse("Success delete Coupon", HttpStatus.OK, null);
     }
+
+    @Override
+    public ResponseEntity<Object> checkCoupon(CheckCoupon request) {
+        Coupon cekValidCoupon = this.couponRepository.findByCode(request.getCouponCode().toUpperCase());
+
+        if (cekValidCoupon == null) {
+            throw new ResourceNotFoundException("Coupon no Longer Valid");
+        }
+        return ResponseHandler.generateResponse("Success get Coupon", HttpStatus.OK,"coupon is valid");
+    }
+
+
 }

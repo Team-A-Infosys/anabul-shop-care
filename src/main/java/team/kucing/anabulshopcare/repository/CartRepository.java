@@ -7,11 +7,11 @@ import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.entity.UserApp;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, UUID> {
     List<Cart> findByUserApp(UserApp userApp);
-    Cart findByProductAndUserApp(Product product, UserApp userApp);
+    Cart findByProductAndUserAppAndIsDeleted(Product product, UserApp userApp, boolean b);
+    void deleteByProductId(UUID id);
 }

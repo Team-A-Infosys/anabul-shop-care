@@ -29,7 +29,9 @@ public class Coupon {
 
     private String code;
 
-    private double value;
+    private double totalValue;
+
+    private double useValue;
 
     private boolean isDeleted = Boolean.FALSE;
 

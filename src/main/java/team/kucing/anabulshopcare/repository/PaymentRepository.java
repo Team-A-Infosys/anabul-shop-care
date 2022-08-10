@@ -14,4 +14,7 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
     Payment findByBankName(String bankName);
     
     List<Payment> findAll();
+
+    boolean existsByBankName(String bankName);
+
 }
