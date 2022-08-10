@@ -30,9 +30,4 @@ public class WishlistController {
         return this.wishlistService.deleteWishlist(id);
     }
 
-    @GetMapping("/wishlist/{id}/getWishlistUser")
-    public ResponseEntity<Object> getWishlistByUser(@PathVariable(value = "id") UUID id){
-        log.info("Succesfully Get Wishlist By User Id : "+id);
-        return this.wishlistService.filterWishlistByUser(id);
-    }
 }

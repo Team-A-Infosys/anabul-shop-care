@@ -94,20 +94,4 @@ public class WishlistServiceImpl implements WishlistService {
         this.wishlistRepository.deleteAll(findWishlist);
     }
 
-    @Override
-    public ResponseEntity<Object> filterWishlistByUser(UUID id) {
-        Optional<UserApp> user = this.userAppRepository.findById(id);
-
-        List<Wishlist> getWishlist = this.wishlistRepository.findByUserApp(user.get());
-
-        List<WishlistResponse> response = getWishlist.stream().map(Wishlist::convertToResponse).toList();
-
-        if(getWishlist.isEmpty()){
-            log.error("This user has not add product to wishlist yet");
-            throw new ResourceNotFoundException("Sorry We Have Nothing In This User Wishlist");
-        }
-
-        log.info("User request view wishlist : " + response);
-        return ResponseHandler.generateResponse("Success Get Wishlist By User Id : "+id, HttpStatus.OK, response);
-    }
 }

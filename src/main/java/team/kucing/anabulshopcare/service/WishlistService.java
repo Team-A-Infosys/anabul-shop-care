@@ -14,5 +14,4 @@ public interface WishlistService {
 
     void deleteWishlistCustom(Product product, UserApp userApp);
 
-    ResponseEntity<Object> filterWishlistByUser(UUID id);
 }

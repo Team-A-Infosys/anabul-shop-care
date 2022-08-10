@@ -13,6 +13,5 @@ import java.util.UUID;
 public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
     List<Wishlist> findByProductAndUserApp(Product product, UserApp userApp);
     void deleteByProductId(UUID id);
-    List<Wishlist> findByUserApp(UserApp userApp);
 
 }
