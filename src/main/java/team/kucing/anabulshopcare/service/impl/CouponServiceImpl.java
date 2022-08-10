@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import team.kucing.anabulshopcare.dto.request.CheckCoupon;
 import team.kucing.anabulshopcare.dto.request.CouponRequest;
 import team.kucing.anabulshopcare.entity.Coupon;
 import team.kucing.anabulshopcare.exception.BadRequestException;
@@ -52,4 +53,16 @@ public class CouponServiceImpl implements CouponService {
         log.info("Coupon deleted successfully " + coupon);
         return ResponseHandler.generateResponse("Success delete Coupon", HttpStatus.OK, null);
     }
+
+    @Override
+    public ResponseEntity<Object> checkCoupon(CheckCoupon request) {
+        Coupon cekValidCoupon = this.couponRepository.findByCode(request.getCouponCode().toUpperCase());
+
+        if (cekValidCoupon == null) {
+            throw new ResourceNotFoundException("Coupon no Longer Valid");
+        }
+        return ResponseHandler.generateResponse("Success get Coupon", HttpStatus.OK,"coupon is valid");
+    }
+
+
 }

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import team.kucing.anabulshopcare.dto.request.CheckCoupon;
 import team.kucing.anabulshopcare.dto.request.CouponRequest;
 import team.kucing.anabulshopcare.service.CouponService;
 
@@ -22,6 +23,11 @@ public class CouponController {
     @DeleteMapping("/coupon/delete/{couponCode}")
     public ResponseEntity<Object> deleteCoupon(@PathVariable(value = "couponCode") String couponCode) {
         return this.couponService.deleteCoupon(couponCode);
+    }
+
+    @GetMapping("/coupon/check/{couponCode}")
+    public ResponseEntity<Object> validateCoupon(@RequestParam(value = "couponCode", required = false) CheckCoupon request){
+        return this.couponService.checkCoupon(request);
     }
 }
 
