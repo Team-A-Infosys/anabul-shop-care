@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -13,7 +16,10 @@ public class CouponRequest {
 
     private String couponCode;
 
-    private double value;
+    private Long value;
+
+    private Long totalCoupon;
+
 
 
 }

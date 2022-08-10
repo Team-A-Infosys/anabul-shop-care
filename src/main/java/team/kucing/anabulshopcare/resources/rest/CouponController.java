@@ -23,5 +23,10 @@ public class CouponController {
     public ResponseEntity<Object> deleteCoupon(@PathVariable(value = "couponCode") String couponCode) {
         return this.couponService.deleteCoupon(couponCode);
     }
+
+    @GetMapping("/coupon/validation")
+    public ResponseEntity<Object> validateCoupon(){
+        return this.couponService.updateCoupon(new CouponRequest());
+    }
 }
 
