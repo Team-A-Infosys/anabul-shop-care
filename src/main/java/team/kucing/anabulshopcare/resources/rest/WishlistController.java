@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import team.kucing.anabulshopcare.dto.request.WishlistRequest;
 import team.kucing.anabulshopcare.service.WishlistService;
 
+import java.util.UUID;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
@@ -27,4 +29,5 @@ public class WishlistController {
         log.info("successfully removed the product from wishlist");
         return this.wishlistService.deleteWishlist(id);
     }
+
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import team.kucing.anabulshopcare.dto.request.WishlistRequest;
+import team.kucing.anabulshopcare.dto.response.WishlistResponse;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.entity.UserApp;
 import team.kucing.anabulshopcare.entity.Wishlist;
@@ -92,4 +93,5 @@ public class WishlistServiceImpl implements WishlistService {
         List<Wishlist> findWishlist = this.wishlistRepository.findByProductAndUserApp(product, userApp);
         this.wishlistRepository.deleteAll(findWishlist);
     }
+
 }

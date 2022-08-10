@@ -13,4 +13,5 @@ public interface WishlistService {
     ResponseEntity<Object> deleteWishlist(Long Id);
 
     void deleteWishlistCustom(Product product, UserApp userApp);
+
 }

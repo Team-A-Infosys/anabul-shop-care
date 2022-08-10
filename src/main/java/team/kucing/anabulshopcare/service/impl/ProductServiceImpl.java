@@ -122,7 +122,7 @@ public class ProductServiceImpl implements ProductService {
         return ResponseHandler.generateResponse("Success get product", HttpStatus.OK, response);
     }
     @Override
-        public ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable) {
+    public ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable) {
         Page<Product> getProduct = this.productRepository.findByLocation(location, pageable);
 
         List<ProductResponse> response = getProduct.stream().map(Product::convertToResponse).toList();
