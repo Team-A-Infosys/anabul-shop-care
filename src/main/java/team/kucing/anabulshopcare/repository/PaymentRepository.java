@@ -17,5 +17,4 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
 
     boolean existsByBankName(String bankName);
 
-    boolean existByBankAccount(String bankAccount);
 }

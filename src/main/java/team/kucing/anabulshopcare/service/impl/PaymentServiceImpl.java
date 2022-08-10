@@ -26,12 +26,6 @@ public class PaymentServiceImpl  implements PaymentService {
             throw new ResourceNotFoundException("Bank Name Already Exist");
         }
 
-        /** kondisi jika nomor akun bank tidak boleh sama
-        if(this.paymentRepository.existByBankAccount(request.getBankAccount())){
-            throw new ResourceNotFoundException("Bank Account Already Registered");
-        }
-        **/
-
         Payment newPayment = new Payment();
         newPayment.setBankName(request.getBankName().toUpperCase());
         newPayment.setBankAccount(request.getBankAccount());
