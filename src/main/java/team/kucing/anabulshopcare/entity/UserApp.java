@@ -77,7 +77,7 @@ public class UserApp extends ImageProduct {
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
                 .history(this.history.stream().map(Checkout::convertToResponse).toList())
-                .unpaid(this.history.stream().filter(cart1 -> cart1.isPaid()==FALSE).map(Checkout::convertToResponse).toList())
+                .unpaid(this.history.stream().filter(cart2 -> cart2.isPaid()==TRUE).map(Checkout::convertToResponse).toList())
                 .wishlistProduct(this.wishlist.stream().map(Wishlist::convertToResponse).collect(Collectors.toList()))
                 .cartList(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::convertToResponse).toList())
                 .roles(this.roles).build();
@@ -107,7 +107,7 @@ public class UserApp extends ImageProduct {
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
                 .history(this.history.stream().map(Checkout::convertToResponse).toList())
-                .unpaid(this.history.stream().map(Checkout::convertToResponse).filter(cart1 -> cart1.isPaid()==FALSE).toList())
+                .unpaid(this.history.stream().map(Checkout::convertToResponse).filter(cart2 -> cart2.isPaid()==FALSE).toList())
                 .wishlistProduct(this.wishlist.stream().map(Wishlist::convertToResponse).collect(Collectors.toList()))
                 .cartList(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::convertToResponse).toList())
                 .roles(this.roles).build();
