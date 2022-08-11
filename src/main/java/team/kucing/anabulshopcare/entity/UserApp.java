@@ -2,6 +2,7 @@ package team.kucing.anabulshopcare.entity;
 import lombok.*;
 import org.hibernate.annotations.*;
 import team.kucing.anabulshopcare.dto.response.BuyerResponse;
+import team.kucing.anabulshopcare.dto.response.CheckoutResponse;
 import team.kucing.anabulshopcare.dto.response.SellerResponse;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
 import team.kucing.anabulshopcare.entity.image.ImageProduct;
@@ -76,6 +77,7 @@ public class UserApp extends ImageProduct {
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
                 .history(this.history.stream().map(Checkout::convertToResponse).toList())
+                .unpaid(this.history.stream().filter(cart1 -> cart1.isPaid()==FALSE).map(Checkout::convertToResponse).toList())
                 .wishlistProduct(this.wishlist.stream().map(Wishlist::convertToResponse).collect(Collectors.toList()))
                 .cartList(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::convertToResponse).toList())
                 .roles(this.roles).build();

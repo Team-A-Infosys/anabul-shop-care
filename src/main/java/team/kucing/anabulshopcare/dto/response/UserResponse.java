@@ -29,6 +29,8 @@ public class UserResponse {
 
     private List<CheckoutResponse> history;
 
+    private List<CheckoutResponse> unpaid;
+
     private List<WishlistResponse> wishlistProduct;
 
     private List<CartResponse> cartList;
