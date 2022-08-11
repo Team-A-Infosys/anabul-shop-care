@@ -54,6 +54,7 @@ public class CartServiceImpl implements CartService {
             throw new ResourceNotFoundException("Product Not Found");
         }
 
+        //need to revise TODO
         Cart checkCart = this.cartRepository.findByProductAndUserAppAndIsDeleted(getProduct, userApp, false);
 
         Cart cart = new Cart();
