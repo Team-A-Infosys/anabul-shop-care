@@ -33,11 +33,15 @@ public class ProductController {
     }
 
     @PostMapping(value = "/product/add",consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart @Valid ProductRequest product){
         return this.productService.createProduct(product,file);
     }
 
     @PutMapping(value = "/product/{id}/update")
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid UpdateProduct productRequest){
         return this.productService.updateProduct(productRequest, file, id);
     }
@@ -49,30 +53,40 @@ public class ProductController {
     }
     
     @GetMapping("/products/search/location")
+    @PreAuthorize("none")
     public ResponseEntity<Object> filterProductsByLocation(@RequestParam(value = "location", required = false) String location, @ParameterObject  Pageable pageable){
         return this.productService.filterProductsByLocation(location, pageable);
     }
 
     @GetMapping("/products/search/price")
+    @PreAuthorize("none")
     public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)double startPrice, @RequestParam(value = "end", required = false)double endPrice, @ParameterObject  Pageable pageable){
         return this.productService.filterProductByPrice(startPrice, endPrice, pageable);
     }
 
     @GetMapping("/products/search/unpublished")
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> unpublished(@ParameterObject Pageable pageable){
         return this.productService.filterUnpublishedProduct(pageable);
     }
     @DeleteMapping("/product/{id}/delete")
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deleteProduct(@PathVariable UUID id){
         return this.productService.deleteProduct(id);
     }
 
     @PutMapping(value = "/product/{id}/setPublished")
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> setPublished(@PathVariable(value = "id") UUID id){
         return this.productService.publishedStatus(id);
     }
 
     @PutMapping(value = "/product/{id}/setArchived")
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> setArchived(@PathVariable(value = "id") UUID id){
         return this.productService.archivedStatus(id);
     }

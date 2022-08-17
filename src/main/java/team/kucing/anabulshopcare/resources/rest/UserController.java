@@ -3,6 +3,7 @@ package team.kucing.anabulshopcare.resources.rest;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.dto.request.PasswordRequest;
@@ -33,6 +35,7 @@ import java.util.UUID;
 public class UserController {
     private final UserAppServiceImpl userAppService;
     @GetMapping("/users")
+    @PreAuthorize("none")
     public ResponseEntity<Object> getAllUsers(@ParameterObject Pageable pageable){
         return this.userAppService.getAllUsers(pageable);
     }
@@ -43,11 +46,13 @@ public class UserController {
     }
 
     @PostMapping(value = "/signup/seller", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PreAuthorize("none")
     public ResponseEntity<Object> signupSeller(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
         return this.userAppService.signUpSeller(userApp, file);
     }
 
     @PostMapping(value = "/signup/buyer", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PreAuthorize("none")
     public ResponseEntity<Object> signupBuyer(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
         return this.userAppService.signUpBuyer(userApp, file);
     }
