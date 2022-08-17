@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
@@ -24,6 +26,8 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/products")
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> getAllProducts(@ParameterObject Pageable pageable){
         return this.productService.listProducts(pageable);
     }
@@ -39,6 +43,7 @@ public class ProductController {
     }
     
     @GetMapping("/products/search/name")
+    @PreAuthorize("none")
     public ResponseEntity<Object> findByProductName(@RequestParam(value = "productName") String name, @ParameterObject Pageable pageable) {
         return this.productService.filterProductByName(name,pageable);
     }

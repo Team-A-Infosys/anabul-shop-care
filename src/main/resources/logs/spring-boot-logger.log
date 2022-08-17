@@ -1,374 +1,129 @@
-2022-08-11 22:31:13,441 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 17260 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 22:31:13,442 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 22:31:13,443 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 22:31:16,466 ERROR com.zaxxer.hikari.pool.HikariPool [restartedMain] HikariPool-1 - Exception during pool initialization.
-org.postgresql.util.PSQLException: FATAL: password authentication failed for user "postgres"
-	at org.postgresql.core.v3.ConnectionFactoryImpl.doAuthentication(ConnectionFactoryImpl.java:646)
-	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:180)
-	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:235)
-	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
-	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:223)
-	at org.postgresql.Driver.makeConnection(Driver.java:402)
-	at org.postgresql.Driver.connect(Driver.java:261)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
-	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
-	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
-	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
-	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
-	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:181)
-	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:68)
-	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
-	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
-	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:175)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
-	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:173)
-	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
-	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1460)
-	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1494)
-	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
-	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1154)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:908)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
-	at team.kucing.anabulshopcare.AnabulShopCareApplication.main(AnabulShopCareApplication.java:17)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
-	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
-2022-08-11 22:31:16,468 WARN org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator [restartedMain] HHH000342: Could not obtain connection to query metadata
-org.postgresql.util.PSQLException: FATAL: password authentication failed for user "postgres"
-	at org.postgresql.core.v3.ConnectionFactoryImpl.doAuthentication(ConnectionFactoryImpl.java:646)
-	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:180)
-	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:235)
-	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
-	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:223)
-	at org.postgresql.Driver.makeConnection(Driver.java:402)
-	at org.postgresql.Driver.connect(Driver.java:261)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
-	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
-	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
-	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
-	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
-	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:181)
-	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:68)
-	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
-	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
-	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:175)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
-	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
-	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:173)
-	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
-	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1460)
-	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1494)
-	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
-	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1154)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:908)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
-	at team.kucing.anabulshopcare.AnabulShopCareApplication.main(AnabulShopCareApplication.java:17)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
-	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
-2022-08-11 22:31:18,191 ERROR com.zaxxer.hikari.pool.HikariPool [restartedMain] HikariPool-1 - Exception during pool initialization.
-org.postgresql.util.PSQLException: FATAL: password authentication failed for user "postgres"
-	at org.postgresql.core.v3.ConnectionFactoryImpl.doAuthentication(ConnectionFactoryImpl.java:646)
-	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:180)
-	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:235)
-	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
-	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:223)
-	at org.postgresql.Driver.makeConnection(Driver.java:402)
-	at org.postgresql.Driver.connect(Driver.java:261)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
-	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
-	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
-	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
-	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
-	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:181)
-	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:44)
-	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:63)
-	at org.hibernate.tool.schema.extract.spi.ExtractionContext.getQueryResults(ExtractionContext.java:43)
-	at org.hibernate.tool.schema.extract.internal.SequenceInformationExtractorLegacyImpl.extractMetadata(SequenceInformationExtractorLegacyImpl.java:39)
-	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.initializeSequences(DatabaseInformationImpl.java:66)
-	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.<init>(DatabaseInformationImpl.java:60)
-	at org.hibernate.tool.schema.internal.Helper.buildDatabaseInformation(Helper.java:183)
-	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:104)
-	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:196)
-	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:85)
-	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:335)
-	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:471)
-	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1498)
-	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
-	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1154)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:908)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
-	at team.kucing.anabulshopcare.AnabulShopCareApplication.main(AnabulShopCareApplication.java:17)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
-	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
-2022-08-11 22:31:18,193 WARN org.hibernate.engine.jdbc.spi.SqlExceptionHelper [restartedMain] SQL Error: 0, SQLState: 28P01
-2022-08-11 22:31:18,194 ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [restartedMain] FATAL: password authentication failed for user "postgres"
-2022-08-11 22:31:18,199 ERROR org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
-2022-08-11 22:31:18,199 WARN org.springframework.context.support.AbstractApplicationContext [restartedMain] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
-2022-08-11 22:31:18,228 ERROR org.springframework.boot.SpringApplication [restartedMain] Application run failed
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1804)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
-	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1154)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:908)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
-	at team.kucing.anabulshopcare.AnabulShopCareApplication.main(AnabulShopCareApplication.java:17)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
-	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
-Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:421)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800)
-	... 19 common frames omitted
-Caused by: org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
-	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
-	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
-	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
-	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:71)
-	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:63)
-	at org.hibernate.tool.schema.extract.spi.ExtractionContext.getQueryResults(ExtractionContext.java:43)
-	at org.hibernate.tool.schema.extract.internal.SequenceInformationExtractorLegacyImpl.extractMetadata(SequenceInformationExtractorLegacyImpl.java:39)
-	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.initializeSequences(DatabaseInformationImpl.java:66)
-	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.<init>(DatabaseInformationImpl.java:60)
-	at org.hibernate.tool.schema.internal.Helper.buildDatabaseInformation(Helper.java:183)
-	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:104)
-	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:196)
-	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:85)
-	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:335)
-	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:471)
-	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1498)
-	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
-	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
-	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
-	... 23 common frames omitted
-Caused by: org.postgresql.util.PSQLException: FATAL: password authentication failed for user "postgres"
-	at org.postgresql.core.v3.ConnectionFactoryImpl.doAuthentication(ConnectionFactoryImpl.java:646)
-	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:180)
-	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:235)
-	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
-	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:223)
-	at org.postgresql.Driver.makeConnection(Driver.java:402)
-	at org.postgresql.Driver.connect(Driver.java:261)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
-	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
-	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
-	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
-	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
-	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:181)
-	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:44)
-	... 38 common frames omitted
-2022-08-11 22:31:40,691 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 10876 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 22:31:40,693 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 22:31:40,693 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 22:31:44,364 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 22:31:45,151 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.802 seconds (JVM running for 5.41)
-2022-08-11 22:31:57,462 INFO team.kucing.anabulshopcare.service.impl.UserAppServiceImpl [http-nio-8081-exec-1] Success get user ipin@gmail.com
-2022-08-11 22:31:57,638 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-2] Resolved [team.kucing.anabulshopcare.exception.ResourceNotFoundException: File not found favicon.ico]
-2022-08-11 23:05:33,410 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 14564 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:05:33,411 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:05:33,412 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:05:36,551 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:05:37,211 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.108 seconds (JVM running for 4.67)
-2022-08-11 23:06:41,408 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-3] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.UserApp.getCart()" because "userApp" is null]
-2022-08-11 23:06:46,023 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-2] Add new Item to Cart
-2022-08-11 23:07:26,255 INFO team.kucing.anabulshopcare.service.impl.UserAppServiceImpl [http-nio-8081-exec-9] Success get user ipin@gmail.com
-2022-08-11 23:12:21,825 INFO team.kucing.anabulshopcare.service.impl.UserAppServiceImpl [http-nio-8081-exec-8] Retrieve all data user [UserResponse(firstName=uncle, lastName=muthu, email=uncle-muthu1@gmail.com, phoneNumber=13114511678559, address=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, history=[], unpaid=[], wishlistProduct=[], cartList=[], roles=[Role(id=1, name=ROLE_SELLER)]), UserResponse(firstName=ipin, lastName=santoso, email=ipin@gmail.com, phoneNumber=133451167899, address=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, history=[CheckoutResponse(cart=[CartResponse(productName=Okasoe, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=10, subTotal=250000.0)], shipmentAddress=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, courier=JN-CAT, shipmentCost=2000.0, couponCode=NO COUPON, discount=0, checkoutTotal=252000.0, isPaid=true, paymentGateway=PaymentResponse(bankName=BCA, bankAccount=anabul, accountName=12381793719739)), CheckoutResponse(cart=[CartResponse(productName=Okasoe, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=20, subTotal=500000.0)], shipmentAddress=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, courier=JN-CAT, shipmentCost=2000.0, couponCode=NO COUPON, discount=0, checkoutTotal=502000.0, isPaid=true, paymentGateway=PaymentResponse(bankName=BCA, bankAccount=anabul, accountName=12381793719739)), CheckoutResponse(cart=[CartResponse(productName=Okasoe, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=10, subTotal=250000.0), CartResponse(productName=Wiskas, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=32, subTotal=800000.0)], shipmentAddress=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, courier=JN-CAT, shipmentCost=2000.0, couponCode=NO COUPON, discount=0, checkoutTotal=1052000.0, isPaid=false, paymentGateway=PaymentResponse(bankName=BCA, bankAccount=anabul, accountName=12381793719739))], unpaid=[CheckoutResponse(cart=[CartResponse(productName=Okasoe, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=10, subTotal=250000.0), CartResponse(productName=Wiskas, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=32, subTotal=800000.0)], shipmentAddress=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, courier=JN-CAT, shipmentCost=2000.0, couponCode=NO COUPON, discount=0, checkoutTotal=1052000.0, isPaid=false, paymentGateway=PaymentResponse(bankName=BCA, bankAccount=anabul, accountName=12381793719739))], wishlistProduct=[], cartList=[], roles=[Role(id=2, name=ROLE_BUYER)])]
-2022-08-11 23:25:08,829 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 6696 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:25:08,830 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:25:08,831 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:25:10,274 WARN org.springframework.context.support.AbstractApplicationContext [restartedMain] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine a suitable driver class
-2022-08-11 23:25:10,302 ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter [restartedMain] 
-
-***************************
-APPLICATION FAILED TO START
-***************************
-
-Description:
-
-Failed to configure a DataSource: no embedded datasource could be configured.
-
-Reason: Failed to determine a suitable driver class
-
-
-Action:
-
-Consider the following:
-	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
-	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
-
-2022-08-11 23:31:09,362 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 22168 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:31:09,364 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:31:09,365 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:31:12,747 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:31:13,428 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.438 seconds (JVM running for 5.089)
-2022-08-11 23:31:27,484 INFO team.kucing.anabulshopcare.service.impl.UserAppServiceImpl [http-nio-8081-exec-1] Retrieve all data user [UserResponse(firstName=uncle, lastName=muthu, email=uncle-muthu1@gmail.com, phoneNumber=13114511678559, address=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, history=[], unpaid=[], wishlistProduct=[], cartList=[], roles=[Role(id=1, name=ROLE_SELLER)]), UserResponse(firstName=ipin, lastName=santoso, email=ipin@gmail.com, phoneNumber=133451167899, address=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, history=[CheckoutResponse(cart=[CartResponse(productName=Okasoe, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=10, subTotal=250000.0)], shipmentAddress=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, courier=JN-CAT, shipmentCost=2000.0, couponCode=NO COUPON, discount=0, checkoutTotal=252000.0, isPaid=true, paymentGateway=PaymentResponse(bankName=BCA, bankAccount=anabul, accountName=12381793719739)), CheckoutResponse(cart=[CartResponse(productName=Okasoe, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=20, subTotal=500000.0)], shipmentAddress=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, courier=JN-CAT, shipmentCost=2000.0, couponCode=NO COUPON, discount=0, checkoutTotal=502000.0, isPaid=true, paymentGateway=PaymentResponse(bankName=BCA, bankAccount=anabul, accountName=12381793719739)), CheckoutResponse(cart=[CartResponse(productName=Okasoe, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=10, subTotal=250000.0), CartResponse(productName=Wiskas, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=32, subTotal=800000.0)], shipmentAddress=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, courier=JN-CAT, shipmentCost=2000.0, couponCode=NO COUPON, discount=0, checkoutTotal=1052000.0, isPaid=false, paymentGateway=PaymentResponse(bankName=BCA, bankAccount=anabul, accountName=12381793719739))], unpaid=[CheckoutResponse(cart=[CartResponse(productName=Okasoe, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=10, subTotal=250000.0)], shipmentAddress=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, courier=JN-CAT, shipmentCost=2000.0, couponCode=NO COUPON, discount=0, checkoutTotal=252000.0, isPaid=true, paymentGateway=PaymentResponse(bankName=BCA, bankAccount=anabul, accountName=12381793719739)), CheckoutResponse(cart=[CartResponse(productName=Okasoe, imageProduct=http://localhost:8081/whiskas-1years.png, category=Cat Food, description=Food, quantity=20, subTotal=500000.0)], shipmentAddress=ACEH, KAB. ACEH SELATAN, Bakongan, Keude Bakongan, courier=JN-CAT, shipmentCost=2000.0, couponCode=NO COUPON, discount=0, checkoutTotal=502000.0, isPaid=true, paymentGateway=PaymentResponse(bankName=BCA, bankAccount=anabul, accountName=12381793719739))], wishlistProduct=[], cartList=[], roles=[Role(id=2, name=ROLE_BUYER)])]
-2022-08-11 23:31:55,897 INFO team.kucing.anabulshopcare.service.impl.CartServiceImpl [http-nio-8081-exec-2] ipin@gmail.comsuccess update cart1fd0d229-af39-4882-9547-10c5f261906d to their cart
-2022-08-11 23:31:55,907 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-2] Add new Item to Cart
-2022-08-11 23:32:05,316 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-3] Resolved [team.kucing.anabulshopcare.exception.BadRequestException: Your cart is empty]
-2022-08-11 23:32:57,086 WARN org.hibernate.engine.jdbc.spi.SqlExceptionHelper [http-nio-8081-exec-4] SQL Error: 0, SQLState: 23505
-2022-08-11 23:32:57,086 ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [http-nio-8081-exec-4] ERROR: duplicate key value violates unique constraint "uk_jags9qycno1bsll4jkvhrn4n3"
-  Detail: Key (cart_cart_id)=(30c35308-5ab1-4915-9676-e3166ce0c3d1) already exists.
-2022-08-11 23:32:57,091 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-4] Resolved [org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [uk_jags9qycno1bsll4jkvhrn4n3]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement]
-2022-08-11 23:33:47,616 WARN org.hibernate.engine.jdbc.spi.SqlExceptionHelper [http-nio-8081-exec-9] SQL Error: 0, SQLState: 23505
-2022-08-11 23:33:47,616 ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [http-nio-8081-exec-9] ERROR: duplicate key value violates unique constraint "uk_dd7clh7txwwgrn1wgdqjj6ad2"
-  Detail: Key (history_id)=(3d9b0ef2-d087-4a95-8797-38f40926200b) already exists.
-2022-08-11 23:33:47,616 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-9] Resolved [org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [uk_dd7clh7txwwgrn1wgdqjj6ad2]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement]
-2022-08-11 23:39:38,135 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 11692 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:39:38,136 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:39:38,137 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:39:41,335 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:39:42,040 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.22 seconds (JVM running for 4.784)
-2022-08-11 23:40:02,934 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-4] Add new Item to Cart
-2022-08-11 23:40:08,966 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-3] Add new Item to Cart
-2022-08-11 23:41:06,655 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 19632 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:41:06,656 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:41:06,656 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:41:10,011 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:41:10,704 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.431 seconds (JVM running for 4.998)
-2022-08-11 23:41:15,131 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-1] Resolved [org.springframework.dao.IncorrectResultSizeDataAccessException: query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2]
-2022-08-11 23:41:28,499 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-2] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.Cart.getQuantity()" because "checkCart" is null]
-2022-08-11 23:41:46,684 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-5] Add new Item to Cart
-2022-08-11 23:41:50,144 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-4] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.Cart.getQuantity()" because "checkCart" is null]
-2022-08-11 23:43:22,059 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 1396 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:43:22,060 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:43:22,061 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:43:25,274 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:43:26,070 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.322 seconds (JVM running for 4.879)
-2022-08-11 23:43:28,495 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-1] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.Cart.getQuantity()" because "checkCart" is null]
-2022-08-11 23:43:56,694 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-2] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.Cart.getQuantity()" because "checkCart" is null]
-2022-08-11 23:44:35,975 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 5888 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:44:35,976 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:44:35,976 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:44:39,351 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:44:40,055 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.401 seconds (JVM running for 4.979)
-2022-08-11 23:44:43,621 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-8] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.Cart.getQuantity()" because "checkCart" is null]
-2022-08-11 23:45:25,385 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 17096 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:45:25,386 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:45:25,386 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:45:28,647 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:45:29,308 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.251 seconds (JVM running for 4.801)
-2022-08-11 23:45:34,560 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-1] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.Cart.getProduct()" because "checkCart" is null]
-2022-08-11 23:48:39,084 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 14264 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:48:39,085 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:48:39,087 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:48:42,451 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:48:43,167 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.436 seconds (JVM running for 5.039)
-2022-08-11 23:48:50,314 INFO team.kucing.anabulshopcare.service.impl.CartServiceImpl [http-nio-8081-exec-1] ipin@gmail.comsuccess update cart1fd0d229-af39-4882-9547-10c5f261906d to their cart
-2022-08-11 23:48:50,331 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-1] Add new Item to Cart
-2022-08-11 23:49:09,116 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-2] Resolved [team.kucing.anabulshopcare.exception.ResourceNotFoundException: User is not found]
-2022-08-11 23:49:24,092 INFO team.kucing.anabulshopcare.service.impl.CartServiceImpl [http-nio-8081-exec-9] ipin@gmail.comsuccess update cart1fd0d229-af39-4882-9547-10c5f261906d to their cart
-2022-08-11 23:49:24,102 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-9] Add new Item to Cart
-2022-08-11 23:50:28,956 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 14412 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:50:28,958 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:50:28,958 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:50:32,382 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:50:33,072 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.458 seconds (JVM running for 5.216)
-2022-08-11 23:50:40,132 INFO team.kucing.anabulshopcare.service.impl.CartServiceImpl [http-nio-8081-exec-1] ipin@gmail.comsuccess update cart1fd0d229-af39-4882-9547-10c5f261906d to their cart
-2022-08-11 23:50:40,172 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-1] Add new Item to Cart
-2022-08-11 23:51:41,422 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 19932 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:51:41,423 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:51:41,425 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:51:44,679 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:51:45,330 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.23 seconds (JVM running for 4.788)
-2022-08-11 23:51:53,562 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-1] Resolved [org.springframework.dao.IncorrectResultSizeDataAccessException: query did not return a unique result: 5; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 5]
-2022-08-11 23:54:01,859 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 2276 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
-2022-08-11 23:54:01,860 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
-2022-08-11 23:54:01,861 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2022-08-11 23:54:05,154 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-08-11 23:54:05,872 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.366 seconds (JVM running for 4.919)
-2022-08-11 23:54:09,484 INFO team.kucing.anabulshopcare.service.impl.CartServiceImpl [http-nio-8081-exec-1] ipin@gmail.comsuccess update cart1fd0d229-af39-4882-9547-10c5f261906d to their cart
-2022-08-11 23:54:09,501 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-1] Add new Item to Cart
-2022-08-11 23:55:09,990 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-3] Resolved [team.kucing.anabulshopcare.exception.BadRequestException: Your cart is empty]
-2022-08-11 23:55:22,421 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-2] Add new Item to Cart
-2022-08-11 23:55:24,900 INFO team.kucing.anabulshopcare.service.impl.CartServiceImpl [http-nio-8081-exec-4] ipin@gmail.comsuccess update cart1fd0d229-af39-4882-9547-10c5f261906d to their cart
-2022-08-11 23:55:24,907 INFO team.kucing.anabulshopcare.resources.rest.CartController [http-nio-8081-exec-4] Add new Item to Cart
+2022-08-17 21:34:07,461 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 3964 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
+2022-08-17 21:34:07,464 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-17 21:34:07,464 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-17 21:34:09,965 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'authenticationJwtTokenFilter' configured for use
+2022-08-17 21:34:10,415 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-17 21:34:10,800 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:34:10,801 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:34:10,801 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:34:10,801 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/v2/api-docs']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:34:10,801 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/ui']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:34:10,801 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-resources/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:34:10,801 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/security']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:34:10,801 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-ui.html']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:34:10,801 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:34:11,119 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 3.913 seconds (JVM running for 4.425)
+2022-08-17 21:35:49,592 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 12468 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
+2022-08-17 21:35:49,593 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-17 21:35:49,594 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-17 21:35:52,331 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'authenticationJwtTokenFilter' configured for use
+2022-08-17 21:35:52,900 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-17 21:35:53,330 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:35:53,330 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:35:53,330 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:35:53,330 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/v2/api-docs']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:35:53,330 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/ui']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:35:53,330 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-resources/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:35:53,330 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/security']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:35:53,330 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-ui.html']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:35:53,330 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:35:53,642 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.319 seconds (JVM running for 4.796)
+2022-08-17 21:36:09,545 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-10] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.UserApp.getPassword()" because "user" is null]
+2022-08-17 21:37:25,160 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-7] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.UserApp.getPassword()" because "user" is null]
+2022-08-17 21:38:10,996 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-6] Resolved [java.lang.ClassCastException: class org.springframework.security.core.userdetails.User cannot be cast to class team.kucing.anabulshopcare.security.UserAppDetailsImpl (org.springframework.security.core.userdetails.User is in unnamed module of loader 'app'; team.kucing.anabulshopcare.security.UserAppDetailsImpl is in unnamed module of loader org.springframework.boot.devtools.restart.classloader.RestartClassLoader @33aed11d)]
+2022-08-17 21:46:58,258 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 12696 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
+2022-08-17 21:46:58,259 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-17 21:46:58,259 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-17 21:47:00,800 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'authenticationJwtTokenFilter' configured for use
+2022-08-17 21:47:01,259 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-17 21:47:01,659 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:47:01,659 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:47:01,659 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:47:01,659 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/v2/api-docs']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:47:01,659 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/ui']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:47:01,659 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-resources/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:47:01,659 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/security']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:47:01,660 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-ui.html']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:47:01,660 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:47:01,967 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 3.979 seconds (JVM running for 4.449)
+2022-08-17 21:47:09,517 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-2] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.UserApp.getPassword()" because "this.userApp" is null]
+2022-08-17 21:48:46,573 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 17672 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
+2022-08-17 21:48:46,574 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-17 21:48:46,575 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-17 21:48:49,159 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'authenticationJwtTokenFilter' configured for use
+2022-08-17 21:48:49,594 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-17 21:48:49,970 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:48:49,970 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:48:49,970 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:48:49,970 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/v2/api-docs']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:48:49,970 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/ui']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:48:49,971 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-resources/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:48:49,971 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/security']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:48:49,971 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-ui.html']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:48:49,971 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:48:50,274 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 3.961 seconds (JVM running for 4.41)
+2022-08-17 21:49:12,444 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-3] Resolved [java.lang.NullPointerException: Cannot invoke "team.kucing.anabulshopcare.entity.UserApp.getPassword()" because "user" is null]
+2022-08-17 21:49:44,130 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-4] Resolved [team.kucing.anabulshopcare.exception.ResourceNotFoundException: Username or password is wrong!]
+2022-08-17 21:53:18,186 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 8536 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
+2022-08-17 21:53:18,187 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-17 21:53:18,188 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-17 21:53:21,004 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'authenticationJwtTokenFilter' configured for use
+2022-08-17 21:53:21,470 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-17 21:53:21,866 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:53:21,867 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:53:21,867 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:53:21,867 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/v2/api-docs']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:53:21,867 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/ui']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:53:21,867 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-resources/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:53:21,867 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/security']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:53:21,867 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-ui.html']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:53:21,867 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:53:22,172 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.263 seconds (JVM running for 4.731)
+2022-08-17 21:54:27,630 INFO team.kucing.anabulshopcare.service.impl.ProductServiceImpl [http-nio-8081-exec-3] Success retrieve all products
+2022-08-17 21:58:15,119 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 18292 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
+2022-08-17 21:58:15,120 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-17 21:58:15,121 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-17 21:58:17,869 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'authenticationJwtTokenFilter' configured for use
+2022-08-17 21:58:18,345 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-17 21:58:18,746 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:18,746 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:18,746 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:18,746 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/v2/api-docs']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:18,746 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/ui']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:18,747 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-resources/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:18,747 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/security']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:18,747 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-ui.html']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:18,747 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:19,046 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 4.205 seconds (JVM running for 4.713)
+2022-08-17 21:58:36,942 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 3964 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
+2022-08-17 21:58:36,943 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-17 21:58:36,944 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-17 21:58:39,485 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'authenticationJwtTokenFilter' configured for use
+2022-08-17 21:58:39,951 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-17 21:58:40,306 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:40,306 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:40,306 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:40,306 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/v2/api-docs']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:40,306 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/ui']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:40,306 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-resources/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:40,307 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/security']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:40,307 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-ui.html']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:40,307 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:58:40,584 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 3.915 seconds (JVM running for 4.36)
+2022-08-17 21:59:39,960 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AnabulShopCareApplication using Java 18.0.1.1 on Harist with PID 8044 (D:\learn-java\anabul-shop-care\target\classes started by islam in D:\learn-java\anabul-shop-care)
+2022-08-17 21:59:39,962 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.7.2, Spring v5.3.22
+2022-08-17 21:59:39,962 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2022-08-17 21:59:42,366 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'authenticationJwtTokenFilter' configured for use
+2022-08-17 21:59:42,812 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-17 21:59:43,208 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/images/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:59:43,209 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/js/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:59:43,209 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:59:43,209 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/v2/api-docs']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:59:43,209 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/ui']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:59:43,209 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-resources/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:59:43,209 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/configuration/security']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:59:43,209 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/swagger-ui.html']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:59:43,209 WARN org.springframework.security.config.annotation.web.builders.WebSecurity [restartedMain] You are asking Spring Security to ignore Ant [pattern='/webjars/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2022-08-17 21:59:43,508 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AnabulShopCareApplication in 3.811 seconds (JVM running for 4.271)
+2022-08-17 22:00:13,758 ERROR team.kucing.anabulshopcare.service.impl.ProductServiceImpl [http-nio-8081-exec-9] Failed to get Product with Location: jambi
+2022-08-17 22:00:13,773 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-9] Resolved [team.kucing.anabulshopcare.exception.ResourceNotFoundException: Sorry, There are no product in jambi area...]
