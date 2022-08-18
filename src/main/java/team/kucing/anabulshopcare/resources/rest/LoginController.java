@@ -18,7 +18,6 @@ public class LoginController {
     AuthServiceImpl authService;
 
     @PostMapping("/signin")
-    @PreAuthorize("none")
     public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest)  {
         return authService.authenticateUser(loginRequest);
     }

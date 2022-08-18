@@ -1,6 +1,7 @@
 package team.kucing.anabulshopcare.resources.rest;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -35,39 +36,48 @@ import java.util.UUID;
 public class UserController {
     private final UserAppServiceImpl userAppService;
     @GetMapping("/users")
-    @PreAuthorize("none")
     public ResponseEntity<Object> getAllUsers(@ParameterObject Pageable pageable){
         return this.userAppService.getAllUsers(pageable);
     }
 
     @GetMapping("/user/{id}")
+    @Operation(summary = "Get User By User Id [SELLER | BUYER]")
+    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> getUser(@PathVariable("id") UUID id){
         return this.userAppService.getUser(id);
     }
 
     @PostMapping(value = "/signup/seller", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @PreAuthorize("none")
     public ResponseEntity<Object> signupSeller(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
         return this.userAppService.signUpSeller(userApp, file);
     }
 
     @PostMapping(value = "/signup/buyer", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @PreAuthorize("none")
     public ResponseEntity<Object> signupBuyer(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
         return this.userAppService.signUpBuyer(userApp, file);
     }
 
     @PutMapping(value = "/user/{id}/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @Operation(summary = "Update User [SELLER | BUYER]")
+    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> updateUser(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid UpdateUserRequest user) {
         return this.userAppService.updateUser(user, file, id);
     }
 
     @PutMapping("/user/{id}/changePassword")
+    @Operation(summary = "Change Password [SELLER | BUYER]")
+    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> changePassword(@PathVariable(value = "id") UUID id, @RequestBody PasswordRequest passwordRequest){
         return this.userAppService.updatePasswordUser(passwordRequest, id);
     }
 
     @DeleteMapping("/user/{id}/deactivate")
+    @Operation(summary = "Deactivate Accout [SELLER | BUYER]")
+    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deactivateAccount(@PathVariable UUID id) {
         return userAppService.deactivateAccount(id);
     }

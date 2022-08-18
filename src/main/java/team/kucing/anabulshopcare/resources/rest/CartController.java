@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/cart/addtocart")
+    @Operation(summary = "Add To Cart [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> addCart(@RequestBody CartRequest cartRequest){
@@ -31,6 +33,7 @@ public class CartController {
     }
 
     @DeleteMapping("/cart/{id}/delete")
+    @Operation(summary = "Delete Cart [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deleteCart(@PathVariable(value = "id") UUID id){
@@ -39,6 +42,7 @@ public class CartController {
     }
 
     @PutMapping("/cart/{id}/updateqty")
+    @Operation(summary = "Change Qty Item Cart [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> changeQtyItemCart(@PathVariable(value = "id") UUID id, UpdateQtyCart updateQtyCart){

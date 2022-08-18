@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,8 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping(value = "/category/add")
-    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @Operation(summary = "Add New Category [SELLER | BUYER]")
+    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> createCategory(@RequestBody CategoryRequest category){
         var newCategory = categoryService.createCategory(category);
@@ -29,6 +31,7 @@ public class CategoryController {
     }
 
     @PutMapping("/category/{id}/update")
+    @Operation(summary = "Update Category [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") Long id, @RequestBody CategoryRequest category){
@@ -44,7 +47,8 @@ public class CategoryController {
     }
 
     @DeleteMapping("/category/{id}/delete")
-    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @Operation(summary = "Delete Category [SELLER]")
+    @PreAuthorize("asAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") Long id){
         var deleteCategory = categoryService.deleteCategory(id);

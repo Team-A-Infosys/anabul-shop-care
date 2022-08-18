@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class CheckoutController {
     private CheckoutService checkoutService;
 
     @PostMapping("/checkout/{id}")
+    @Operation(summary = "Checkout From Cart [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> checkoutCart(@PathVariable("id") UUID id, @RequestBody CheckoutRequest checkoutRequest) {
@@ -25,6 +27,7 @@ public class CheckoutController {
     }
 
     @PostMapping("/checkout/{id}/cancel")
+    @Operation(summary = "Cancel Checkout [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> cancelCheckout(@PathVariable("id") UUID id){
@@ -32,6 +35,7 @@ public class CheckoutController {
     }
 
     @PostMapping("/checkout/{id}/confirmPayment")
+    @Operation(summary = "Confirm Payment [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> confirmPayment(@PathVariable("id") UUID id){

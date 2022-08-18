@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -26,13 +27,13 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/products")
-    @PreAuthorize("hasAuthority('ROLE_SELLER')")
-    @SecurityRequirement(name = "bearer-key")
+    @Operation(summary = "Get All Published Product [ALL USER]")
     public ResponseEntity<Object> getAllProducts(@ParameterObject Pageable pageable){
         return this.productService.listProducts(pageable);
     }
 
     @PostMapping(value = "/product/add",consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @Operation(summary = "Add New Product [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart @Valid ProductRequest product){
@@ -40,6 +41,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/product/{id}/update")
+    @Operation(summary = "Update Product [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id, @RequestPart MultipartFile file, @RequestPart @Valid UpdateProduct productRequest){
@@ -47,30 +49,32 @@ public class ProductController {
     }
     
     @GetMapping("/products/search/name")
-    @PreAuthorize("none")
+    @Operation(summary = "Get Product By Name Like [ALL USER]")
     public ResponseEntity<Object> findByProductName(@RequestParam(value = "productName") String name, @ParameterObject Pageable pageable) {
         return this.productService.filterProductByName(name,pageable);
     }
     
     @GetMapping("/products/search/location")
-    @PreAuthorize("none")
+    @Operation(summary = "Get Product By Location [ALL USER]")
     public ResponseEntity<Object> filterProductsByLocation(@RequestParam(value = "location", required = false) String location, @ParameterObject  Pageable pageable){
         return this.productService.filterProductsByLocation(location, pageable);
     }
 
     @GetMapping("/products/search/price")
-    @PreAuthorize("none")
+    @Operation(summary = "Get Product By Price Range [ALL USER]")
     public ResponseEntity<Object> filterProductsByPrice(@RequestParam(value = "start", required = false)double startPrice, @RequestParam(value = "end", required = false)double endPrice, @ParameterObject  Pageable pageable){
         return this.productService.filterProductByPrice(startPrice, endPrice, pageable);
     }
 
     @GetMapping("/products/search/unpublished")
+    @Operation(summary = "Get All Unpublish Product [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> unpublished(@ParameterObject Pageable pageable){
         return this.productService.filterUnpublishedProduct(pageable);
     }
     @DeleteMapping("/product/{id}/delete")
+    @Operation(summary = "Delete Product By Product Id [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deleteProduct(@PathVariable UUID id){
@@ -78,6 +82,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/product/{id}/setPublished")
+    @Operation(summary = "Published Product By Product Id [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> setPublished(@PathVariable(value = "id") UUID id){
@@ -85,6 +90,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/product/{id}/setArchived")
+    @Operation(summary = "Archived Product By Product Id [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> setArchived(@PathVariable(value = "id") UUID id){

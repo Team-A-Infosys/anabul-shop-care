@@ -1,6 +1,7 @@
 package team.kucing.anabulshopcare.resources.rest;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -24,12 +25,15 @@ public class ShipmentController {
     private final ShipmentServiceImpl shipmentService;
 
     @GetMapping("/shipments")
-    @PreAuthorize("none")
+    @Operation(summary = "Get ALL Shipmnent [SELLER | BUYER]")
+    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> getAllShipment() {
         return this.shipmentService.findAllShipping();
     }
 
     @PostMapping("/shipments/add")
+    @Operation(summary = "Add Shipment Price [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> addShipment(@RequestBody ShipmentRequest shipmentRequest) {

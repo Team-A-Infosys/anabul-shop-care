@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -22,14 +23,16 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @PostMapping("/payment-gateway/create")
-    @PreAuthorize("hasAuthority('ROLE_BUYER')")
+    @Operation(summary = "Get All Payment Method [SELLER | BUYER]")
+    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> createPayment(@RequestBody PaymentRequest request) {
         return this.paymentService.createPayment(request);
     }
 
     @GetMapping("/payments")
-    @PreAuthorize("hasAuthority('ROLE_BUYER')")
+    @Operation(summary = "Get All Payment Method [SELLER | BUYER]")
+    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> getPayments(){
         log.info("success get All Payments");
