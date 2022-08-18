@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
 import team.kucing.anabulshopcare.service.uploadimg.ImageProductService;
+import team.kucing.anabulshopcare.service.uploadimg.UserAvatarService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -21,10 +22,22 @@ import java.io.IOException;
 public class FileController {
     private ImageProductService imageProductService;
 
-    @GetMapping("/{fileName:.+}")
+    private UserAvatarService userAvatarService;
+
+    @GetMapping("/images/product/{fileName:.+}")
     @Operation(hidden = true)
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        Resource resource = imageProductService.loadFileAsResource(fileName);
+    public ResponseEntity<Resource> showImageProduct(@PathVariable String fileName, HttpServletRequest request) {
+        return getResourceResponseEntity(request, imageProductService.loadFileAsResource(fileName), fileName);
+    }
+
+    @GetMapping("/images/user/{fileName:.+}")
+    @Operation(hidden = true)
+    public ResponseEntity<Resource> showAvatar(@PathVariable String fileName, HttpServletRequest request) {
+        return getResourceResponseEntity(request, userAvatarService.loadFileAsResource(fileName), fileName);
+    }
+
+    private ResponseEntity<Resource> getResourceResponseEntity(HttpServletRequest request, Resource resource2, @PathVariable String fileName) {
+        Resource resource = resource2;
 
         String contentType;
         try {

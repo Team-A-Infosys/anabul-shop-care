@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
         String fileName = imageProductService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(fileName)
+                .path("/images/product/"+fileName)
                 .toUriString();
 
         Optional<Category> category = this.categoryRepository.findByCategoryName(productRequest.getCategory().getName());
@@ -223,7 +223,7 @@ public class ProductServiceImpl implements ProductService {
 
         if (!(file.isEmpty())){
             String fileName = imageProductService.storeFile(file);
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/product/"+fileName).toUriString();
             updateProduct.setImageUrl(fileDownloadUri);
             this.productRepository.save(updateProduct);
             log.info("Success update image of product ID: " + updateProduct.getId());

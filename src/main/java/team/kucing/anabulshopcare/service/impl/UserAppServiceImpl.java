@@ -58,7 +58,7 @@ public class UserAppServiceImpl implements UserAppService {
     public ResponseEntity<Object> signUpSeller(SignupRequest newUser, MultipartFile file) {
 
         String fileName = fileStorageService.storeFile(file);
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_SELLER");
 
         return saveUser(newUser, fileDownloadUri, getRole);
@@ -67,7 +67,7 @@ public class UserAppServiceImpl implements UserAppService {
     @Override
     public ResponseEntity<Object> signUpBuyer(SignupRequest newUser, MultipartFile file) {
         String fileName = fileStorageService.storeFile(file);
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_BUYER");
 
         return saveUser(newUser, fileDownloadUri, getRole);
@@ -77,7 +77,7 @@ public class UserAppServiceImpl implements UserAppService {
     public ResponseEntity<Object> signUpAdmin(SignupRequest newUser, MultipartFile file) {
 
         String fileName = fileStorageService.storeFile(file);
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_ADMIN");
 
         return saveUser(newUser, fileDownloadUri, getRole);
@@ -200,7 +200,7 @@ public class UserAppServiceImpl implements UserAppService {
         }
         if (!(file.isEmpty())){
             String fileName = fileStorageService.storeFile(file);
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
             userUpdate.setImageUrl(fileDownloadUri);
             this.userRepo.save(userUpdate);
             log.info("Success to Update Image of User with ID : " + userUpdate.getId() + " into " + fileDownloadUri);
