@@ -7,10 +7,11 @@ import team.kucing.anabulshopcare.dto.request.ProductRequest;
 import team.kucing.anabulshopcare.dto.request.UpdateProduct;
 import team.kucing.anabulshopcare.entity.Product;
 
+import java.security.Principal;
 import java.util.UUID;
 
 public interface ProductService {
-    ResponseEntity<Object> createProduct(ProductRequest productRequest, MultipartFile file);
+    ResponseEntity<Object> createProduct(ProductRequest productRequest, MultipartFile file, Principal principal);
 
     ResponseEntity<Object> listProducts(Pageable pageable);
 

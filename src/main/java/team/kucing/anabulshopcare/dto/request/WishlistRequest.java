@@ -11,6 +11,4 @@ import java.util.UUID;
 @NoArgsConstructor
 public class WishlistRequest {
     private UUID productId;
-
-    private String emailUser;
 }

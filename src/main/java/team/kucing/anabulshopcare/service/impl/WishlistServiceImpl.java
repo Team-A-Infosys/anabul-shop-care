@@ -19,6 +19,7 @@ import team.kucing.anabulshopcare.repository.WishlistRepository;
 import team.kucing.anabulshopcare.service.WishlistService;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.*;
 
 @Service
@@ -34,10 +35,10 @@ public class WishlistServiceImpl implements WishlistService {
     private final ProductRepository productRepository;
 
     @Override
-    public ResponseEntity<Object> createWishlist(WishlistRequest wishlistRequest) {
+    public ResponseEntity<Object> createWishlist(WishlistRequest wishlistRequest, Principal principal) {
         Optional<Product> product = this.productRepository.findById(wishlistRequest.getProductId());
 
-        UserApp userApp = this.userAppRepository.findByEmail(wishlistRequest.getEmailUser());
+        UserApp userApp = this.userAppRepository.findByEmail(principal.getName());
 
         if(product.isEmpty()){
             throw new ResourceNotFoundException("Product is not found");
