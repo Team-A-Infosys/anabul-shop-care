@@ -23,8 +23,8 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @PostMapping("/payment-gateway/create")
-    @Operation(summary = "Get All Payment Method [SELLER | BUYER]")
-    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
+    @Operation(summary = "Get All Payment Method [ADMIN]")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> createPayment(@RequestBody PaymentRequest request) {
         return this.paymentService.createPayment(request);

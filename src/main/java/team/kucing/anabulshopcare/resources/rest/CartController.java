@@ -34,7 +34,7 @@ public class CartController {
     }
 
     @DeleteMapping("/cart/{id}/delete")
-    @Operation(summary = "Delete Cart [BUYER]")
+    @Operation(summary = "Delete Cart With Cart ID [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deleteCart(@PathVariable(value = "id") UUID id){
@@ -43,7 +43,7 @@ public class CartController {
     }
 
     @PutMapping("/cart/{id}/updateqty")
-    @Operation(summary = "Change Qty Item Cart [BUYER]")
+    @Operation(summary = "Change Qty Item Cart With Cart ID [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> changeQtyItemCart(@PathVariable(value = "id") UUID id, UpdateQtyCart updateQtyCart){

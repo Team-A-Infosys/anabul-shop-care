@@ -43,7 +43,7 @@ public class UserController {
     private final UserAppServiceImpl userAppService;
 
     @GetMapping("/user")
-    @Operation(summary = "Get User By User Id [SELLER | BUYER]")
+    @Operation(summary = "Get User By User Id [SELLER, BUYER, ADMIN]")
     @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> getUser(Principal principal){
@@ -60,13 +60,20 @@ public class UserController {
         return this.userAppService.signUpBuyer(userApp, file);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @SecurityRequirement(name = "bearer-key")
+    @PostMapping(value = "/signup/admin", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Object> signupAdmin(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
+        return this.userAppService.signUpAdmin(userApp, file);
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<Object> authenticate(@Valid @RequestBody LoginRequest loginRequest)  {
         return authService.authenticateUser(loginRequest);
     }
 
     @PutMapping(value = "/user/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @Operation(summary = "Update User [SELLER | BUYER]")
+    @Operation(summary = "Update User [SELLER, BUYER, ADMIN]")
     @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> updateUser(@RequestPart MultipartFile file, @RequestPart @Valid UpdateUserRequest user, Principal principal) {
@@ -74,7 +81,7 @@ public class UserController {
     }
 
     @PutMapping("/user/changePassword")
-    @Operation(summary = "Change Password [SELLER | BUYER]")
+    @Operation(summary = "Change Password [SELLER, BUYER, ADMIN]")
     @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> changePassword(@RequestBody PasswordRequest passwordRequest, Principal principal){
@@ -82,7 +89,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/deactivate")
-    @Operation(summary = "Deactivate Accout [SELLER | BUYER]")
+    @Operation(summary = "Deactivate Accout [SELLER, BUYER, ADMIN]")
     @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deactivateAccount(Principal principal) {

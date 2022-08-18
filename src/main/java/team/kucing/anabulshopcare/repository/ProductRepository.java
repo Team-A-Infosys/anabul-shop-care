@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import team.kucing.anabulshopcare.entity.Product;
+import team.kucing.anabulshopcare.entity.UserApp;
 
 import java.util.UUID;
 
@@ -16,6 +17,8 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     Page<Product> findByLocation(String location, Pageable pageable);
 
     Page<Product> findByPriceBetween(double startPrice, double endPrice, Pageable pageable);
+
+    Page<Product> findByUserAppAndIsPublished(UserApp userApp, boolean status, Pageable pageable);
 
     Page<Product> findByIsPublished(boolean status, Pageable pageable);
 

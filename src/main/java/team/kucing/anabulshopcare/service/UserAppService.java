@@ -16,6 +16,8 @@ public interface UserAppService {
 
     ResponseEntity<Object> signUpBuyer(SignupRequest user, MultipartFile file);
 
+    ResponseEntity<Object> signUpAdmin(SignupRequest newUser, MultipartFile file);
+
     ResponseEntity<Object> deactivateAccount(Principal principal);
 
     ResponseEntity<Object> getUser(Principal principal);

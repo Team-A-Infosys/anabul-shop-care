@@ -32,9 +32,9 @@ public class ShipmentController {
         return this.shipmentService.findAllShipping();
     }
 
-    @PostMapping("/shipments/add")
-    @Operation(summary = "Add Shipment Price [SELLER]")
-    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @PostMapping("/shipment/add")
+    @Operation(summary = "Add Shipment Price [ADMIN]")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> addShipment(@RequestBody ShipmentRequest shipmentRequest) {
         var addShipment = this.shipmentService.createShipment(shipmentRequest);
@@ -42,8 +42,3 @@ public class ShipmentController {
         return addShipment;
     }
 }
-
-
-
-
-

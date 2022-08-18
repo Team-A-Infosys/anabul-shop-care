@@ -28,7 +28,7 @@ public class CheckoutController {
     }
 
     @PostMapping("/checkout/{id}/cancel")
-    @Operation(summary = "Cancel Checkout [BUYER]")
+    @Operation(summary = "Cancel Checkout With Checkout ID [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> cancelCheckout(@PathVariable("id") UUID id){
@@ -36,7 +36,7 @@ public class CheckoutController {
     }
 
     @PostMapping("/checkout/{id}/confirmPayment")
-    @Operation(summary = "Confirm Payment [BUYER]")
+    @Operation(summary = "Confirm Payment With Checkout ID [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> confirmPayment(@PathVariable("id") UUID id){

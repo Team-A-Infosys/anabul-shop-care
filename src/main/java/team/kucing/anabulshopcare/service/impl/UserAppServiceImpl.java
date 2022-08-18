@@ -2,8 +2,6 @@ package team.kucing.anabulshopcare.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +25,6 @@ import team.kucing.anabulshopcare.repository.subrepo.*;
 import team.kucing.anabulshopcare.service.UserAppService;
 import team.kucing.anabulshopcare.service.uploadimg.UserAvatarService;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.*;
@@ -71,6 +68,16 @@ public class UserAppServiceImpl implements UserAppService {
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_BUYER");
+
+        return saveUser(newUser, fileDownloadUri, getRole);
+    }
+
+    @Override
+    public ResponseEntity<Object> signUpAdmin(SignupRequest newUser, MultipartFile file) {
+
+        String fileName = fileStorageService.storeFile(file);
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
+        Role getRole = this.roleRepo.findByName("ROLE_ADMIN");
 
         return saveUser(newUser, fileDownloadUri, getRole);
     }

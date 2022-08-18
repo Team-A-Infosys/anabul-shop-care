@@ -25,6 +25,7 @@ import team.kucing.anabulshopcare.service.ProductService;
 import team.kucing.anabulshopcare.service.uploadimg.ImageProductService;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -152,8 +153,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Object> filterUnpublishedProduct(Pageable pageable){
-        Page<Product> product = this.productRepository.findByIsPublished(Boolean.FALSE, pageable);
+    public ResponseEntity<Object> filterUnpublishedProduct(Pageable pageable, Principal principal){
+        UserApp userApp = this.userAppRepository.findByEmail(principal.getName());
+
+        Page<Product> product = this.productRepository.findByUserAppAndIsPublished(userApp, Boolean.FALSE, pageable);
 
         List<ProductResponse> response = product.stream().map(Product::convertToResponse).toList();
 

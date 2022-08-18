@@ -7,6 +7,7 @@ import team.kucing.anabulshopcare.dto.request.ProductRequest;
 import team.kucing.anabulshopcare.dto.request.UpdateProduct;
 import team.kucing.anabulshopcare.entity.Product;
 
+import java.security.Principal;
 import java.util.UUID;
 
 public interface ProductService {
@@ -30,5 +31,5 @@ public interface ProductService {
 
     ResponseEntity<Object> archivedStatus(UUID id);
 
-    ResponseEntity<Object> filterUnpublishedProduct(Pageable pageable);
+    ResponseEntity<Object> filterUnpublishedProduct(Pageable pageable, Principal principal);
 }
