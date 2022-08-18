@@ -17,7 +17,7 @@ import team.kucing.anabulshopcare.service.PaymentService;
 @RestController
 @Slf4j
 @AllArgsConstructor
-@Tag(name = "09. Payment Controller")
+@Tag(name = "08. Payment Controller")
 public class PaymentController {
 
     private PaymentService paymentService;

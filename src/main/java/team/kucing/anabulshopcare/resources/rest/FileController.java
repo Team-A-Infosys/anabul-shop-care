@@ -1,5 +1,6 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -17,11 +18,11 @@ import java.io.IOException;
 
 @RestController
 @AllArgsConstructor
-@Tag(name = "06. File Controller")
 public class FileController {
     private ImageProductService imageProductService;
 
     @GetMapping("/{fileName:.+}")
+    @Operation(hidden = true)
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         Resource resource = imageProductService.loadFileAsResource(fileName);
 

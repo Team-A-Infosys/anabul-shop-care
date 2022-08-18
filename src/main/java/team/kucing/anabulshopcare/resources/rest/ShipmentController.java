@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@Tag(name = "10. Shipment Controller")
+@Tag(name = "9. Shipment Controller")
 public class ShipmentController {
 
     private final ShipmentServiceImpl shipmentService;
