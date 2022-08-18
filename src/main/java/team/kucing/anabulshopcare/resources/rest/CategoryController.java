@@ -1,10 +1,13 @@
 package team.kucing.anabulshopcare.resources.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import team.kucing.anabulshopcare.dto.request.CategoryRequest;
 import team.kucing.anabulshopcare.service.CategoryService;
@@ -17,6 +20,9 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping(value = "/category/add")
+    @Operation(summary = "Add New Category [SELLER | BUYER]")
+    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> createCategory(@RequestBody CategoryRequest category){
         var newCategory = categoryService.createCategory(category);
         log.info("success create new category " + newCategory);
@@ -25,6 +31,9 @@ public class CategoryController {
     }
 
     @PutMapping("/category/{id}/update")
+    @Operation(summary = "Update Category [SELLER]")
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") Long id, @RequestBody CategoryRequest category){
         var updateCategory = categoryService.updateCategory(category, id);
         if(updateCategory == null) {
@@ -38,6 +47,9 @@ public class CategoryController {
     }
 
     @DeleteMapping("/category/{id}/delete")
+    @Operation(summary = "Delete Category [SELLER]")
+    @PreAuthorize("asAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") Long id){
         var deleteCategory = categoryService.deleteCategory(id);
         if(deleteCategory == null) {
