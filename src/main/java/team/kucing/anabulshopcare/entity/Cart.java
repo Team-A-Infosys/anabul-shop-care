@@ -55,6 +55,7 @@ public class Cart {
 
     public CartResponse convertToResponse(){
         return CartResponse.builder()
+                .cartId(this.cartId)
                 .productName(this.product.getName())
                 .imageProduct(this.product.getImageUrl())
                 .description(this.product.getDescription())

@@ -77,9 +77,9 @@ public class UserApp extends ImageProduct {
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
                 .history(this.history.stream().map(Checkout::convertToResponse).toList())
-//                .unpaid(this.history.stream().filter(Checkout::isPaid).map(Checkout::convertToResponse).toList())
+                .unpaid(this.history.stream().map(Checkout::convertToResponse).filter(checkoutResponse -> checkoutResponse.isPaid()==FALSE).toList())
                 .wishlistProduct(this.wishlist.stream().map(Wishlist::convertToResponse).collect(Collectors.toList()))
-                .cartList(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::convertToResponse).toList())
+                .cartList(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).filter(cart1 -> cart1.isDeleted()==FALSE).map(Cart::convertToResponse).toList())
                 .roles(this.roles).build();
     }
 
@@ -93,23 +93,6 @@ public class UserApp extends ImageProduct {
                         this.address.getKota().getNama()+", " +
                         this.address.getKecamatan().getNama()+", " +
                         this.address.getKelurahan().getNama())
-                .roles(this.roles).build();
-    }
-
-    public BuyerResponse convertToBuyerResponse(){
-        return BuyerResponse.builder()
-                .firstName(this.firstName)
-                .lastName(this.lastName)
-                .email(this.email)
-                .phoneNumber(this.phoneNumber)
-                .address(this.address.getProvinsi().getNama()+", " +
-                        this.address.getKota().getNama()+", " +
-                        this.address.getKecamatan().getNama()+", " +
-                        this.address.getKelurahan().getNama())
-                .history(this.history.stream().map(Checkout::convertToResponse).toList())
-//                .unpaid(this.history.stream().map(Checkout::convertToResponse).filter(cart2 -> cart2.isPaid()==FALSE).toList())
-                .wishlistProduct(this.wishlist.stream().map(Wishlist::convertToResponse).collect(Collectors.toList()))
-                .cartList(this.cart.stream().filter(cart1 -> cart1.isCheckout()==FALSE).map(Cart::convertToResponse).toList())
                 .roles(this.roles).build();
     }
 }

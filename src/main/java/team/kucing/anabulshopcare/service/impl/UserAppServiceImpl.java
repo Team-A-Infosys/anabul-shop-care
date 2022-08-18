@@ -12,6 +12,7 @@ import team.kucing.anabulshopcare.dto.request.AddressRequest;
 import team.kucing.anabulshopcare.dto.request.PasswordRequest;
 import team.kucing.anabulshopcare.dto.request.SignupRequest;
 import team.kucing.anabulshopcare.dto.request.UpdateUserRequest;
+import team.kucing.anabulshopcare.dto.response.SellerResponse;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
 import team.kucing.anabulshopcare.entity.Address;
 import team.kucing.anabulshopcare.entity.Role;
@@ -96,14 +97,9 @@ public class UserAppServiceImpl implements UserAppService {
        UserApp getUserApp = this.userRepo.findByEmail(principal.getName());
 
         Role seller = this.roleRepo.findByName("ROLE_SELLER");
-        Collection<Role> roles = this.roleRepo.findAll();
+        Role admin = this.roleRepo.findByName("ROLE_ADMIN");
 
-        if (getUserApp.getRoles().containsAll(roles)) {
-            log.info("Success get user " + getUserApp.getEmail());
-            return ResponseHandler.generateResponse("Success get user", HttpStatus.OK, getUserApp.convertToBuyerResponse());
-        }
-
-        if (getUserApp.getRoles().contains(seller)){
+        if (getUserApp.getRoles().contains(seller) || getUserApp.getRoles().contains(admin)){
             log.info("Success get user " + getUserApp.getEmail());
             return ResponseHandler.generateResponse("Success get user", HttpStatus.OK, getUserApp.convertToSellerResponse());
         }
@@ -154,9 +150,18 @@ public class UserAppServiceImpl implements UserAppService {
             this.userRepo.save(searchUser);
         }
 
-        UserResponse response = newUser.convertToResponse();
-        log.info("Success create user: " + response.toString());
-        return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
+        Role seller = this.roleRepo.findByName("ROLE_SELLER");
+        Role admin = this.roleRepo.findByName("ROLE_ADMIN");
+
+        if (newUser.getRoles().contains(seller) || newUser.getRoles().contains(admin)){
+            SellerResponse response = newUser.convertToSellerResponse();
+            log.info("Success create user: " + response.toString());
+            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
+        } else {
+            UserResponse response = newUser.convertToResponse();
+            log.info("Success create user: " + response.toString());
+            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
+        }
     }
 
     @Override

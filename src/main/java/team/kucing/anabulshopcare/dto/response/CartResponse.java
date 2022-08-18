@@ -2,6 +2,8 @@ package team.kucing.anabulshopcare.dto.response;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @ToString
@@ -9,6 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartResponse {
+
+    private UUID cartId;
 
     private String productName;
 
