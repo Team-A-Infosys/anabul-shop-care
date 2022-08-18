@@ -214,6 +214,10 @@ public class UserAppServiceImpl implements UserAppService {
             throw new BadRequestException("Password is not match, try again");
         }
 
+        if (passwordEncoder.matches(passwordRequest.getPassword(), userApp.getPassword())){
+            throw new BadRequestException("Password cannot be the same as the previous password");
+        }
+
         userApp.setPassword(passwordEncoder.encode(passwordRequest.getPassword()));
         this.userRepo.save(userApp);
 
