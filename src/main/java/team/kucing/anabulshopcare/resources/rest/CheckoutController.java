@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import team.kucing.anabulshopcare.dto.request.CheckoutRequest;
 import team.kucing.anabulshopcare.service.CheckoutService;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @RestController
@@ -18,16 +19,16 @@ import java.util.UUID;
 public class CheckoutController {
     private CheckoutService checkoutService;
 
-    @PostMapping("/checkout/{id}")
+    @PostMapping("/checkout")
     @Operation(summary = "Checkout From Cart [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<Object> checkoutCart(@PathVariable("id") UUID id, @RequestBody CheckoutRequest checkoutRequest) {
-        return this.checkoutService.createCheckout(id, checkoutRequest);
+    public ResponseEntity<Object> checkoutCart(@RequestBody CheckoutRequest checkoutRequest, Principal principal) {
+        return this.checkoutService.createCheckout(checkoutRequest, principal);
     }
 
     @PostMapping("/checkout/{id}/cancel")
-    @Operation(summary = "Cancel Checkout [BUYER]")
+    @Operation(summary = "Cancel Checkout With Checkout ID [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> cancelCheckout(@PathVariable("id") UUID id){
@@ -35,7 +36,7 @@ public class CheckoutController {
     }
 
     @PostMapping("/checkout/{id}/confirmPayment")
-    @Operation(summary = "Confirm Payment [BUYER]")
+    @Operation(summary = "Confirm Payment With Checkout ID [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> confirmPayment(@PathVariable("id") UUID id){

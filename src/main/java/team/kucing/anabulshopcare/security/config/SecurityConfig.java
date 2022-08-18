@@ -65,7 +65,7 @@ public class SecurityConfig {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/signin/**","/products","/signup/buyer","/signup/seller", "/users","/products/search/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .authorizeRequests().antMatchers("/signin/**","/products","/signup/**", "/users","/products/search/name","/products/search/location","/products/search/price", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         http.headers().frameOptions().sameOrigin();

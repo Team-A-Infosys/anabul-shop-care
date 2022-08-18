@@ -17,6 +17,7 @@ import team.kucing.anabulshopcare.dto.request.UpdateProduct;
 import team.kucing.anabulshopcare.service.ProductService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.UUID;
 
 @RestController
@@ -36,8 +37,8 @@ public class ProductController {
     @Operation(summary = "Add New Product [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart @Valid ProductRequest product){
-        return this.productService.createProduct(product,file);
+    public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart @Valid ProductRequest product, Principal principal){
+        return this.productService.createProduct(product,file, principal);
     }
 
     @PutMapping(value = "/product/{id}/update")
@@ -70,8 +71,8 @@ public class ProductController {
     @Operation(summary = "Get All Unpublish Product [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<Object> unpublished(@ParameterObject Pageable pageable){
-        return this.productService.filterUnpublishedProduct(pageable);
+    public ResponseEntity<Object> unpublished(@ParameterObject Pageable pageable, Principal principal){
+        return this.productService.filterUnpublishedProduct(pageable, principal);
     }
     @DeleteMapping("/product/{id}/delete")
     @Operation(summary = "Delete Product By Product Id [SELLER]")

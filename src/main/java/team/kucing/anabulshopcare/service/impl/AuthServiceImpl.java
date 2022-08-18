@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
     String projectTeam;
 
     @Override
-    public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
+    public ResponseEntity<Object> authenticateUser(LoginRequest loginRequest) {
         UserApp user = this.userAppRepository.findByEmail(loginRequest.getEmail());
         Boolean isPasswordCorrect = encoder.matches(loginRequest.getPassword(), user.getPassword());
         if (Boolean.FALSE.equals(userAppRepository.existsByEmail(loginRequest.getEmail()))) {
@@ -71,6 +71,6 @@ public class AuthServiceImpl implements AuthService {
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserAppDetailsImpl userDetails = (UserAppDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        return ResponseHandler.generateResponse(null, HttpStatus.OK, new JwtResponse(jwt, userDetails.getUsername(), userDetails.getFirstame(), userDetails.getLastname(), roles));
+        return ResponseHandler.generateResponse(null, HttpStatus.OK, new JwtResponse(jwt, userDetails.getUserid(), userDetails.getFirstname(), userDetails.getLastname(),userDetails.getUsername(), roles));
     }
 }

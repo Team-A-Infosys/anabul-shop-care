@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import team.kucing.anabulshopcare.dto.request.WishlistRequest;
 import team.kucing.anabulshopcare.service.WishlistService;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @RestController
@@ -25,8 +26,8 @@ public class WishlistController {
     @Operation(summary = "Add Wishlist By Product Id [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<Object> addWishlist(@RequestBody WishlistRequest wishlistRequest){
-        var addItemWishlist = this.wishlistService.createWishlist(wishlistRequest);
+    public ResponseEntity<Object> addWishlist(@RequestBody WishlistRequest wishlistRequest, Principal principal){
+        var addItemWishlist = this.wishlistService.createWishlist(wishlistRequest, principal);
         log.info("New Item Added To Wishlist");
         return addItemWishlist;
     }

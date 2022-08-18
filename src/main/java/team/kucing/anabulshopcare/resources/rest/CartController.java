@@ -12,6 +12,7 @@ import team.kucing.anabulshopcare.dto.request.CartRequest;
 import team.kucing.anabulshopcare.dto.request.UpdateQtyCart;
 import team.kucing.anabulshopcare.service.CartService;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @RestController
@@ -26,14 +27,14 @@ public class CartController {
     @Operation(summary = "Add To Cart [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<Object> addCart(@RequestBody CartRequest cartRequest){
-        var addToCart = this.cartService.createCart(cartRequest);
+    public ResponseEntity<Object> addCart(@RequestBody CartRequest cartRequest, Principal principal){
+        var addToCart = this.cartService.createCart(cartRequest, principal);
         log.info("Add new Item to Cart");
         return addToCart;
     }
 
     @DeleteMapping("/cart/{id}/delete")
-    @Operation(summary = "Delete Cart [BUYER]")
+    @Operation(summary = "Delete Cart With Cart ID [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deleteCart(@PathVariable(value = "id") UUID id){
@@ -42,7 +43,7 @@ public class CartController {
     }
 
     @PutMapping("/cart/{id}/updateqty")
-    @Operation(summary = "Change Qty Item Cart [BUYER]")
+    @Operation(summary = "Change Qty Item Cart With Cart ID [BUYER]")
     @PreAuthorize("hasAuthority('ROLE_BUYER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> changeQtyItemCart(@PathVariable(value = "id") UUID id, UpdateQtyCart updateQtyCart){

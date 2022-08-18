@@ -31,8 +31,8 @@ public class CategoryController {
     }
 
     @PutMapping("/category/{id}/update")
-    @Operation(summary = "Update Category [SELLER]")
-    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @Operation(summary = "Update Category With Category ID [ADMIN]")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") Long id, @RequestBody CategoryRequest category){
         var updateCategory = categoryService.updateCategory(category, id);
@@ -47,8 +47,8 @@ public class CategoryController {
     }
 
     @DeleteMapping("/category/{id}/delete")
-    @Operation(summary = "Delete Category [SELLER]")
-    @PreAuthorize("asAuthority('ROLE_SELLER')")
+    @Operation(summary = "Delete Category With Category ID [ADMIN]")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") Long id){
         var deleteCategory = categoryService.deleteCategory(id);

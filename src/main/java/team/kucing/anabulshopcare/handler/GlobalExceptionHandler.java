@@ -12,6 +12,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import team.kucing.anabulshopcare.entity.ErrorObject;
 import team.kucing.anabulshopcare.exception.BadRequestException;
 import team.kucing.anabulshopcare.exception.ResourceNotFoundException;
+import team.kucing.anabulshopcare.exception.UnauthorizedException;
 
 import java.util.Collections;
 import java.util.Date;
@@ -45,6 +46,19 @@ public class GlobalExceptionHandler {
         errObj.setTimestamp(new Date());
 
         return new ResponseEntity<>(errObj, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ErrorObject> handleUnauthorizedException(UnauthorizedException e, WebRequest request){
+        ErrorObject errObj = new ErrorObject();
+
+        errObj.setStatusCode(HttpStatus.UNAUTHORIZED.value());
+        errObj.setErrorMessage(Collections.singletonList(e.getMessage()));
+        errObj.setPayload(null);
+        errObj.setTimestamp(new Date());
+
+        return new ResponseEntity<>(errObj, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
