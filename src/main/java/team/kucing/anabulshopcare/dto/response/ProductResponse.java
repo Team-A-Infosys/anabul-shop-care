@@ -7,12 +7,16 @@ import lombok.NoArgsConstructor;
 import team.kucing.anabulshopcare.entity.Wishlist;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ProductResponse {
+
+    private UUID productId;
+
     private String productName;
 
     private String description;

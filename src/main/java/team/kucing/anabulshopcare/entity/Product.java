@@ -70,6 +70,7 @@ public class Product {
 
     public ProductResponse convertToResponse(){
         return ProductResponse.builder()
+                .productId(this.id)
                 .productName(this.name)
                 .firstName(this.userApp.getFirstName())
                 .description(this.description)

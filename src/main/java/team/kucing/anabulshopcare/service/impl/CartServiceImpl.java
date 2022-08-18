@@ -95,6 +95,7 @@ public class CartServiceImpl implements CartService {
         List<Cart> cart = this.cartRepository.findByUserApp(userApp);
         for (Cart c : cart) {
             c.setCheckout(Boolean.TRUE);
+            c.setDeleted(Boolean.TRUE);
             this.cartRepository.save(c);
         }
     }

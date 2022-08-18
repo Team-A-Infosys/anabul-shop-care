@@ -44,7 +44,7 @@ public class UserController {
 
     @GetMapping("/user")
     @Operation(summary = "Get User By User Id [SELLER, BUYER, ADMIN]")
-    @PreAuthorize("hasAuthority('ROLE_BUYER') or hasAuthority('ROLE_SELLER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_BUYER', 'ROLE_SELLER', 'ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> getUser(Principal principal){
         return this.userAppService.getUser(principal);
