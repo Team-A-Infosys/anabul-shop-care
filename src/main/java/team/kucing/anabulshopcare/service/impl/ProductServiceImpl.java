@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
     private final CartRepository cartRepository;
 
     @Override
-    public ResponseEntity<Object> createProduct(ProductRequest productRequest, MultipartFile file) {
+    public ResponseEntity<Object> createProduct(ProductRequest productRequest, MultipartFile file, Principal principal) {
 
         String mimetype = "image/png";
 
@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
         } else {
             product.setCategory(category.get());
         }
-        UserApp userApp = this.userAppRepository.findByEmail(productRequest.getEmailUser());
+        UserApp userApp = this.userAppRepository.findByEmail(principal.getName());
 
         product.setUserApp(userApp);
         product.setLocation(userApp.getAddress().getKota().getNama());

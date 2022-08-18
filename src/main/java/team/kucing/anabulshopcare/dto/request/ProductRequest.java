@@ -13,8 +13,6 @@ public class ProductRequest {
 
     private CategoryRequest category;
 
-    private String emailUser;
-
     private Integer stock;
 
     private double price;

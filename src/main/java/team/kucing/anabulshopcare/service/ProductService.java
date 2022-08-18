@@ -11,7 +11,7 @@ import java.security.Principal;
 import java.util.UUID;
 
 public interface ProductService {
-    ResponseEntity<Object> createProduct(ProductRequest productRequest, MultipartFile file);
+    ResponseEntity<Object> createProduct(ProductRequest productRequest, MultipartFile file, Principal principal);
 
     ResponseEntity<Object> listProducts(Pageable pageable);
 

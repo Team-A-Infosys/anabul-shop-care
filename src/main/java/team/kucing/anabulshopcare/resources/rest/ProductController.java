@@ -37,8 +37,8 @@ public class ProductController {
     @Operation(summary = "Add New Product [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart @Valid ProductRequest product){
-        return this.productService.createProduct(product,file);
+    public ResponseEntity<Object> addProduct(@RequestPart MultipartFile file, @RequestPart @Valid ProductRequest product, Principal principal){
+        return this.productService.createProduct(product,file, principal);
     }
 
     @PutMapping(value = "/product/{id}/update")
