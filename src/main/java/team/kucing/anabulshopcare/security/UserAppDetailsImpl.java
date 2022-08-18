@@ -9,6 +9,7 @@ import team.kucing.anabulshopcare.entity.UserApp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class UserAppDetailsImpl implements UserDetails {
 
@@ -58,11 +59,15 @@ public class UserAppDetailsImpl implements UserDetails {
         return true;
     }
 
-    public String getFirstame(){
+    public String getFirstname(){
         return this.userApp.getFirstName();
     }
 
     public String getLastname(){
         return this.userApp.getLastName();
+    }
+
+    public UUID getUserid(){
+        return this.userApp.getId();
     }
 }

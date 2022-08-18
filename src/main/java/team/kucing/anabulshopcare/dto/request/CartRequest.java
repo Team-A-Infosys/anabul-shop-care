@@ -14,7 +14,5 @@ import java.util.UUID;
 public class CartRequest {
     private UUID productId;
 
-    private String emailUser;
-
     private int quantity;
 }

@@ -6,6 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 import team.kucing.anabulshopcare.dto.request.PasswordRequest;
 import team.kucing.anabulshopcare.dto.request.SignupRequest;
 import team.kucing.anabulshopcare.dto.request.UpdateUserRequest;
+
+import java.security.Principal;
 import java.util.UUID;
 
 public interface UserAppService {
@@ -14,13 +16,11 @@ public interface UserAppService {
 
     ResponseEntity<Object> signUpBuyer(SignupRequest user, MultipartFile file);
 
-    ResponseEntity<Object> deactivateAccount(UUID id);
+    ResponseEntity<Object> deactivateAccount(Principal principal);
 
-    ResponseEntity<Object> getAllUsers(Pageable pageable);
+    ResponseEntity<Object> getUser(Principal principal);
 
-    ResponseEntity<Object> getUser(UUID id);
+    ResponseEntity<Object> updateUser(UpdateUserRequest user, MultipartFile file, Principal principal);
 
-    ResponseEntity<Object> updateUser(UpdateUserRequest user, MultipartFile file, UUID id);
-
-    ResponseEntity<Object> updatePasswordUser(PasswordRequest passwordRequest, UUID id);
+    ResponseEntity<Object> updatePasswordUser(PasswordRequest passwordRequest, Principal principal);
 }

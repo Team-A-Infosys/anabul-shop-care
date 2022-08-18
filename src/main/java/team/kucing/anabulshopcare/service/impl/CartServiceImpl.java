@@ -20,6 +20,7 @@ import team.kucing.anabulshopcare.service.CartService;
 import team.kucing.anabulshopcare.service.WishlistService;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -40,10 +41,10 @@ public class CartServiceImpl implements CartService {
     private UserAppRepository userAppRepository;
 
     @Override
-    public ResponseEntity<Object> createCart(CartRequest cartRequest){
+    public ResponseEntity<Object> createCart(CartRequest cartRequest, Principal principal){
         Optional<Product> product = this.productRepository.findById(cartRequest.getProductId());
 
-        UserApp userApp = this.userAppRepository.findByEmail(cartRequest.getEmailUser());
+        UserApp userApp = this.userAppRepository.findByEmail(principal.getName());
 
         if (product.isEmpty()) {
             throw new ResourceNotFoundException("Product Not Found");
@@ -54,7 +55,6 @@ public class CartServiceImpl implements CartService {
             throw new ResourceNotFoundException("Product Not Found");
         }
 
-        //need to revise TODO
         Cart checkCart = this.cartRepository.findByProductAndUserAppAndIsDeleted(getProduct, userApp, false);
 
         Cart cart = new Cart();
@@ -85,7 +85,7 @@ public class CartServiceImpl implements CartService {
             getProduct.getCart().add(cart);
             this.productRepository.save(getProduct);
 
-//            log.info(userApp.getEmail() + "success add product: " + getProduct.getId() + " to their cart");
+            log.info(userApp.getEmail() + "success add product: " + getProduct.getId() + " to their cart");
             return ResponseHandler.generateResponse("Success add product to cart", HttpStatus.OK, response);
         }
     }

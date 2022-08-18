@@ -16,6 +16,7 @@ import team.kucing.anabulshopcare.service.CartService;
 import team.kucing.anabulshopcare.service.CheckoutService;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,17 +47,11 @@ public class CheckoutServiceImpl implements CheckoutService {
     private CartService cartService;
 
     @Override
-    public ResponseEntity<Object> createCheckout(UUID id, CheckoutRequest checkoutRequest) {
-        Optional<UserApp> findUser = this.userAppRepository.findById(id);
+    public ResponseEntity<Object> createCheckout(CheckoutRequest checkoutRequest, Principal principal) {
+        UserApp getUserApp = this.userAppRepository.findByEmail(principal.getName());
         Coupon coupon = this.couponRepository.findByCode(checkoutRequest.getCouponCode().toUpperCase());
 
-        if (findUser.isEmpty()){
-            throw new ResourceNotFoundException("User is not found");
-        }
-
-        UserApp getUserApp = findUser.get();
         var o = getUserApp.getCart().stream().filter(cart1 -> cart1.isDeleted()==FALSE).filter(cart1 -> cart1.isCheckout()==FALSE).toList();
-        var o2 = getUserApp.getCart().stream().filter(cart1 -> cart1.isDeleted()==TRUE).filter(cart1 -> cart1.isCheckout()==FALSE).toList();
         if (o.size() == 0){
             throw new BadRequestException("Your cart is empty");
         }

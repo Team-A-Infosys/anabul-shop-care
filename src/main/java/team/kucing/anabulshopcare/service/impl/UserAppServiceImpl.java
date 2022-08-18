@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,6 +29,7 @@ import team.kucing.anabulshopcare.service.uploadimg.UserAvatarService;
 
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.*;
 
 @Service
@@ -49,6 +51,8 @@ public class UserAppServiceImpl implements UserAppService {
     private KelurahanRepository kelurahanRepository;
 
     private RoleRepository roleRepo;
+
+    private PasswordEncoder passwordEncoder;
 
     private final UserAvatarService fileStorageService;
 
@@ -72,33 +76,20 @@ public class UserAppServiceImpl implements UserAppService {
     }
 
     @Override
-    public ResponseEntity<Object> deactivateAccount(UUID id) {
-        UserApp userApp = this.findById(id);
+    public ResponseEntity<Object> deactivateAccount(Principal principal) {
+        UserApp userApp = this.userRepo.findByEmail(principal.getName());
         userRepo.delete(userApp);
 
         log.info("Deactivate account process has been successful");
         return ResponseHandler.generateResponse("Success deactivate account", HttpStatus.OK, null);
     }
-    @Override
-    public ResponseEntity<Object> getAllUsers(Pageable pageable){
-        Page<UserApp> userApp = this.userRepo.findAll(pageable);
-        List<UserResponse> response = userApp.stream().map(UserApp::convertToResponse).toList();
-        log.info("Retrieve all data user " + response);
-
-        return ResponseHandler.generateResponse("Success Retrieve All Users", HttpStatus.OK, response);
-    }
 
     @Override
-    public ResponseEntity<Object> getUser(UUID id){
-        Optional<UserApp> userApp = this.userRepo.findById(id);
-        if (userApp.isEmpty()){
-            throw new ResourceNotFoundException("User is not found");
-        }
+    public ResponseEntity<Object> getUser(Principal principal){
+       UserApp getUserApp = this.userRepo.findByEmail(principal.getName());
 
         Role seller = this.roleRepo.findByName("ROLE_SELLER");
         Collection<Role> roles = this.roleRepo.findAll();
-
-        UserApp getUserApp = userApp.get();
 
         if (getUserApp.getRoles().containsAll(roles)) {
             log.info("Success get user " + getUserApp.getEmail());
@@ -124,7 +115,7 @@ public class UserAppServiceImpl implements UserAppService {
         if (!Objects.equals(request.getPassword(), request.getConfirmPassword())){
             throw new BadRequestException("Password is not match, try again");
         }
-        newUser.setPassword(request.getPassword());
+        newUser.setPassword(passwordEncoder.encode(request.getPassword()));
 
         if (this.userRepo.existsByEmail(request.getEmail())){
             log.error("Email already registered, try login. Error: " + HttpStatus.BAD_REQUEST);
@@ -161,18 +152,9 @@ public class UserAppServiceImpl implements UserAppService {
         return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
     }
 
-    private UserApp findById(UUID id) {
-        Optional<UserApp> optionalUserApp = userRepo.findById(id);
-
-        if(optionalUserApp.isEmpty()){
-            throw new ResourceNotFoundException("User with ID "+id+" Is Not Found");
-        }
-        return optionalUserApp.get();
-    }
-
     @Override
-    public ResponseEntity<Object> updateUser(UpdateUserRequest user, MultipartFile file, UUID id) {
-        UserApp userUpdate = this.findById(id);
+    public ResponseEntity<Object> updateUser(UpdateUserRequest user, MultipartFile file, Principal principal) {
+        UserApp userUpdate = this.userRepo.findByEmail(principal.getName());
         if (user.getFirstName() != null) {
             userUpdate.setFirstName(user.getFirstName());
             this.userRepo.save(userUpdate);
@@ -193,7 +175,7 @@ public class UserAppServiceImpl implements UserAppService {
             log.info("Success to Update Email of User with ID : " + userUpdate.getId()+ " into " + user.getEmail());
         }
         if (user.getAddress() != null){
-            this.updateAddressUser(user.getAddress(), id);
+            this.updateAddressUser(user.getAddress(), principal);
         }
         if (user.getPhoneNumber()!= null) {
             if (this.userRepo.existsByPhoneNumber(user.getPhoneNumber())) {
@@ -218,22 +200,22 @@ public class UserAppServiceImpl implements UserAppService {
     }
 
     @Override
-    public ResponseEntity<Object> updatePasswordUser(PasswordRequest passwordRequest, UUID id){
-        UserApp userApp = this.findById(id);
+    public ResponseEntity<Object> updatePasswordUser(PasswordRequest passwordRequest, Principal principal){
+        UserApp userApp = this.userRepo.findByEmail(principal.getName());
 
         if (!Objects.equals(passwordRequest.getPassword(), passwordRequest.getConfirmPassword())){
             throw new BadRequestException("Password is not match, try again");
         }
 
-        userApp.setPassword(passwordRequest.getPassword());
+        userApp.setPassword(passwordEncoder.encode(passwordRequest.getPassword()));
         this.userRepo.save(userApp);
 
         log.info("Success change the password of user: " + userApp.convertToResponse());
         return ResponseHandler.generateResponse("Success change the password", HttpStatus.OK, userApp.convertToResponse());
     }
 
-    private void updateAddressUser(AddressRequest addressRequest, UUID id){
-        UserApp updateAddressUser = this.findById(id);
+    private void updateAddressUser(AddressRequest addressRequest, Principal principal){
+        UserApp updateAddressUser = this.userRepo.findByEmail(principal.getName());
         Optional<Provinsi> findProvinsi = this.provinsiRepository.findById(addressRequest.getProvinsi().getId());
         if (findProvinsi.isEmpty()){
             throw new ResourceNotFoundException("Provinsi is not found");
