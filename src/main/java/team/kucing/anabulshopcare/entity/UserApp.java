@@ -1,10 +1,7 @@
 package team.kucing.anabulshopcare.entity;
 import lombok.*;
 import org.hibernate.annotations.*;
-import team.kucing.anabulshopcare.dto.response.BuyerResponse;
-import team.kucing.anabulshopcare.dto.response.CheckoutResponse;
-import team.kucing.anabulshopcare.dto.response.SellerResponse;
-import team.kucing.anabulshopcare.dto.response.UserResponse;
+import team.kucing.anabulshopcare.dto.response.*;
 import team.kucing.anabulshopcare.entity.image.ImageProduct;
 
 import javax.persistence.CascadeType;
@@ -87,6 +84,19 @@ public class UserApp extends ImageProduct {
         return SellerResponse.builder()
                 .sellerName(this.firstName)
                 .storeName(this.lastName)
+                .email(this.email)
+                .phoneNumber(this.phoneNumber)
+                .address(this.address.getProvinsi().getNama()+", " +
+                        this.address.getKota().getNama()+", " +
+                        this.address.getKecamatan().getNama()+", " +
+                        this.address.getKelurahan().getNama())
+                .roles(this.roles).build();
+    }
+
+    public AdminResponse convertToAdminResponse(){
+        return AdminResponse.builder()
+                .firstName(this.firstName)
+                .lastName(this.lastName)
                 .email(this.email)
                 .phoneNumber(this.phoneNumber)
                 .address(this.address.getProvinsi().getNama()+", " +

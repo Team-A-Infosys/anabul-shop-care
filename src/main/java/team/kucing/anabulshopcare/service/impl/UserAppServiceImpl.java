@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import team.kucing.anabulshopcare.dto.request.*;
+import team.kucing.anabulshopcare.dto.response.AdminResponse;
 import team.kucing.anabulshopcare.dto.response.SellerResponse;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
 import team.kucing.anabulshopcare.entity.Address;
@@ -155,7 +156,7 @@ public class UserAppServiceImpl implements UserAppService {
             log.info("Success create user: " + response.toString());
             return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
         } else {
-            UserResponse response = newUser.convertToResponse();
+            AdminResponse response = newUser.convertToAdminResponse();
             log.info("Success create user: " + response.toString());
             return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
         }
