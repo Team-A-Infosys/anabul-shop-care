@@ -68,7 +68,7 @@ public class UserAppServiceImpl implements UserAppService {
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_BUYER");
 
-        return saveNonSeller(newUser, fileDownloadUri, getRole);
+        return saveBuyer(newUser, fileDownloadUri, getRole);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class UserAppServiceImpl implements UserAppService {
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_ADMIN");
 
-        return saveNonSeller(newUser, fileDownloadUri, getRole);
+        return saveAdmin(newUser, fileDownloadUri, getRole);
     }
 
     @Override
@@ -106,7 +106,52 @@ public class UserAppServiceImpl implements UserAppService {
         return ResponseHandler.generateResponse("Success get user", HttpStatus.OK, getUserApp.convertToResponse());
     }
 
-    private ResponseEntity<Object> saveNonSeller(SignupNonSellerRequest request, String fileDownloadUri, Role getRole) {
+    private ResponseEntity<Object> saveBuyer(SignupNonSellerRequest request, String fileDownloadUri, Role getRole) {
+        UserApp newUser = new UserApp();
+        newUser.setImageUrl(fileDownloadUri);
+        newUser.setFirstName(request.getFirstName());
+        newUser.setLastName(request.getLastName());
+        newUser.setRoles(Collections.singleton(getRole));
+
+        if (!Objects.equals(request.getPassword(), request.getConfirmPassword())){
+            throw new BadRequestException("Password is not match, try again");
+        }
+        newUser.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        if (this.userRepo.existsByEmail(request.getEmail())){
+            log.error("Email already registered, try login. Error: " + HttpStatus.BAD_REQUEST);
+            throw new BadRequestException("Email already registered, try login");
+        }
+        newUser.setEmail(request.getEmail());
+
+        if (this.userRepo.existsByPhoneNumber(request.getPhoneNumber())){
+            log.error("Phone number already registered, try login. Error: " + HttpStatus.BAD_REQUEST);
+            throw new BadRequestException("Phone number already registered");
+        }
+        newUser.setPhoneNumber(request.getPhoneNumber());
+        this.userRepo.save(newUser);
+
+        if (newUser.getAddress() == null){
+            Address newAddress = new Address();
+            newAddress.setId(1L);
+            newAddress.setProvinsi(request.getAddress().getProvinsi());
+            newAddress.setKota(request.getAddress().getKota());
+            newAddress.setKecamatan(request.getAddress().getKecamatan());
+            newAddress.setKelurahan(request.getAddress().getKelurahan());
+            Address saveAddress = this.addressRepository.save(newAddress);
+
+            newUser.setAddress(saveAddress);
+            UserApp savedUser = this.userRepo.save(newUser);
+
+            UserApp searchUser = this.userRepo.findByEmail(request.getEmail());
+            searchUser.getAddress().setUserApp(savedUser);
+            this.userRepo.save(searchUser);
+        }
+            UserResponse response = newUser.convertToResponse();
+            log.info("Success create user: " + response.toString());
+            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
+    }
+    private ResponseEntity<Object> saveAdmin(SignupNonSellerRequest request, String fileDownloadUri, Role getRole) {
         UserApp newUser = new UserApp();
         newUser.setImageUrl(fileDownloadUri);
         newUser.setFirstName(request.getFirstName());
@@ -148,18 +193,9 @@ public class UserAppServiceImpl implements UserAppService {
             this.userRepo.save(searchUser);
         }
 
-        Role seller = this.roleRepo.findByName("ROLE_SELLER");
-        Role admin = this.roleRepo.findByName("ROLE_ADMIN");
-
-        if (newUser.getRoles().contains(seller) || newUser.getRoles().contains(admin)){
-            SellerResponse response = newUser.convertToSellerResponse();
-            log.info("Success create user: " + response.toString());
-            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
-        } else {
             AdminResponse response = newUser.convertToAdminResponse();
             log.info("Success create user: " + response.toString());
             return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
-        }
     }
     private ResponseEntity<Object> saveSeller(SignupSellerRequest request, String fileDownloadUri, Role getRole) {
         UserApp newUser = new UserApp();
@@ -202,19 +238,9 @@ public class UserAppServiceImpl implements UserAppService {
             searchUser.getAddress().setUserApp(savedUser);
             this.userRepo.save(searchUser);
         }
-
-        Role seller = this.roleRepo.findByName("ROLE_SELLER");
-        Role admin = this.roleRepo.findByName("ROLE_ADMIN");
-
-        if (newUser.getRoles().contains(seller) || newUser.getRoles().contains(admin)){
             SellerResponse response = newUser.convertToSellerResponse();
             log.info("Success create user: " + response.toString());
             return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
-        } else {
-            UserResponse response = newUser.convertToResponse();
-            log.info("Success create user: " + response.toString());
-            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
-        }
     }
 
     @Override
