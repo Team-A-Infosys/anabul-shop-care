@@ -85,8 +85,8 @@ public class UserApp extends ImageProduct {
 
     public SellerResponse convertToSellerResponse(){
         return SellerResponse.builder()
-                .firstName(this.firstName)
-                .lastName(this.lastName)
+                .sellerName(this.firstName)
+                .storeName(this.lastName)
                 .email(this.email)
                 .phoneNumber(this.phoneNumber)
                 .address(this.address.getProvinsi().getNama()+", " +

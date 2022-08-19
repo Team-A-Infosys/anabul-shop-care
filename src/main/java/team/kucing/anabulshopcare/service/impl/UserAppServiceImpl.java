@@ -8,10 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import team.kucing.anabulshopcare.dto.request.AddressRequest;
-import team.kucing.anabulshopcare.dto.request.PasswordRequest;
-import team.kucing.anabulshopcare.dto.request.SignupRequest;
-import team.kucing.anabulshopcare.dto.request.UpdateUserRequest;
+import team.kucing.anabulshopcare.dto.request.*;
 import team.kucing.anabulshopcare.dto.response.SellerResponse;
 import team.kucing.anabulshopcare.dto.response.UserResponse;
 import team.kucing.anabulshopcare.entity.Address;
@@ -55,32 +52,32 @@ public class UserAppServiceImpl implements UserAppService {
     private final UserAvatarService fileStorageService;
 
     @Override
-    public ResponseEntity<Object> signUpSeller(SignupRequest newUser, MultipartFile file) {
+    public ResponseEntity<Object> signUpSeller(SignupSellerRequest newUser, MultipartFile file) {
 
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_SELLER");
 
-        return saveUser(newUser, fileDownloadUri, getRole);
+        return saveSeller(newUser, fileDownloadUri, getRole);
     }
 
     @Override
-    public ResponseEntity<Object> signUpBuyer(SignupRequest newUser, MultipartFile file) {
+    public ResponseEntity<Object> signUpBuyer(SignupNonSellerRequest newUser, MultipartFile file) {
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_BUYER");
 
-        return saveUser(newUser, fileDownloadUri, getRole);
+        return saveNonSeller(newUser, fileDownloadUri, getRole);
     }
 
     @Override
-    public ResponseEntity<Object> signUpAdmin(SignupRequest newUser, MultipartFile file) {
+    public ResponseEntity<Object> signUpAdmin(SignupNonSellerRequest newUser, MultipartFile file) {
 
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_ADMIN");
 
-        return saveUser(newUser, fileDownloadUri, getRole);
+        return saveNonSeller(newUser, fileDownloadUri, getRole);
     }
 
     @Override
@@ -108,11 +105,66 @@ public class UserAppServiceImpl implements UserAppService {
         return ResponseHandler.generateResponse("Success get user", HttpStatus.OK, getUserApp.convertToResponse());
     }
 
-    private ResponseEntity<Object> saveUser(SignupRequest request, String fileDownloadUri, Role getRole) {
+    private ResponseEntity<Object> saveNonSeller(SignupNonSellerRequest request, String fileDownloadUri, Role getRole) {
         UserApp newUser = new UserApp();
         newUser.setImageUrl(fileDownloadUri);
         newUser.setFirstName(request.getFirstName());
         newUser.setLastName(request.getLastName());
+        newUser.setRoles(Collections.singleton(getRole));
+
+        if (!Objects.equals(request.getPassword(), request.getConfirmPassword())){
+            throw new BadRequestException("Password is not match, try again");
+        }
+        newUser.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        if (this.userRepo.existsByEmail(request.getEmail())){
+            log.error("Email already registered, try login. Error: " + HttpStatus.BAD_REQUEST);
+            throw new BadRequestException("Email already registered, try login");
+        }
+        newUser.setEmail(request.getEmail());
+
+        if (this.userRepo.existsByPhoneNumber(request.getPhoneNumber())){
+            log.error("Phone number already registered, try login. Error: " + HttpStatus.BAD_REQUEST);
+            throw new BadRequestException("Phone number already registered");
+        }
+        newUser.setPhoneNumber(request.getPhoneNumber());
+        this.userRepo.save(newUser);
+
+        if (newUser.getAddress() == null){
+            Address newAddress = new Address();
+            newAddress.setId(1L);
+            newAddress.setProvinsi(request.getAddress().getProvinsi());
+            newAddress.setKota(request.getAddress().getKota());
+            newAddress.setKecamatan(request.getAddress().getKecamatan());
+            newAddress.setKelurahan(request.getAddress().getKelurahan());
+            Address saveAddress = this.addressRepository.save(newAddress);
+
+            newUser.setAddress(saveAddress);
+            UserApp savedUser = this.userRepo.save(newUser);
+
+            UserApp searchUser = this.userRepo.findByEmail(request.getEmail());
+            searchUser.getAddress().setUserApp(savedUser);
+            this.userRepo.save(searchUser);
+        }
+
+        Role seller = this.roleRepo.findByName("ROLE_SELLER");
+        Role admin = this.roleRepo.findByName("ROLE_ADMIN");
+
+        if (newUser.getRoles().contains(seller) || newUser.getRoles().contains(admin)){
+            SellerResponse response = newUser.convertToSellerResponse();
+            log.info("Success create user: " + response.toString());
+            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
+        } else {
+            UserResponse response = newUser.convertToResponse();
+            log.info("Success create user: " + response.toString());
+            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
+        }
+    }
+    private ResponseEntity<Object> saveSeller(SignupSellerRequest request, String fileDownloadUri, Role getRole) {
+        UserApp newUser = new UserApp();
+        newUser.setImageUrl(fileDownloadUri);
+        newUser.setFirstName(request.getSellerName());
+        newUser.setLastName(request.getStoreName());
         newUser.setRoles(Collections.singleton(getRole));
 
         if (!Objects.equals(request.getPassword(), request.getConfirmPassword())){

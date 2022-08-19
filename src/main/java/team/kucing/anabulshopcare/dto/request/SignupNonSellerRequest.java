@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignupRequest {
+public class SignupNonSellerRequest {
 
     private String firstName;
 

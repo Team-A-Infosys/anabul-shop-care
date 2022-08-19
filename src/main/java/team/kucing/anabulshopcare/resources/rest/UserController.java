@@ -7,28 +7,20 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import team.kucing.anabulshopcare.dto.request.LoginRequest;
-import team.kucing.anabulshopcare.dto.request.PasswordRequest;
-import team.kucing.anabulshopcare.dto.request.SignupRequest;
-import team.kucing.anabulshopcare.dto.request.UpdateUserRequest;
+import team.kucing.anabulshopcare.dto.request.*;
 import team.kucing.anabulshopcare.service.impl.AuthServiceImpl;
 import team.kucing.anabulshopcare.service.impl.UserAppServiceImpl;
 
 import javax.validation.Valid;
 
-import java.io.File;
 import java.security.Principal;
-import java.util.UUID;
 
 
 @RestController
@@ -51,19 +43,19 @@ public class UserController {
     }
 
     @PostMapping(value = "/signup/seller", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> signupSeller(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
+    public ResponseEntity<Object> signupSeller(@RequestPart MultipartFile file, @RequestPart SignupSellerRequest userApp){
         return this.userAppService.signUpSeller(userApp, file);
     }
 
     @PostMapping(value = "/signup/buyer", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> signupBuyer(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
+    public ResponseEntity<Object> signupBuyer(@RequestPart MultipartFile file, @RequestPart SignupNonSellerRequest userApp){
         return this.userAppService.signUpBuyer(userApp, file);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer-key")
     @PostMapping(value = "/signup/admin", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> signupAdmin(@RequestPart MultipartFile file, @RequestPart SignupRequest userApp){
+    public ResponseEntity<Object> signupAdmin(@RequestPart MultipartFile file, @RequestPart SignupNonSellerRequest userApp){
         return this.userAppService.signUpAdmin(userApp, file);
     }
 

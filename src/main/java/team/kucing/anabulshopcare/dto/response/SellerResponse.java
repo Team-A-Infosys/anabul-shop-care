@@ -12,9 +12,9 @@ import java.util.Collection;
 @NoArgsConstructor
 @Builder
 public class SellerResponse {
-    private String firstName;
+    private String sellerName;
 
-    private String lastName;
+    private String storeName;
 
     private String email;
 
