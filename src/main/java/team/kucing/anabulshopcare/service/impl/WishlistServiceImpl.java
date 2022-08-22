@@ -41,17 +41,20 @@ public class WishlistServiceImpl implements WishlistService {
         UserApp userApp = this.userAppRepository.findByEmail(principal.getName());
 
         if(product.isEmpty()){
-            throw new ResourceNotFoundException("Product is not found");
+            log.error("upss, failed to create wishlist, Product is not found");
+            throw new ResourceNotFoundException("upss, failed to create wishlist, Product is not found");
         }
 
         Product getProduct = product.get();
         if(getProduct.getIsPublished() == Boolean.FALSE){
+            log.error("upss, failed to create wishlist, Product is not found");
             throw new ResourceNotFoundException("Product is not found");
         }
         var obj = userApp.getWishlist().stream().map(Wishlist::getProduct).toList();
 
         for (Product o : obj) {
             if (o == getProduct){
+                log.error("It's already in your wishlist");
                 throw new BadRequestException("It's already in your wishlist");
             }
         }
@@ -93,6 +96,7 @@ public class WishlistServiceImpl implements WishlistService {
     public void deleteWishlistCustom(Product product, UserApp userApp){
         List<Wishlist> findWishlist = this.wishlistRepository.findByProductAndUserApp(product, userApp);
         this.wishlistRepository.deleteAll(findWishlist);
+        log.info("Your Wishlist is totally deleted");
     }
 
 }

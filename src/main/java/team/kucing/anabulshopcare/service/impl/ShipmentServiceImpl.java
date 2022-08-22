@@ -31,15 +31,16 @@ public class ShipmentServiceImpl implements ShipmentService {
 
     @Override
     public ResponseEntity<Object> findAllShipping() {
-        log.info("success get All shipments");
-        return ResponseHandler.generateResponse("Success get All Shipments",HttpStatus.OK, shipmentRepo.findAll());
+        log.info("Success, all shipments have been shown");
+        return ResponseHandler.generateResponse("Success, All Shipments have been shown",HttpStatus.OK, shipmentRepo.findAll());
     }
 
     @Override
     public ResponseEntity<Object> createShipment(ShipmentRequest shipmentRequest) {
        Optional<Provinsi> optionalProvinsi = this.provRepo.findById(shipmentRequest.getAddressId());
         if (optionalProvinsi.isEmpty()){
-            throw new ResourceNotFoundException("Provinsi is not found");
+            log.error("failed to load, province with that id is not registered");
+            throw new ResourceNotFoundException("failed to load, province with that id is not registered");
         }
         Provinsi getProvinsi = optionalProvinsi.get();
         Shipment shipment = new Shipment();
@@ -48,7 +49,8 @@ public class ShipmentServiceImpl implements ShipmentService {
         shipment.setCompany("JN-CAT");
         this.shipmentRepo.save(shipment);
         ShipmentResponse response = shipment.convertToResponse();
-        return ResponseHandler.generateResponse("success create new shipment", HttpStatus.OK, response);
+        log.info("success create Shipment");
+        return ResponseHandler.generateResponse("good luck, shipping to your area is being processed", HttpStatus.OK, response);
 
     }
 }

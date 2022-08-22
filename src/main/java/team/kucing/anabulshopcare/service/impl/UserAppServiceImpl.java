@@ -58,7 +58,7 @@ public class UserAppServiceImpl implements UserAppService {
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_SELLER");
-
+        log.info("Congratulations, account registration has been successful, please login for more access");
         return saveSeller(newUser, fileDownloadUri, getRole);
     }
 
@@ -67,7 +67,7 @@ public class UserAppServiceImpl implements UserAppService {
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_BUYER");
-
+        log.info("Congratulations, account registration has been successful, please login for more access");
         return saveBuyer(newUser, fileDownloadUri, getRole);
     }
 
@@ -77,7 +77,7 @@ public class UserAppServiceImpl implements UserAppService {
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_ADMIN");
-
+        log.info("Congratulations, account registration has been successful, please login for more access");
         return saveAdmin(newUser, fileDownloadUri, getRole);
     }
 
@@ -85,9 +85,8 @@ public class UserAppServiceImpl implements UserAppService {
     public ResponseEntity<Object> deactivateAccount(Principal principal) {
         UserApp userApp = this.userRepo.findByEmail(principal.getName());
         userRepo.delete(userApp);
-
         log.info("Deactivate account process has been successful");
-        return ResponseHandler.generateResponse("Success deactivate account", HttpStatus.OK, null);
+        return ResponseHandler.generateResponse("account has been deactivated", HttpStatus.OK, null);
     }
 
     @Override
@@ -159,6 +158,7 @@ public class UserAppServiceImpl implements UserAppService {
         newUser.setRoles(Collections.singleton(getRole));
 
         if (!Objects.equals(request.getPassword(), request.getConfirmPassword())){
+            log.error("Password is not match, try again");
             throw new BadRequestException("Password is not match, try again");
         }
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -295,10 +295,12 @@ public class UserAppServiceImpl implements UserAppService {
         UserApp userApp = this.userRepo.findByEmail(principal.getName());
 
         if (!Objects.equals(passwordRequest.getPassword(), passwordRequest.getConfirmPassword())){
+            log.error("Password is not match, try again");
             throw new BadRequestException("Password is not match, try again");
         }
 
         if (passwordEncoder.matches(passwordRequest.getPassword(), userApp.getPassword())){
+            log.error("Password cannot be the same as the previous password");
             throw new BadRequestException("Password cannot be the same as the previous password");
         }
 
@@ -313,32 +315,36 @@ public class UserAppServiceImpl implements UserAppService {
         UserApp updateAddressUser = this.userRepo.findByEmail(principal.getName());
         Optional<Provinsi> findProvinsi = this.provinsiRepository.findById(addressRequest.getProvinsi().getId());
         if (findProvinsi.isEmpty()){
-            throw new ResourceNotFoundException("Provinsi is not found");
+            log.error("failed to load, province with that id is not registered");
+            throw new ResourceNotFoundException("failed to load, province with that id is not registered");
         }
         Provinsi getProvinsi = findProvinsi.get();
         updateAddressUser.getAddress().setProvinsi(getProvinsi);
 
         Optional<Kota> findKota = this.kotaRepository.findById(addressRequest.getKota().getId());
         if (findKota.isEmpty()){
-            throw new ResourceNotFoundException("Kota is not found");
+            log.error("failed to load, Kota with that id is not registered");
+            throw new ResourceNotFoundException("failed to load, Kota with that id is not registered");
         }
         Kota getKota = findKota.get();
         updateAddressUser.getAddress().setKota(getKota);
 
         Optional<Kecamatan> findKecamatan = this.kecamatanRepository.findById(addressRequest.getKecamatan().getId());
         if (findKecamatan.isEmpty()){
-            throw new ResourceNotFoundException("Kecamatan is not found");
+            log.error("failed to load,failed to load, Kecamatan with that id is not registered");
+            throw new ResourceNotFoundException("failed to load, Kecamatan with that id is not registered");
         }
         Kecamatan getKecamatan = findKecamatan.get();
         updateAddressUser.getAddress().setKecamatan(getKecamatan);
 
         Optional<Kelurahan> findKelurahan = this.kelurahanRepository.findById(addressRequest.getKelurahan().getId());
         if (findKelurahan.isEmpty()){
+            log.error("failed to load,failed to load, Kelurahan with that id is not registered");
             throw new ResourceNotFoundException("Kelurahan is not found");
         }
         Kelurahan getKelurahan = findKelurahan.get();
         updateAddressUser.getAddress().setKelurahan(getKelurahan);
-
         this.userRepo.save(updateAddressUser);
+        log.info("Successfully to change your address");
     }
 }
