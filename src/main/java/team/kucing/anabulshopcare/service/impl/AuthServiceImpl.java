@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import team.kucing.anabulshopcare.security.UserAppDetailsImpl;
 import team.kucing.anabulshopcare.security.config.JwtUtils;
 import team.kucing.anabulshopcare.service.AuthService;
 
+@Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {
     @Autowired
@@ -61,15 +63,18 @@ public class AuthServiceImpl implements AuthService {
         UserApp user = this.userAppRepository.findByEmail(loginRequest.getEmail());
 
         if(user == null){
+            log.error("Username or password is wrong!");
             throw new ResourceNotFoundException("Username or password is wrong!");
         }
 
         if (Boolean.FALSE.equals(userAppRepository.existsByEmail(loginRequest.getEmail()))) {
+            log.error("Username or password is wrong!");
             throw new ResourceNotFoundException("Username or password is wrong!");
         }
 
         Boolean isPasswordCorrect = encoder.matches(loginRequest.getPassword(), user.getPassword());
         if (Boolean.FALSE.equals(isPasswordCorrect)) {
+            log.error("Username or password is wrong!");
             throw new ResourceNotFoundException("Username or password is wrong!");
         }
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -77,6 +82,6 @@ public class AuthServiceImpl implements AuthService {
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserAppDetailsImpl userDetails = (UserAppDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        return ResponseHandler.generateResponse(null, HttpStatus.OK, new JwtResponse(jwt, userDetails.getUserid(), userDetails.getFirstname(), userDetails.getLastname(),userDetails.getUsername(), roles));
+        return ResponseHandler.generateResponse("you are logged in", HttpStatus.OK, new JwtResponse(jwt, userDetails.getUserid(), userDetails.getFirstname(), userDetails.getLastname(),userDetails.getUsername(), roles));
     }
 }

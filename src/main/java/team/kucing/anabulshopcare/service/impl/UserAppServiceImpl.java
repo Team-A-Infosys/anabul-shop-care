@@ -58,7 +58,7 @@ public class UserAppServiceImpl implements UserAppService {
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_SELLER");
-        log.info("Congratulations, account registration has been successful, please login for more access");
+        log.info("Success signUpSeller");
         return saveSeller(newUser, fileDownloadUri, getRole);
     }
 
@@ -67,7 +67,7 @@ public class UserAppServiceImpl implements UserAppService {
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_BUYER");
-        log.info("Congratulations, account registration has been successful, please login for more access");
+        log.info("Success signUpBuyer");
         return saveBuyer(newUser, fileDownloadUri, getRole);
     }
 
@@ -77,7 +77,7 @@ public class UserAppServiceImpl implements UserAppService {
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/images/user/"+fileName).toUriString();
         Role getRole = this.roleRepo.findByName("ROLE_ADMIN");
-        log.info("Congratulations, account registration has been successful, please login for more access");
+        log.info("Success signUp admin");
         return saveAdmin(newUser, fileDownloadUri, getRole);
     }
 
@@ -148,7 +148,7 @@ public class UserAppServiceImpl implements UserAppService {
         }
             UserResponse response = newUser.convertToResponse();
             log.info("Success create user: " + response.toString());
-            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
+            return ResponseHandler.generateResponse("Congratulations, account registration has been successful, please login for more access", HttpStatus.CREATED, response);
     }
     private ResponseEntity<Object> saveAdmin(SignupNonSellerRequest request, String fileDownloadUri, Role getRole) {
         UserApp newUser = new UserApp();
@@ -195,7 +195,7 @@ public class UserAppServiceImpl implements UserAppService {
 
             AdminResponse response = newUser.convertToAdminResponse();
             log.info("Success create user: " + response.toString());
-            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
+            return ResponseHandler.generateResponse("Congratulations, account registration has been successful, please login for more access", HttpStatus.CREATED, response);
     }
     private ResponseEntity<Object> saveSeller(SignupSellerRequest request, String fileDownloadUri, Role getRole) {
         UserApp newUser = new UserApp();
@@ -240,7 +240,7 @@ public class UserAppServiceImpl implements UserAppService {
         }
             SellerResponse response = newUser.convertToSellerResponse();
             log.info("Success create user: " + response.toString());
-            return ResponseHandler.generateResponse("Success Create User", HttpStatus.CREATED, response);
+            return ResponseHandler.generateResponse("Congratulations, account registration has been successful, please login for more access", HttpStatus.CREATED, response);
     }
 
     @Override
@@ -287,7 +287,7 @@ public class UserAppServiceImpl implements UserAppService {
 
         UserResponse response = userUpdate.convertToResponse();
         log.info("Success update User " + response.toString());
-        return ResponseHandler.generateResponse("Success Update The User", HttpStatus.OK, response);
+        return ResponseHandler.generateResponse("Success Update User Profile", HttpStatus.OK, response);
     }
 
     @Override
@@ -345,6 +345,6 @@ public class UserAppServiceImpl implements UserAppService {
         Kelurahan getKelurahan = findKelurahan.get();
         updateAddressUser.getAddress().setKelurahan(getKelurahan);
         this.userRepo.save(updateAddressUser);
-        log.info("Successfully to change your address");
+        log.info("Successfully to change address");
     }
 }
