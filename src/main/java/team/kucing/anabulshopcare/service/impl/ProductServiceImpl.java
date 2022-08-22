@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import team.kucing.anabulshopcare.dto.request.ProductRequest;
 import team.kucing.anabulshopcare.dto.request.UpdateProduct;
 import team.kucing.anabulshopcare.dto.response.ProductResponse;
-import team.kucing.anabulshopcare.entity.Cart;
 import team.kucing.anabulshopcare.entity.Category;
 import team.kucing.anabulshopcare.entity.Product;
 import team.kucing.anabulshopcare.entity.UserApp;
@@ -97,6 +96,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseEntity<Object> listProducts(Pageable pageable) {
         Page<Product> listProducts = this.productRepository.findByIsPublished(Boolean.TRUE, pageable);
+
+        List<ProductResponse> response = listProducts.stream().map(Product::convertToResponse).toList();
+
+        if (listProducts.getTotalPages() == 0){
+            log.error("There are no product exist");
+            throw new ResourceNotFoundException("There are no product exist");
+        }
+
+        log.info("Success retrieve all products");
+        return ResponseHandler.generateResponse("Success retrieve all products", HttpStatus.OK, response);
+    }
+
+    @Override
+    public ResponseEntity<Object> listProductsSeller(Pageable pageable, Principal principal) {
+        UserApp userApp = this.userAppRepository.findByEmail(principal.getName());
+        Page<Product> listProducts = this.productRepository.findByUserApp(userApp,pageable);
 
         List<ProductResponse> response = listProducts.stream().map(Product::convertToResponse).toList();
 

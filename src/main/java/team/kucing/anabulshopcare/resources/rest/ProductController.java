@@ -33,7 +33,15 @@ public class ProductController {
         return this.productService.listProducts(pageable);
     }
 
-    @PostMapping(value = "/product/add",consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @GetMapping("/dashboard/products")
+    @Operation(summary = "Get Product Of Seller [SELLER]")
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity<Object> getAllProductsSeller(@ParameterObject Pageable pageable, Principal principal){
+        return this.productService.listProductsSeller(pageable, principal);
+    }
+
+    @PostMapping(value = "/dashboard/product/add",consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "Add New Product [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
@@ -41,7 +49,7 @@ public class ProductController {
         return this.productService.createProduct(product,file, principal);
     }
 
-    @PutMapping(value = "/product/{id}/update")
+    @PutMapping(value = "/dashboard/product/{id}/update")
     @Operation(summary = "Update Product [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
@@ -67,14 +75,14 @@ public class ProductController {
         return this.productService.filterProductByPrice(startPrice, endPrice, pageable);
     }
 
-    @GetMapping("/products/search/unpublished")
+    @GetMapping("/dashboard/products/search/unpublished")
     @Operation(summary = "Get All Unpublish Product [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Object> unpublished(@ParameterObject Pageable pageable, Principal principal){
         return this.productService.filterUnpublishedProduct(pageable, principal);
     }
-    @DeleteMapping("/product/{id}/delete")
+    @DeleteMapping("/dashboard/product/{id}/delete")
     @Operation(summary = "Delete Product By Product Id [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
@@ -82,7 +90,7 @@ public class ProductController {
         return this.productService.deleteProduct(id);
     }
 
-    @PutMapping(value = "/product/{id}/setPublished")
+    @PutMapping(value = "/dashboard/product/{id}/setPublished")
     @Operation(summary = "Published Product By Product Id [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
@@ -90,7 +98,7 @@ public class ProductController {
         return this.productService.publishedStatus(id);
     }
 
-    @PutMapping(value = "/product/{id}/setArchived")
+    @PutMapping(value = "/dashboard/product/{id}/setArchived")
     @Operation(summary = "Archived Product By Product Id [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")

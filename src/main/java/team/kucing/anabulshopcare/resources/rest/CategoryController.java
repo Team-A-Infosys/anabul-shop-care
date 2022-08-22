@@ -46,7 +46,7 @@ public class CategoryController {
         return updateCategory;
     }
 
-    @DeleteMapping("/category/{id}/delete")
+    @DeleteMapping("/dashboard/category/{id}/delete")
     @Operation(summary = "Delete Category With Category ID [ADMIN]")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer-key")

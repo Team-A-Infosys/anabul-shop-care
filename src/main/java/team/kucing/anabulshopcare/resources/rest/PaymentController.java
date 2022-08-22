@@ -22,7 +22,7 @@ public class PaymentController {
 
     private PaymentService paymentService;
 
-    @PostMapping("/payment-gateway/create")
+    @PostMapping("/dashboard/payment-gateway/create")
     @Operation(summary = "Get All Payment Method [ADMIN]")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer-key")

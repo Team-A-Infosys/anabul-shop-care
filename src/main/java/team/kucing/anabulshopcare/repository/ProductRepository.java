@@ -20,6 +20,8 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     Page<Product> findByUserAppAndIsPublished(UserApp userApp, boolean status, Pageable pageable);
 
+    Page<Product> findByUserApp(UserApp userApp, Pageable pageable);
+
     Page<Product> findByIsPublished(boolean status, Pageable pageable);
 
 }

@@ -19,6 +19,8 @@ public interface ProductService {
 
     Product findById(UUID id);
 
+    ResponseEntity<Object> listProductsSeller(Pageable pageable, Principal principal);
+
     ResponseEntity<Object> filterProductByName(String name, Pageable pageable);
 
     ResponseEntity<Object> filterProductsByLocation(String location, Pageable pageable);

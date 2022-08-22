@@ -18,7 +18,7 @@ public class CouponController {
 
     private CouponService couponService;
 
-    @PostMapping("/coupon/create")
+    @PostMapping("/dashboard/coupon/create")
     @Operation(summary = "Add New Coupon [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")
@@ -26,7 +26,7 @@ public class CouponController {
         return this.couponService.createCoupon(request);
     }
 
-    @DeleteMapping("/coupon/delete/{couponCode}")
+    @DeleteMapping("/dashboard/coupon/delete/{couponCode}")
     @Operation(summary = "Delete Coupon By Coupon Id [SELLER]")
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @SecurityRequirement(name = "bearer-key")

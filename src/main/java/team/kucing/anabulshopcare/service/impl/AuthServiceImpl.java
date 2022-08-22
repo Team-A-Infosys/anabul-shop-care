@@ -59,10 +59,16 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<Object> authenticateUser(LoginRequest loginRequest) {
         UserApp user = this.userAppRepository.findByEmail(loginRequest.getEmail());
-        Boolean isPasswordCorrect = encoder.matches(loginRequest.getPassword(), user.getPassword());
+
+        if(user == null){
+            throw new ResourceNotFoundException("Username or password is wrong!");
+        }
+
         if (Boolean.FALSE.equals(userAppRepository.existsByEmail(loginRequest.getEmail()))) {
             throw new ResourceNotFoundException("Username or password is wrong!");
         }
+
+        Boolean isPasswordCorrect = encoder.matches(loginRequest.getPassword(), user.getPassword());
         if (Boolean.FALSE.equals(isPasswordCorrect)) {
             throw new ResourceNotFoundException("Username or password is wrong!");
         }
