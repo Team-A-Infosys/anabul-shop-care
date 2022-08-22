@@ -1,6 +1,7 @@
 package team.kucing.anabulshopcare.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import team.kucing.anabulshopcare.dto.request.CategoryRequest;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class CategoryServiceImpl implements CategoryService{
 
     private CategoryRepository categoryRepository;
@@ -22,6 +24,7 @@ public class CategoryServiceImpl implements CategoryService{
         Category newCategory = new Category();
         newCategory.setCategoryName(category.getName());
 
+        log.info("Success Creating new category ");
         return this.categoryRepository.save(newCategory);
     }
 
@@ -37,6 +40,7 @@ public class CategoryServiceImpl implements CategoryService{
             updateCategory.setIsDeleted(Boolean.FALSE);
         }
 
+        log.info("Success updating category " + category);
         return ResponseEntity.ok().body(this.categoryRepository.save(updateCategory));
     }
 
@@ -45,6 +49,7 @@ public class CategoryServiceImpl implements CategoryService{
         Category findCategory = this.findCategory(id);
         this.categoryRepository.delete(findCategory);
 
+        log.info("Success deleting category with id " + id);
         return ResponseEntity.ok().body("Success delete Category " + findCategory.getCategoryName());
     }
 
@@ -54,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (optionalCategory.isEmpty()){
             throw new ResourceNotFoundException("Category is not found");
         }
-
+        log.info("Success retrieving category with id " + id);
         return optionalCategory.get();
     }
 }

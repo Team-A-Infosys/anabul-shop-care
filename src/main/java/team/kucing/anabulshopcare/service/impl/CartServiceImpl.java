@@ -120,6 +120,7 @@ public class CartServiceImpl implements CartService {
         if(optionalCart.isEmpty()){
             throw new ResourceNotFoundException("Cart with id "+id+" No Found");
         }
+        log.info("Success find cart with id " + id);
         return optionalCart.get();
     }
 
